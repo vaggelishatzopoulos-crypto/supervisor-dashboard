@@ -3,238 +3,313 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Supervisor Performance Dashboard — Ikos Aria</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<title>Performance Dashboard · Ikos Aria F&B</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --navy:#1B3A6A;--teal:#146891;--gold:#C9A96E;
-  --cream:#FAF6F0;--sand:#F0E8DB;--border:#E0D8CF;
-  --text:#1B3A6A;--text2:#5A6B82;--text3:#8A9AB0;
-}
-body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
-
-/* HEADER */
-.hdr{background:linear-gradient(135deg,#1B3A6A 0%,#146891 100%);padding:20px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(27,58,106,.25)}
-.hdr-brand{font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:4px}
-.hdr-title{font-size:18px;font-weight:300;color:#fff;letter-spacing:.3px}
-.hdr-sub{font-size:11px;color:rgba(255,255,255,.5);font-style:italic;margin-top:2px}
-.hdr-score{text-align:right;display:none}
-.hs-n{font-size:40px;font-weight:600;line-height:1}
-.hs-b{font-size:12px;font-weight:500;margin-top:2px}
-
-/* TABS */
-.tabs{background:#fff;border-bottom:1px solid var(--border);display:flex;overflow-x:auto;position:sticky;top:75px;z-index:99}
-.tab{padding:13px 20px;border:none;background:none;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--text3);border-bottom:2.5px solid transparent;white-space:nowrap;transition:all .2s;font-weight:400}
-.tab.on{color:var(--navy);border-bottom-color:var(--navy);font-weight:500}
-.tab:hover{color:var(--navy)}
-
-/* PANELS */
-.panel{display:none;max-width:880px;margin:0 auto;padding:32px 24px}
-.panel.on{display:block}
-
-/* Section header */
-.sec-hdr{border-left:3px solid var(--gold);padding-left:13px;margin-bottom:20px}
-.sec-ttl{font-size:20px;font-weight:300;color:var(--navy)}
-.sec-sub{font-size:12px;color:var(--text3);font-style:italic;margin-top:3px}
-
-/* Cards */
-.card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:12px}
-
-/* Form */
-label.fl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:6px}
-.fi{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:9px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--navy);background:#fff;outline:none;transition:border-color .2s;margin-bottom:14px}
-.fi:focus{border-color:var(--teal)}
-select.fi{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235A6B82' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
-input.fi-sm{padding:9px 12px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--navy);background:var(--cream);border:1px solid var(--border);border-radius:8px;outline:none;transition:border-color .2s}
-input.fi-sm:focus{border-color:var(--teal);background:#fff}
-textarea.fi{min-height:80px;resize:vertical;line-height:1.6}
-
-/* Sup card */
-.sup-card{display:none;background:linear-gradient(135deg,rgba(27,58,106,.06),rgba(20,104,145,.06));border:1px solid rgba(27,58,106,.15);border-radius:10px;padding:14px 16px;margin-bottom:16px}
-.sup-nm{font-size:15px;font-weight:500;color:var(--navy)}
-.sup-mt{font-size:12px;color:var(--text2);margin-top:3px}
-
-/* KPI card */
-.kc{background:#fff;border:1px solid var(--border);border-radius:11px;padding:16px 18px;margin-bottom:10px;transition:border-color .2s}
-.kc-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
-.kc-lbl{font-size:14px;font-weight:500;color:var(--navy)}
-.kc-dsc{font-size:12px;color:var(--text3);margin-top:2px}
-.kc-badge{font-size:22px;font-weight:600;display:none;margin-left:12px;flex-shrink:0}
-.kc-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.kc-bm{font-size:11px;color:var(--text3);flex:1;line-height:1.8;min-width:140px}
-.kc-bm span{margin-right:8px;white-space:nowrap}
-.kbar{height:4px;background:var(--sand);border-radius:2px;margin-top:10px;overflow:hidden;display:none}
-.kbar-f{height:100%;border-radius:2px;transition:width .4s ease}
-
-/* Likert card */
-.lc{background:#fff;border:1px solid var(--border);border-radius:11px;padding:16px 18px;margin-bottom:10px;transition:border-color .3s}
-.lc-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
-.l-lbl{font-size:14px;font-weight:500;color:var(--navy)}
-.l-sub{font-size:11px;color:var(--text3);font-style:italic;margin-top:2px}
-.l-mnt{font-size:11px;color:var(--gold);margin-top:3px}
-.l-badge{font-size:20px;font-weight:600;display:none;margin-left:12px;flex-shrink:0;text-align:right}
-.lbtns{display:flex;gap:6px}
-.lbtn{flex:1;padding:9px 0;border:1px solid var(--border);border-radius:8px;background:var(--cream);color:var(--text2);font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
-.lbtn:hover{border-color:var(--teal);color:var(--teal)}
-.lbtn.on{background:var(--navy);color:#fff;border-color:var(--navy);box-shadow:0 2px 8px rgba(27,58,106,.28)}
-.anc{display:none;margin-top:10px;font-size:12px;color:var(--text2);font-style:italic;background:var(--cream);padding:10px 12px;border-radius:8px;border-left:3px solid var(--border);line-height:1.6}
-.anc.on{display:block}
-
-/* Pillar avg bar */
-.pavg{display:none;justify-content:space-between;align-items:center;background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin:8px 0 4px}
-.pavg-l{font-size:13px;font-weight:500;color:var(--navy)}
-.pavg-r{font-size:18px;font-weight:600}
-
-/* Buttons */
-.btn-row{display:flex;gap:10px;margin-top:22px}
-.btn{padding:11px 22px;border-radius:9px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s}
-.btn-p{background:var(--navy);color:#fff;border:none;box-shadow:0 2px 8px rgba(27,58,106,.2)}
-.btn-p:hover{background:var(--teal)}
-.btn-s{background:transparent;color:var(--text2);border:1px solid var(--border)}
-.btn-s:hover{border-color:var(--teal);color:var(--teal)}
-
-/* Framework cards */
-.fw-g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
-.fw-c{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px}
-.fw-w{font-size:20px;font-weight:600;color:var(--navy)}
-.fw-n{font-size:12px;font-weight:500;color:var(--navy);margin-top:3px}
-.fw-d{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.5}
-
-/* RESULTS */
-.res-sup{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:16px}
-.res-big{font-size:52px;font-weight:600;line-height:1}
-.res-band{font-size:16px;font-weight:600;margin-top:4px}
-.res-band-gr{font-size:12px;color:var(--text3);font-style:italic}
-.pill-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
-.pcrd{background:#fff;border:1px solid var(--border);border-radius:11px;padding:16px;text-align:center}
-.pc-l{font-size:11px;color:var(--text3);margin-bottom:4px}
-.pc-s{font-size:26px;font-weight:600}
-.pc-b{font-size:11px;font-weight:500;margin-top:2px}
-.pc-w{font-size:10px;color:var(--gold);margin-top:4px}
-.pc-bar{height:4px;background:var(--sand);border-radius:2px;margin-top:10px;overflow:hidden}
-.pc-barf{height:100%;border-radius:2px;transition:width .5s ease}
-.chart-g{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-.chart-c{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px}
-.chart-t{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:500;margin-bottom:14px}
-.brow{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.blbl{font-size:12px;color:var(--text2);width:145px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.btrk{flex:1;height:6px;background:var(--sand);border-radius:3px;overflow:hidden}
-.bfll{height:100%;border-radius:3px;transition:width .5s ease}
-.bvl{font-size:12px;font-weight:600;width:20px;text-align:right;flex-shrink:0}
-.band-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.bpll{font-size:11px;padding:4px 11px;border-radius:20px;border:1px solid var(--border);color:var(--text3)}
-.sec-sm{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:500;margin:14px 0 8px}
-.nbox{background:var(--navy);border-radius:12px;padding:18px 20px;margin-top:14px}
-.nbox-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
-.nbox-t{color:#fff;font-size:13px;line-height:1.7;white-space:pre-wrap}
-
-/* Grid helpers */
+:root{--n:#1B3A6A;--t:#146891;--g:#C9A96E;--cr:#FAF6F0;--sd:#F0E8DB;--bd:#E0D8CF;--t2:#5A6B82;--t3:#8A9AB0}
+body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--n);min-height:100vh}
+.hdr{background:linear-gradient(135deg,#1B3A6A 0%,#146891 100%);padding:15px 28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(27,58,106,.25)}
+.hdr-l .brand{color:var(--g);font-size:10px;letter-spacing:3px;margin-bottom:3px}
+.hdr-l .ttl{color:#fff;font-size:17px;font-weight:300}
+.hdr-l .sub{color:rgba(255,255,255,.5);font-size:11px;font-style:italic;margin-top:1px}
+.hdr-r{text-align:right;display:none}
+.hscr{font-size:32px;font-weight:600;line-height:1}
+.hband{font-size:11px;font-weight:500;margin-top:2px}
+.tabs{background:#fff;border-bottom:1px solid var(--bd);display:flex;overflow-x:auto;position:sticky;top:69px;z-index:99}
+.tab{padding:12px 18px;border:none;background:none;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--t3);border-bottom:2.5px solid transparent;white-space:nowrap;transition:all .2s}
+.tab.on{color:var(--n);border-bottom-color:var(--n);font-weight:500}
+.tab:hover{color:var(--n)}
+.pan{display:none;max-width:920px;margin:0 auto;padding:28px 22px}
+.pan.on{display:block}
+.sh{border-left:3px solid var(--g);padding-left:12px;margin-bottom:18px}
+.sh .t{font-size:19px;font-weight:300;color:var(--n)}
+.sh .s{font-size:12px;color:var(--t3);font-style:italic;margin-top:2px}
+label.fl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:5px}
+.fi{width:100%;padding:10px 14px;border:1px solid var(--bd);border-radius:9px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--n);background:#fff;outline:none;transition:border-color .2s;margin-bottom:12px}
+.fi:focus{border-color:var(--t)}
+select.fi{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath fill='%235A6B82' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
+textarea.fi{min-height:75px;resize:vertical;line-height:1.6}
+.fis{padding:9px 12px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--n);background:var(--cr);border:1px solid var(--bd);border-radius:8px;outline:none;transition:all .2s}
+.fis:focus{border-color:var(--t);background:#fff}
+.brow{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.btn{padding:10px 22px;border-radius:9px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s}
+.btnp{background:var(--n);color:#fff;border:none;box-shadow:0 2px 8px rgba(27,58,106,.2)}
+.btnp:hover{background:var(--t)}
+.btns{background:transparent;color:var(--t2);border:1px solid var(--bd)}
+.btns:hover{border-color:var(--t);color:var(--t)}
+.btng{background:#1D9E75;color:#fff;border:none}
+.btng:hover{background:#0F6E56}
+.btno{background:#D85A30;color:#fff;border:none}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-
-/* Responsive */
-@media(max-width:640px){
-  .fw-g,.pill-grid,.chart-g,.g2{grid-template-columns:1fr}
-  .hdr{padding:14px 16px}
-  .hdr-title{font-size:15px}
-  .panel{padding:20px 14px}
-  .hs-n{font-size:30px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+/* HOME */
+.hero{background:linear-gradient(135deg,#1B3A6A,#146891);border-radius:14px;padding:30px 28px;margin-bottom:22px;color:#fff;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-30px;bottom:-30px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.05)}
+.hero .htag{color:var(--g);font-size:10px;letter-spacing:3px;margin-bottom:10px}
+.hero .ht{font-size:24px;font-weight:300;line-height:1.35;margin-bottom:10px}
+.hero .hd{font-size:13px;line-height:1.75;opacity:.75;max-width:520px}
+.how-c{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:18px;text-align:center}
+.how-c .hw{font-size:22px;font-weight:600;color:var(--n)}
+.how-c .hn{font-size:13px;font-weight:500;color:var(--n);margin-top:3px}
+.how-c .hd{font-size:12px;color:var(--t3);margin-top:5px;line-height:1.5}
+.cta-g{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.cta-c{background:#fff;border:1.5px solid var(--bd);border-radius:14px;padding:24px;text-align:center;cursor:pointer;transition:all .2s}
+.cta-c:hover{border-color:var(--t);transform:translateY(-2px);box-shadow:0 4px 16px rgba(20,104,145,.12)}
+.cta-c .ci{font-size:36px;margin-bottom:12px}
+.cta-c .ct{font-size:15px;font-weight:500;margin-bottom:6px}
+.cta-c .cd{font-size:12px;color:var(--t3);line-height:1.55}
+.info-box{background:rgba(20,104,145,.08);border:1px solid rgba(20,104,145,.2);border-radius:10px;padding:14px 16px;margin-bottom:18px;font-size:13px;color:var(--t);line-height:1.6}
+/* PIN */
+.pin-ov{display:none;position:fixed;inset:0;background:rgba(27,58,106,.75);z-index:200;align-items:center;justify-content:center}
+.pin-ov.on{display:flex}
+.pin-box{background:#fff;border-radius:16px;padding:32px 28px;width:310px;text-align:center}
+.pin-box .pt{font-size:17px;font-weight:500;color:var(--n);margin-bottom:5px}
+.pin-box .ps{font-size:13px;color:var(--t3);margin-bottom:18px}
+.pin-in{width:100%;text-align:center;letter-spacing:8px;font-size:24px;font-weight:600;padding:12px;border:2px solid var(--bd);border-radius:10px;outline:none;font-family:'DM Sans',sans-serif;color:var(--n);margin-bottom:12px}
+.pin-in:focus{border-color:var(--t)}
+.pin-err{color:#E24B4A;font-size:12px;margin-top:8px;display:none}
+/* KPI CARDS */
+.kc{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:16px 18px;margin-bottom:10px;transition:border-color .25s}
+.kc-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.kc-lbl{font-size:14px;font-weight:500;color:var(--n)}
+.kc-dsc{font-size:12px;color:var(--t3);margin-top:2px}
+.kc-tgt{font-size:11px;color:var(--g);margin-top:3px}
+.kbadge{display:none;text-align:right;flex-shrink:0;margin-left:12px}
+.kbadge .kp{font-size:26px;font-weight:600;line-height:1}
+.kbadge .kr{font-size:11px;color:var(--t3);margin-top:1px}
+.kbar{height:4px;background:var(--sd);border-radius:2px;overflow:hidden;display:none;margin-bottom:10px}
+.kbarf{height:100%;border-radius:2px;transition:width .4s}
+.kanc-tog{font-size:11px;color:var(--t);cursor:pointer;display:inline-flex;align-items:center;gap:4px;user-select:none}
+.kanc-tog::before{content:'▶';font-size:8px;transition:transform .2s}
+.kanc-tog.open::before{transform:rotate(90deg)}
+.kanc-body{display:none;margin-top:10px;border-radius:8px;overflow:hidden;border:1px solid var(--bd)}
+.kanc-body.on{display:block}
+.kanc-row{display:flex;border-bottom:1px solid var(--bd)}
+.kanc-row:last-child{border-bottom:none}
+.kanc-sc{width:36px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#fff}
+.kanc-ct{padding:9px 12px;flex:1;background:#fff}
+.kanc-ct .kr{font-size:11px;font-weight:500;margin-bottom:3px}
+.kanc-ct .kt{font-size:12px;color:var(--t2);line-height:1.5}
+.kanc-row.tgt .kanc-ct{background:#EAF3DE}
+.kanc-row.tgt .kr{color:#3B6D11}
+.kanc-row.tgt .kt{color:#27500A}
+/* LIKERT */
+.lc{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:16px 18px;margin-bottom:10px;transition:border-color .25s}
+.lc-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.l-lbl{font-size:14px;font-weight:500;color:var(--n)}
+.l-sub{font-size:11px;color:var(--t3);font-style:italic;margin-top:1px}
+.l-mnt{font-size:11px;color:var(--g);margin-top:2px}
+.lbadge{display:none;text-align:right;flex-shrink:0;margin-left:12px}
+.lbadge .lp{font-size:24px;font-weight:600;line-height:1}
+.lbadge .lr{font-size:11px;color:var(--t3);margin-top:1px}
+.lbtns{display:flex;gap:6px}
+.lbtn{flex:1;padding:9px 0;border:1px solid var(--bd);border-radius:8px;background:var(--cr);color:var(--t2);font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.lbtn:hover{border-color:var(--t);color:var(--t)}
+.lbtn.on{background:var(--n);color:#fff;border-color:var(--n)}
+.anc{display:none;margin-top:10px;font-size:12px;color:var(--t2);font-style:italic;background:var(--cr);padding:10px 12px;border-radius:8px;border-left:3px solid var(--bd);line-height:1.6}
+.anc.on{display:block}
+.pavg{display:none;justify-content:space-between;align-items:center;background:var(--cr);border:1px solid var(--bd);border-radius:10px;padding:11px 15px;margin:8px 0 4px}
+.pavg .pl{font-size:13px;font-weight:500}
+.pavg .pr{font-size:17px;font-weight:600}
+/* SHARE */
+.shr-box{background:#EAF3DE;border:1px solid #97C459;border-radius:11px;padding:16px 18px;margin-top:16px}
+.shr-t{font-size:12px;font-weight:500;color:#3B6D11;margin-bottom:8px}
+.shr-url{width:100%;padding:9px 12px;border:1px solid #97C459;border-radius:8px;font-size:11px;color:#27500A;background:#fff;font-family:monospace;word-break:break-all;cursor:text;line-height:1.6}
+.shr-hint{font-size:11px;color:#3B6D11;margin-top:6px;opacity:.85}
+/* SCORECARD */
+.sc-hero{background:linear-gradient(135deg,#1B3A6A,#146891);border-radius:14px;padding:24px 22px;color:#fff;margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px}
+.sc-i .sc-name{font-size:18px;font-weight:500;margin-bottom:3px}
+.sc-i .sc-role{font-size:13px;opacity:.7;margin-bottom:2px}
+.sc-i .sc-meta{font-size:11px;opacity:.5;font-style:italic}
+.sc-num{text-align:right}
+.sc-pct{font-size:52px;font-weight:600;line-height:1}
+.sc-band{font-size:14px;font-weight:500;margin-top:4px}
+.sc-gr{font-size:11px;opacity:.55;font-style:italic}
+.pill-g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.pcrd{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:15px;text-align:center}
+.pc-l{font-size:11px;color:var(--t3);margin-bottom:3px}
+.pc-p{font-size:26px;font-weight:600}
+.pc-b{font-size:11px;font-weight:500;margin-top:2px}
+.pc-w{font-size:10px;color:var(--g);margin-top:3px}
+.pc-bar{height:4px;background:var(--sd);border-radius:2px;margin-top:8px;overflow:hidden}
+.pc-barf{height:100%;border-radius:2px;transition:width .5s}
+.chart-g{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.chart-c{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:18px}
+.chart-ct{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);font-weight:500;margin-bottom:12px}
+.b-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.b-lbl{font-size:12px;color:var(--t2);width:140px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.b-trk{flex:1;height:6px;background:var(--sd);border-radius:3px;overflow:hidden}
+.b-fll{height:100%;border-radius:3px;transition:width .5s}
+.b-vl{font-size:12px;font-weight:600;width:42px;text-align:right;flex-shrink:0}
+.nbox{background:var(--n);border-radius:12px;padding:18px 20px;margin-top:14px}
+.nbox-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--g);margin-bottom:7px}
+.nbox-t{color:#fff;font-size:13px;line-height:1.7;white-space:pre-wrap}
+.band-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.bpll{font-size:11px;padding:4px 11px;border-radius:20px;border:1px solid var(--bd);color:var(--t3)}
+/* TEAM */
+.team-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.team-tbl th{padding:9px 11px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--t3);border-bottom:1px solid var(--bd);font-weight:500;background:var(--cr)}
+.team-tbl td{padding:9px 11px;border-bottom:1px solid var(--bd);color:var(--t2);vertical-align:middle}
+.team-tbl tr:hover td{background:#FAF6F088}
+.team-tbl td.nm{font-weight:500;color:var(--n)}
+.ppill{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600}
+.team-avg-row td{font-weight:600;color:var(--n);background:rgba(27,58,106,.06)!important;border-top:2px solid var(--bd)}
+/* MY SCORE */
+.ms-empty{background:#fff;border:1px solid var(--bd);border-radius:14px;padding:40px 30px;text-align:center;margin-top:12px}
+.ms-empty .ei{font-size:48px;margin-bottom:14px}
+.ms-empty .et{font-size:16px;font-weight:500;color:var(--n);margin-bottom:8px}
+.ms-empty .ed{font-size:13px;color:var(--t3);line-height:1.65;max-width:420px;margin:0 auto 20px}
+.sup-confirm{display:none;background:rgba(27,58,106,.07);border:1px solid rgba(27,58,106,.15);border-radius:10px;padding:13px 15px;margin-bottom:14px}
+@media(max-width:600px){
+  .g2,.g3,.g4,.chart-g,.cta-g,.pill-g{grid-template-columns:1fr}
+  .hdr{padding:12px 14px}
+  .hdr-l .ttl{font-size:14px}
+  .pan{padding:18px 12px}
+  .sc-hero{flex-direction:column}
+  .sc-num{text-align:left}
+}
+@media print{
+  .tabs,.hdr,.brow,.shr-box,.pin-ov{display:none!important}
+  .pan{display:block!important;padding:0}
+  body{background:#fff}
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="hdr">
-  <div>
-    <div class="hdr-brand">Sani · Ikos Group</div>
-    <div class="hdr-title">Supervisor Performance Dashboard</div>
-    <div class="hdr-sub">Αξιολόγηση Απόδοσης Προϊσταμένου · Ikos Aria</div>
+  <div class="hdr-l">
+    <div class="brand">SANI · IKOS GROUP</div>
+    <div class="ttl">F&B Performance Dashboard · Ikos Aria</div>
+    <div class="sub">Αξιολόγηση Απόδοσης Προϊσταμένου</div>
   </div>
-  <div class="hdr-score" id="hdr-sc">
-    <div class="hs-n" id="hs-n">—</div>
-    <div class="hs-b" id="hs-b"></div>
+  <div class="hdr-r" id="hdr-sc">
+    <div class="hscr" id="hs-n">—</div>
+    <div class="hband" id="hs-b"></div>
   </div>
 </div>
 
-<!-- TABS -->
 <div class="tabs">
-  <button class="tab on" onclick="gt('info')">👤 Info</button>
-  <button class="tab" onclick="gt('kpi')">📊 KPIs</button>
-  <button class="tab" onclick="gt('comp')">⚡ Competencies</button>
-  <button class="tab" onclick="gt('vals')">⭐ Values</button>
-  <button class="tab" onclick="gt('res')">🎯 Results</button>
+  <button class="tab on" onclick="gt('home')">🏠 About</button>
+  <button class="tab" onclick="gateTab('eval')">📝 Evaluate</button>
+  <button class="tab" onclick="gt('score')">📊 My Score</button>
+  <button class="tab" onclick="gateTab('team')">👥 Team</button>
 </div>
 
-<!-- INFO -->
-<div class="panel on" id="pan-info">
-  <div class="sec-hdr">
-    <div class="sec-ttl">Supervisor Information</div>
-    <div class="sec-sub">Στοιχεία αξιολογούμενου προϊσταμένου</div>
+<div class="pin-ov" id="pin-ov">
+  <div class="pin-box">
+    <div class="pt">Manager Access</div>
+    <div class="ps">Enter your 4-digit access code</div>
+    <input class="pin-in" type="password" maxlength="4" id="pin-in" oninput="checkPin()" placeholder="····">
+    <div class="pin-err" id="pin-err">Incorrect code. Please try again.</div>
+    <button class="btn btns" onclick="closePinModal()" style="width:100%;margin-top:4px">Cancel</button>
   </div>
-  <label class="fl">Select supervisor / Επιλογή αξιολογούμενου</label>
-  <select class="fi" id="sup-sel" onchange="selSup(this.value)">
-    <option value="">— Select a supervisor —</option>
-  </select>
-  <div class="sup-card" id="sup-card">
-    <div class="sup-nm" id="sup-nm"></div>
-    <div class="sup-mt" id="sup-mt"></div>
+</div>
+
+<!-- HOME -->
+<div class="pan on" id="pan-home">
+  <div class="hero">
+    <div class="htag">IKOS ARIA · F&B LEADERSHIP TEAM</div>
+    <div class="ht">Welcome to the<br>F&B Performance Dashboard</div>
+    <div class="hd">A structured, transparent platform for evaluating and developing F&B supervisors at Ikos Aria. Every evaluation is grounded in our group values and operational standards — so that feedback is always fair, consistent, and meaningful.</div>
   </div>
-  <div class="g2">
-    <div><label class="fl">Evaluation period</label><input type="text" class="fi" id="inp-per" placeholder="e.g. Season 2025"></div>
-    <div><label class="fl">Evaluated by</label><input type="text" class="fi" id="inp-eval" value="Evangelos Hatzopoulos / F&B Manager"></div>
+  <div class="sh"><div class="t">How it works</div><div class="s">Three pillars · one composite score · displayed as a percentage</div></div>
+  <div class="g3" style="margin-bottom:22px">
+    <div class="how-c"><div class="hw">40%</div><div class="hn">Operational KPIs</div><div class="hd">Measurable outcomes: LQA/audit, guest satisfaction, cost control, revenue performance, complaint rate. Enter the actual number and the score is calculated automatically.</div></div>
+    <div class="how-c"><div class="hw">35%</div><div class="hn">Supervisor Competencies</div><div class="hd">How you lead: decision making, organization, communication, creativity, and staff development. Rated 1–5 with full anchor descriptions for every level.</div></div>
+    <div class="how-c"><div class="hw">25%</div><div class="hn">Values Alignment (RACE+)</div><div class="hd">Who you are: Respectful, Authentic, Creative, Passionate, Responsible, Excellent. These are the Sani/Ikos Group values — not aspirations, but daily commitments.</div></div>
   </div>
-  <div style="background:#F5EDE0;border-radius:13px;padding:20px;margin-top:4px">
-    <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);font-weight:500;margin-bottom:12px">Evaluation Framework</div>
-    <div class="fw-g">
-      <div class="fw-c"><div class="fw-w">40%</div><div class="fw-n">Operational KPIs</div><div class="fw-d">LQA, GRI/ReviewPro, Cost vs Budget, Revenue vs Target, Complaints</div></div>
-      <div class="fw-c"><div class="fw-w">35%</div><div class="fw-n">Supervisor Competencies</div><div class="fw-d">Decision Making, Organization, Communication, Creativity, Staff Care</div></div>
-      <div class="fw-c"><div class="fw-w">25%</div><div class="fw-n">Values Alignment (RACE+)</div><div class="fw-d">Respectful, Authentic, Creative, Passionate, Responsible, Excellent</div></div>
+  <div class="sh"><div class="t">Performance bands</div><div class="s">All scores are converted to a percentage — because percentages need no explanation</div></div>
+  <div style="background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:22px">
+    <table style="width:100%;border-collapse:collapse" id="bands-home-tbl"></table>
+  </div>
+  <div class="sh"><div class="t">Transparency</div><div class="s">Evaluations are not done in the dark</div></div>
+  <div class="info-box">After each evaluation, the manager generates a <strong>personal scorecard link</strong> — unique to each supervisor. It can be opened on any device to see exactly how you were scored: every KPI benchmark, every competency anchor, every values descriptor. <strong>Nothing is hidden.</strong> The goal is not to judge — it is to build a shared understanding of where you stand and where you can grow.</div>
+  <div class="cta-g">
+    <div class="cta-c" onclick="gateTab('eval')">
+      <div class="ci">📝</div>
+      <div class="ct">I'm a Manager</div>
+      <div class="cd">Complete evaluations, save results, generate scorecard links, and view team-wide performance. Requires access code.</div>
     </div>
-    <div style="margin-top:14px;padding:12px 14px;background:var(--navy);border-radius:9px">
-      <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:7px">Performance Bands</div>
-      <div style="display:flex;gap:7px;flex-wrap:wrap" id="bref"></div>
+    <div class="cta-c" onclick="gt('score')">
+      <div class="ci">📊</div>
+      <div class="ct">I'm a Supervisor</div>
+      <div class="cd">View your personal scorecard. You need the link your manager shared with you — or paste it directly here.</div>
     </div>
   </div>
-  <div class="btn-row"><button class="btn btn-p" onclick="gt('kpi')">Start Evaluation →</button></div>
 </div>
 
-<!-- KPI -->
-<div class="panel" id="pan-kpi">
-  <div class="sec-hdr"><div class="sec-ttl">Operational KPIs</div><div class="sec-sub">Επιχειρησιακοί Δείκτες Απόδοσης — Weight 40% — Scores assigned automatically from benchmarks</div></div>
-  <div id="kpi-items"></div>
-  <div class="pavg" id="kpi-pavg"><span class="pavg-l">KPI pillar average</span><span class="pavg-r" id="kpi-pavg-v"></span></div>
-  <div class="btn-row"><button class="btn btn-s" onclick="gt('info')">← Info</button><button class="btn btn-p" onclick="gt('comp')">Competencies →</button></div>
+<!-- EVALUATE -->
+<div class="pan" id="pan-eval">
+  <div id="ev-info">
+    <div class="sh"><div class="t">Supervisor Information</div><div class="s">Στοιχεία αξιολογούμενου</div></div>
+    <label class="fl">Select supervisor</label>
+    <select class="fi" id="sup-sel" onchange="selSup(this.value)"><option value="">— Select —</option></select>
+    <div class="sup-confirm" id="sup-confirm"><div style="font-size:15px;font-weight:500" id="sup-cn"></div><div style="font-size:12px;color:var(--t2);margin-top:2px" id="sup-cm"></div></div>
+    <div class="g2">
+      <div><label class="fl">Evaluation period</label><input type="text" class="fi" id="inp-per" placeholder="e.g. Season 2025"></div>
+      <div><label class="fl">Evaluated by</label><input type="text" class="fi" id="inp-eval" value="Evangelos Hatzopoulos / F&B Manager"></div>
+    </div>
+    <div class="brow"><button class="btn btnp" onclick="evGo('kpi')">Start Evaluation →</button></div>
+  </div>
+  <div id="ev-kpi" style="display:none">
+    <div class="sh"><div class="t">Operational KPIs</div><div class="s">Weight 40% — Enter the actual value; score and % are assigned automatically from benchmarks</div></div>
+    <div id="kpi-items"></div>
+    <div class="pavg" id="kpi-pavg"><span class="pl">KPI pillar</span><span class="pr" id="kpi-pv"></span></div>
+    <div class="brow"><button class="btn btns" onclick="evGo('info')">← Back</button><button class="btn btnp" onclick="evGo('comp')">Competencies →</button></div>
+  </div>
+  <div id="ev-comp" style="display:none">
+    <div class="sh"><div class="t">Supervisor Competencies</div><div class="s">Weight 35% — Likert 1–5 with full anchor descriptions</div></div>
+    <div id="comp-items"></div>
+    <div class="pavg" id="comp-pavg"><span class="pl">Competencies pillar</span><span class="pr" id="comp-pv"></span></div>
+    <div class="brow"><button class="btn btns" onclick="evGo('kpi')">← KPIs</button><button class="btn btnp" onclick="evGo('vals')">Values →</button></div>
+  </div>
+  <div id="ev-vals" style="display:none">
+    <div class="sh"><div class="t">Values Alignment (RACE+)</div><div class="s">Weight 25% — How consistently this supervisor lives the Sani/Ikos Group values</div></div>
+    <div id="vals-items"></div>
+    <div class="pavg" id="vals-pavg"><span class="pl">Values pillar</span><span class="pr" id="vals-pv"></span></div>
+    <div style="margin-top:20px"><label class="fl">General observations / Γενικές παρατηρήσεις</label><textarea class="fi" id="notes-inp" placeholder="Development areas, strengths, agreed next steps..."></textarea></div>
+    <div class="brow"><button class="btn btns" onclick="evGo('comp')">← Competencies</button><button class="btn btnp" onclick="evGo('results')">View Results →</button></div>
+  </div>
+  <div id="ev-results" style="display:none">
+    <div id="results-ct"></div>
+    <div id="share-ct"></div>
+    <div class="brow">
+      <button class="btn btns" onclick="evGo('vals')">← Edit</button>
+      <button class="btn btng" onclick="saveAndShare()">💾 Save & Generate Link</button>
+      <button class="btn btns" onclick="window.print()">🖨 Print</button>
+      <button class="btn btno" onclick="resetEval()">New ↺</button>
+    </div>
+  </div>
 </div>
 
-<!-- COMPETENCIES -->
-<div class="panel" id="pan-comp">
-  <div class="sec-hdr"><div class="sec-ttl">Supervisor Competencies</div><div class="sec-sub">Ικανότητες Προϊσταμένου — Weight 35% — Likert 1–5 with full anchor descriptions</div></div>
-  <div id="comp-items"></div>
-  <div class="pavg" id="comp-pavg"><span class="pavg-l">Competencies pillar average</span><span class="pavg-r" id="comp-pavg-v"></span></div>
-  <div class="btn-row"><button class="btn btn-s" onclick="gt('kpi')">← KPIs</button><button class="btn btn-p" onclick="gt('vals')">Values →</button></div>
+<!-- MY SCORE -->
+<div class="pan" id="pan-score">
+  <div class="sh"><div class="t">My Scorecard</div><div class="s">Προσωπικός Πίνακας Αξιολόγησης — open your personal link or paste it below</div></div>
+  <div id="score-ct">
+    <div class="ms-empty">
+      <div class="ei">📊</div>
+      <div class="et">View your personal scorecard</div>
+      <div class="ed">Your manager will send you a personal link after your evaluation is completed. Open the link directly or paste it below to view your full scorecard — every score, every criterion, every anchor that guided the evaluation.</div>
+      <div style="display:flex;gap:10px;align-items:center;max-width:480px;margin:0 auto">
+        <input type="text" class="fis" id="paste-link" placeholder="Paste your scorecard link here..." style="flex:1">
+        <button class="btn btnp" onclick="loadFromPaste()">Load</button>
+      </div>
+      <div id="paste-err" style="color:#E24B4A;font-size:12px;margin-top:8px;display:none">Invalid link — please check and try again.</div>
+    </div>
+  </div>
 </div>
 
-<!-- VALUES -->
-<div class="panel" id="pan-vals">
-  <div class="sec-hdr"><div class="sec-ttl">Values Alignment (RACE+)</div><div class="sec-sub">Ευθυγράμμιση με τις Αξίες του Ομίλου — Weight 25%</div></div>
-  <div id="vals-items"></div>
-  <div class="pavg" id="vals-pavg"><span class="pavg-l">Values pillar average</span><span class="pavg-r" id="vals-pavg-v"></span></div>
-  <div style="margin-top:20px"><label class="fl">General observations / Γενικές παρατηρήσεις</label><textarea class="fi" id="notes-inp" placeholder="Development areas, strengths, agreed next steps..."></textarea></div>
-  <div class="btn-row"><button class="btn btn-s" onclick="gt('comp')">← Competencies</button><button class="btn btn-p" onclick="gt('res')">View Results 🎯</button></div>
-</div>
-
-<!-- RESULTS -->
-<div class="panel" id="pan-res">
-  <div class="sec-hdr"><div class="sec-ttl">Performance Overview</div><div class="sec-sub">Σύνοψη Αξιολόγησης</div></div>
-  <div id="res-ct"><div style="text-align:center;padding:60px 20px;color:var(--text3)"><div style="font-size:56px;margin-bottom:14px">📊</div><div style="font-size:14px">Complete at least one section to see results.</div></div></div>
-  <div class="btn-row"><button class="btn btn-s" onclick="gt('vals')">← Values</button><button class="btn btn-p" onclick="resetAll()">New Evaluation ↺</button></div>
+<!-- TEAM -->
+<div class="pan" id="pan-team">
+  <div class="sh"><div class="t">Team Performance Overview</div><div class="s">All saved evaluations — Συνολική Εικόνα Ομάδας</div></div>
+  <div id="team-ct"></div>
 </div>
 
 <script>
-// ── DATA ────────────────────────────────────────────────────────────────────
-
 var SUPS=[
   {n:"Dimitrios Stefanakos",r:"Restaurant Manager",v:"Flavors"},
   {n:"Ahmed Rizwan",r:"Asst. Restaurant Manager",v:"Flavors"},
@@ -276,49 +351,91 @@ var SUPS=[
   {n:"Θεοδώρα Κόστριβα",r:"Sommelier",v:"F&B"}
 ];
 
+var KPIS=[
+  {id:"lqa",lbl:"LQA / Audit Score",unit:"/100",desc:"Latest LQA inspection or internal quality audit result",tgt:"Target: ≥ 90",
+   fn:function(v){return v>=90?5:v>=80?4:v>=70?3:v>=60?2:1},
+   anc:[
+     {r:"< 60",t:"Critical audit failure. Multiple non-conformances across key brand standards. Outlet performance poses reputational risk — immediate management intervention required."},
+     {r:"60–69",t:"Below acceptable LQA threshold. Recurring deficiencies in service delivery, mise en place or standard adherence. Active corrective plan and close monitoring required."},
+     {r:"70–79",t:"Meets minimum standard. Some inconsistencies in execution remain. Targeted coaching and regular follow-up needed to ensure reliable, consistent delivery."},
+     {r:"80–89",t:"Good standard overall. Minor gaps only. Supervisor proactively addresses inconsistencies and drives continuous improvement within the team."},
+     {r:"≥ 90 ★",t:"Benchmark performance. Near-perfect execution across all audit dimensions. This outlet operates as a standard-setting example for the entire property.",tgt:true}
+   ]},
+  {id:"gri",lbl:"Guest Satisfaction (GRI / ReviewPro)",unit:"/100",desc:"Overall Guest Review Index or composite NPS score",tgt:"Target: ≥ 92",
+   fn:function(v){return v>=92?5:v>=85?4:v>=78?3:v>=70?2:1},
+   anc:[
+     {r:"< 70",t:"Critically low guest satisfaction. Significant negative review pattern. Fundamental service culture and leadership issues present — structured improvement plan required immediately."},
+     {r:"70–77",t:"Below target. Recurring guest concerns are not being adequately identified or resolved. Structured action plan and guest feedback root-cause analysis required."},
+     {r:"78–84",t:"Meets baseline satisfaction. Majority of guests satisfied but significant headroom for improvement remains. Service recovery is reactive rather than anticipatory."},
+     {r:"85–91",t:"Strong satisfaction performance. Consistently positive feedback. Supervisor proactively resolves issues and regularly creates memorable service moments."},
+     {r:"≥ 92 ★",t:"Outstanding guest experience delivery. Top-tier GRI. Guests specifically name the outlet and its team in reviews. Service is anticipatory, not reactive.",tgt:true}
+   ]},
+  {id:"cst",lbl:"Cost vs Budget Variance",unit:"%",desc:"Actual vs approved budget — enter negative if under budget (e.g. −2)",tgt:"Target: 0% or below",
+   fn:function(v){return v<=-3?5:v<=0?4:v<=2?3:v<=5?2:1},
+   anc:[
+     {r:"> +5%",t:"Significantly over budget. No demonstrable cost control. Financial awareness and basic budget discipline are absent. Immediate corrective action required."},
+     {r:"+3% to +5%",t:"Over budget. Insufficient cost management. Requires coaching on procurement, wastage control, and budget tracking."},
+     {r:"+1% to +2%",t:"Slightly over budget. Generally budget-aware but lacking consistent execution. Improved discipline in day-to-day cost decisions needed."},
+     {r:"0% to −2%",t:"On or under budget. Good cost discipline maintained while quality standards are upheld. Supervisor monitors and manages expenditure proactively."},
+     {r:"≤ −3% ★",t:"Excellent cost management. Meaningfully under budget without compromising quality or guest experience. Sets a strong financial stewardship example.",tgt:true}
+   ]},
+  {id:"rev",lbl:"Revenue Achievement vs Target",unit:"%",desc:"Revenue delivered as % of the period budget / target",tgt:"Target: ≥ 100%",
+   fn:function(v){return v>=105?5:v>=100?4:v>=95?3:v>=90?2:1},
+   anc:[
+     {r:"< 90%",t:"Significantly underperformed vs revenue target. Revenue-driving opportunities are consistently missed. Upselling culture and team briefing need urgent attention."},
+     {r:"90–94%",t:"Below target. Some revenue opportunities captured but inconsistently. Upselling scripts and product knowledge coaching needed."},
+     {r:"95–99%",t:"Near target. Minor shortfall. Team is generally engaged in revenue delivery but execution is inconsistent."},
+     {r:"100–104%",t:"Met or exceeded target. Solid revenue performance. Team is well briefed, motivated, and consistently converts upselling opportunities."},
+     {r:"≥ 105% ★",t:"Significantly exceeded target. Exceptional revenue delivery through proactive upselling, deep product knowledge, and consistent team coaching.",tgt:true}
+   ]},
+  {id:"cmp",lbl:"Guest Complaint Rate",unit:"/100 covers",desc:"Formal complaints per 100 guest interactions — lower is better",tgt:"Target: 0 formal complaints",
+   fn:function(v){return v===0?5:v<=0.5?4:v<=1?3:v<=2?2:1},
+   anc:[
+     {r:"> 2",t:"High complaint rate. Systematic service failures present. Immediate root-cause analysis, team retraining, and operational review required."},
+     {r:"1–2",t:"Above acceptable threshold. Recurring service issues are not being proactively identified or resolved before escalating to formal complaints."},
+     {r:"0.5–1",t:"Moderate complaint rate. Average performance. Service recovery exists but is primarily reactive — guest issues not being anticipated."},
+     {r:"0.1–0.5",t:"Low complaint rate. Strong service culture. Issues are caught and resolved by the team before formal complaints are raised."},
+     {r:"0 ★",t:"Zero formal complaints. Exceptional anticipation of guest needs. Service issues resolved proactively at source — the standard we aspire to every day.",tgt:true}
+   ]}
+];
+
 var COMPS=[
-  {id:"dec",lbl:"Decision Making",sub:"Λήψη Αποφάσεων",anc:["Avoids making decisions entirely; shows no initiative.","Slow in decision-making; hesitant and delayed in implementation.","Makes decisions mechanically, following routine only.","Always considers outcomes and consequences; proactive and decisive.","Decisions fully aligned with company standards; embraces challenges with exceptional results."]},
-  {id:"org",lbl:"Organization & Planning",sub:"Οργάνωση",anc:["Has not planned, scheduled, or organized department tasks.","Department planning not always successful; inconsistent execution.","Plans and organizes mechanically per existing procedures only.","Thoroughly planned and organized; encourages staff through task delegation.","Achieved exceptional department performance through outstanding organizational skills."]},
-  {id:"com",lbl:"Communication",sub:"Επικοινωνία",anc:["Unable to communicate clearly; poor instructions negatively impacted team results.","Often missed staff behavioral cues; struggled verbally and in writing.","Developed good communication skills; shares important information and seeks feedback.","Very good communicator; entire team follows instructions and information comfortably.","Exceptional communication skills; reliable, precise, and trusted unconditionally by the team."]},
-  {id:"cre",lbl:"Creativity & Innovation",sub:"Δημιουργικότητα",anc:["Never proposed new ideas or improvements.","Rarely contributed ideas; proposals had no meaningful impact on operations.","Proposals were generally relevant and most were implemented.","Ideas were significant and contributed meaningfully to problem resolution.","Exceptional creativity; ideas substantially improved department results and team culture."]},
-  {id:"sta",lbl:"Staff Care & Development",sub:"Φροντίδα Προσωπικού",anc:["Indifferent to team development, proposals, and wellbeing.","Minimal care; organizes training only when explicitly required.","Listens and helps when necessary; follows preset training schedule.","Encourages creative input; anticipates issues and corrects proactively through coaching.","Continuous, enthusiastic investment in team growth; transfers all knowledge and skills."]}
+  {id:"dec",lbl:"Decision Making",sub:"Λήψη Αποφάσεων",anc:["Avoids making decisions entirely; shows no initiative within their area of responsibility.","Slow in decision-making; hesitant, delayed in implementation, rarely acts without explicit direction.","Makes decisions mechanically, following existing routines only — no proactive or independent thinking.","Always considers outcomes and consequences; proactive and decisive within their scope of authority.","Decisions are fully aligned with company standards, consistently deliver exceptional results, and inspire confidence across the team."]},
+  {id:"org",lbl:"Organization & Planning",sub:"Οργάνωση",anc:["Has not planned, scheduled, or organized department tasks in any structured or effective way.","Department planning not always successful; execution is inconsistent and largely reactive.","Plans and organizes mechanically per existing procedures, with no adaptation or improvement.","Thoroughly planned and organized operations using their skills proactively; encourages staff through meaningful task delegation.","Achieved exceptional, smooth department performance through outstanding organizational capability and proactive forward planning."]},
+  {id:"com",lbl:"Communication",sub:"Επικοινωνία",anc:["Unable to communicate clearly; inaccurate instructions negatively impacted team results and cohesion.","Often missed staff behavioral cues; struggled with both verbal and written communication.","Developed good communication habits; shares important information promptly and actively seeks feedback.","Very good communicator; entire team follows instructions accurately and information flows clearly in both directions.","Exceptional communication ability; reliable, precise, and trusted unconditionally by both team and peers."]},
+  {id:"cre",lbl:"Creativity & Innovation",sub:"Δημιουργικότητα",anc:["Never proposed new ideas or improvements; entirely content with the status quo.","Rarely contributed ideas; any proposals offered had no meaningful operational impact.","Proposals were generally relevant and contextually appropriate; most were implemented in some form.","Ideas were significant and contributed meaningfully to solving operational problems and improving guest experience.","Exceptional creativity; ideas substantially improved department results, guest experience, and overall team culture."]},
+  {id:"sta",lbl:"Staff Care & Development",sub:"Φροντίδα Προσωπικού",anc:["Completely indifferent to team development, wellbeing, and professional growth.","Minimal care shown; organizes training only when explicitly directed or required by management.","Listens and helps the team when necessary; follows the preset training schedule without deviation.","Actively encourages creative input; anticipates operational issues and corrects them proactively through coaching and on-the-job training.","Continuously and enthusiastically invests in team growth; transfers all knowledge and skills with genuine passion and care for each individual."]}
 ];
 
 var VALS=[
-  {id:"rsp",lbl:"Respectful",mnt:"See value in everyone and everything.",anc:["Shows no regard for others; dismissive of equality and environment.","Occasionally kind but inconsistent in listening or treating others as equal.","Generally kind and understanding; attempts to listen actively without judgment.","Consistently kind; treats everyone equally, protects environment, listens actively.","Role model of respectful conduct; champions inclusion and environmental care at all times."]},
-  {id:"aut",lbl:"Authentic",mnt:"Just be your awesome self.",anc:["Avoids transparency; inconsistent in honest dialogue.","Occasionally honest but withholds opinions or relevant information.","Generally truthful and transparent; speaks mind at appropriate times.","Consistently honest; respectfully voices opinions and embraces differences.","Exemplary authenticity; always truthful, speaks up with respect, celebrates diversity."]},
-  {id:"crt",lbl:"Creative",mnt:"Imagine new possibility — be bold, make it happen!",anc:["Never challenges the status quo; avoids innovation.","Rarely shows curiosity or seeks new solutions.","Occasionally proposes improvements; somewhat open to change.","Regularly challenges the status quo; embraces innovation proactively.","Consistently bold; changes perspectives, seeks solutions, and inspires team innovation."]},
-  {id:"pas",lbl:"Passionate",mnt:"Do what you love and love what you do.",anc:["Shows no enthusiasm; avoids challenges and comfort zone.","Rarely inspired; tends toward complacency.","Generally positive; takes on challenges when required.","Consistently enthusiastic; steps outside comfort zone and maintains positive outlook.","Infectious passion; turns challenges into motivation and elevates the entire team's energy."]},
-  {id:"res",lbl:"Responsible",mnt:"Be accountable to each other and for your work.",anc:["Does not take ownership; avoids accountability entirely.","Rarely credits others or admits mistakes.","Generally owns work; occasionally recognizes colleagues' contributions.","Consistently owns work and admits mistakes; regularly credits and recognizes colleagues.","Exemplary accountability; role model for ownership, transparency, and team recognition."]},
-  {id:"exc",lbl:"Excellent",mnt:"Always striving — settling for nothing less than great!",anc:["Pays no attention to detail; unclear about what adds value.","Inconsistent attention to detail; limited confidence in self or team.","Generally attentive; works with reasonable enthusiasm toward quality.","Consistently detail-focused; knows what adds value and pursues it with enthusiasm.","Exceptional excellence; obsessive attention to detail, inspires entire team to the highest quality."]}
-];
-
-var KPIS=[
-  {id:"lqa",lbl:"LQA / Audit Score",unit:"/100",desc:"Latest LQA inspection or internal quality audit result",fn:function(v){return v>=90?5:v>=80?4:v>=70?3:v>=60?2:1},bm:["&lt;60","60–69","70–79","80–89","≥90"]},
-  {id:"gri",lbl:"Guest Satisfaction (GRI / ReviewPro)",unit:"/100",desc:"Overall Guest Review Index or NPS composite score",fn:function(v){return v>=92?5:v>=85?4:v>=78?3:v>=70?2:1},bm:["&lt;70","70–77","78–84","85–91","≥92"]},
-  {id:"cst",lbl:"Cost vs Budget Variance",unit:"%",desc:"Actual vs approved budget — negative = under budget = better",fn:function(v){return v<=-3?5:v<=0?4:v<=2?3:v<=5?2:1},bm:["&gt;5%","3–5%","1–2%","0 to −2%","≤−3%"]},
-  {id:"rev",lbl:"Revenue Achievement vs Target",unit:"%",desc:"Revenue as % of period target",fn:function(v){return v>=105?5:v>=100?4:v>=95?3:v>=90?2:1},bm:["&lt;90%","90–94%","95–99%","100–104%","≥105%"]},
-  {id:"cmp",lbl:"Guest Complaint Rate",unit:"/100 covers",desc:"Formal complaints per 100 guest interactions",fn:function(v){return v===0?5:v<=0.5?4:v<=1?3:v<=2?2:1},bm:["&gt;2","1–2","0.5–1","0.1–0.5","0"]}
+  {id:"rsp",lbl:"Respectful",mnt:"See value in everyone and everything.",anc:["Shows no regard for others; dismissive of equality, inclusion, and the natural environment.","Occasionally kind but inconsistent in listening or treating all colleagues and guests as equal.","Generally kind and understanding; attempts to listen actively and treat others with basic respect.","Consistently kind, fair, and caring; treats everyone equally, protects the environment, and listens without judgment.","An exemplary model of respect; champions inclusion, environmental care, and dignity for every person, every day."]},
+  {id:"aut",lbl:"Authentic",mnt:"Just be your awesome self.",anc:["Avoids transparency; inconsistent in honest dialogue and rarely shares genuine opinions.","Occasionally honest but regularly withholds relevant opinions or information when uncomfortable.","Generally truthful and transparent; speaks their mind at appropriate times and in an appropriate manner.","Consistently honest and open; respectfully voices opinions, welcomes constructive challenge, and embraces differences.","Exemplary authenticity; always truthful, speaks up with confidence and respect, and actively celebrates diversity of thought."]},
+  {id:"crt",lbl:"Creative",mnt:"Imagine new possibility — be bold, make it happen!",anc:["Never challenges the status quo; actively avoids innovation, change, or new ways of thinking.","Rarely shows curiosity or proactively seeks new solutions — waits for direction rather than initiating.","Occasionally proposes improvements and shows openness to change when encouraged by others.","Regularly and proactively challenges the status quo; embraces innovation as a natural part of daily leadership.","Consistently bold and curious; changes perspectives, actively seeks solutions, and inspires the whole team to think creatively."]},
+  {id:"pas",lbl:"Passionate",mnt:"Do what you love and love what you do.",anc:["Shows no enthusiasm; actively avoids challenges and remains firmly within their comfort zone.","Rarely inspired; tends toward complacency and does not demonstrate genuine care for the guest or team.","Generally positive; takes on challenges when required but does not proactively seek them out.","Consistently enthusiastic; regularly steps outside their comfort zone and maintains a genuine positive energy even under pressure.","Infectious passion; transforms every challenge into motivation and elevates the energy and morale of the entire team."]},
+  {id:"res",lbl:"Responsible",mnt:"Be accountable to each other and for your work.",anc:["Does not take ownership; avoids accountability entirely and deflects responsibility to others.","Rarely credits colleagues' contributions or admits to mistakes openly and constructively.","Generally owns their work and outcomes; occasionally recognizes colleagues' contributions when prompted.","Consistently owns both successes and mistakes; regularly and genuinely credits and recognizes team members.","Exemplary accountability; an undisputed role model for ownership, transparency, and authentic team recognition."]},
+  {id:"exc",lbl:"Excellent",mnt:"Always striving — settling for nothing less than great!",anc:["Pays no attention to detail; unclear about what adds value and does not actively pursue quality standards.","Inconsistent attention to detail; limited confidence in their own or the team's capabilities.","Generally attentive; works with reasonable enthusiasm toward the expected quality standards.","Consistently detail-focused; knows exactly what adds value and pursues it with genuine enthusiasm every day.","Exceptional commitment to excellence; an obsessive, positive attention to detail that raises the standards of everyone around them."]}
 ];
 
 var BANDS=[
-  {min:1,max:1.5,lbl:"Inadequate",gr:"Ανεπαρκής",c:"#E24B4A"},
-  {min:1.5,max:2.5,lbl:"Low",gr:"Χαμηλή",c:"#D85A30"},
-  {min:2.5,max:3.0,lbl:"Acceptable",gr:"Κατώτατο Αποδεκτό",c:"#BA7517"},
-  {min:3.0,max:3.5,lbl:"Good",gr:"Καλή",c:"#639922"},
-  {min:3.5,max:4.5,lbl:"Very Good",gr:"Πολύ Καλή",c:"#1D9E75"},
-  {min:4.5,max:5.01,lbl:"Excellent",gr:"Εξαιρετική",c:"#185FA5"}
+  {min:20,max:30,lbl:"Inadequate",gr:"Ανεπαρκής",c:"#E24B4A",desc:"Performance is critically below the minimum standard. Immediate intervention required."},
+  {min:30,max:50,lbl:"Low",gr:"Χαμηλή",c:"#D85A30",desc:"Does not meet the minimum expected level. A structured improvement plan is essential."},
+  {min:50,max:60,lbl:"Acceptable",gr:"Κατώτατο Αποδεκτό",c:"#BA7517",desc:"At the lower edge of acceptable. Improvement needed in most areas to reach consistent good performance."},
+  {min:60,max:70,lbl:"Good",gr:"Καλή",c:"#639922",desc:"Meets the defined standard. Most responsibilities fulfilled in the correct manner."},
+  {min:70,max:90,lbl:"Very Good",gr:"Πολύ Καλή",c:"#1D9E75",desc:"Notably above standard in several areas. Handles unexpected situations well and professionally."},
+  {min:90,max:101,lbl:"Excellent",gr:"Εξαιρετική",c:"#185FA5",desc:"Exceptional and consistent performance. A true role model for the department and hotel."}
 ];
 
-// ── STATE ───────────────────────────────────────────────────────────────────
-function gb(s){return BANDS.find(function(b){return s>=b.min&&s<b.max})||BANDS[BANDS.length-1];}
-function gc(s){return s>0?gb(s).c:"#8A9AB0";}
-var ST={sup:null,kpis:{},comps:{},vals:{}};
-var RC=null; // radar chart instance
+function gb(p){return BANDS.find(function(b){return p>=b.min&&p<b.max})||BANDS[BANDS.length-1];}
+function s2p(s){return Math.round(s/5*100);}
+function gc(p){return p>0?gb(p).c:"#8A9AB0";}
 
-// ── INIT ────────────────────────────────────────────────────────────────────
+var ST={sup:null,kpis:{},comps:{},vals:{},pin:false};
+var CH={};
+var PIN="2025";
+var pendingTab="";
+
 function init(){
-  // Supervisor dropdown with optgroups
+  // Populate supervisor dropdown
   var sel=document.getElementById("sup-sel");
   var grps={},ord=[];
   SUPS.forEach(function(s,i){if(!grps[s.v]){grps[s.v]=[];ord.push(s.v);}grps[s.v].push({s:s,i:i});});
@@ -328,16 +445,21 @@ function init(){
     sel.appendChild(og);
   });
 
-  // Band reference pills
-  document.getElementById("bref").innerHTML=BANDS.map(function(b){
-    return '<span style="font-size:11px;padding:3px 10px;border-radius:12px;background:'+b.c+'33;color:'+b.c+';font-weight:500;border:1px solid '+b.c+'55;">'+b.lbl+'</span>';
-  }).join('');
+  // Bands table on home
+  var bt=document.getElementById("bands-home-tbl");
+  bt.innerHTML='<thead><tr style="background:var(--cr)"><th style="padding:9px 12px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--t3);border-bottom:1px solid var(--bd)">Score</th><th style="padding:9px 12px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--t3);border-bottom:1px solid var(--bd)">Band</th><th style="padding:9px 12px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--t3);border-bottom:1px solid var(--bd)">Greek</th><th style="padding:9px 12px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--t3);border-bottom:1px solid var(--bd)">What it means</th></tr></thead><tbody>';
+  var tb="";
+  BANDS.slice().reverse().forEach(function(b){tb+='<tr><td style="padding:9px 12px;font-size:15px;font-weight:600;color:'+b.c+'">'+b.min+'–'+(b.max===101?100:b.max)+'%</td><td style="padding:9px 12px;font-weight:500;color:'+b.c+'">'+b.lbl+'</td><td style="padding:9px 12px;font-size:11px;color:var(--t3);font-style:italic">'+b.gr+'</td><td style="padding:9px 12px;font-size:12px;color:var(--t2)">'+b.desc+'</td></tr>';});
+  bt.innerHTML+=tb+"</tbody>";
 
   // KPI items
   var kc=document.getElementById("kpi-items");
   KPIS.forEach(function(k){
-    var bm=k.bm.map(function(b,i){return '<span><b style="color:'+BANDS[i].c+';">'+(i+1)+'</b>: '+b+'</span>';}).join('');
-    kc.innerHTML+='<div class="kc" id="kc-'+k.id+'"><div class="kc-hdr"><div><div class="kc-lbl">'+k.lbl+'</div><div class="kc-dsc">'+k.desc+'</div></div><div class="kc-badge" id="kb-'+k.id+'"></div></div><div class="kc-row"><input type="number" class="fi-sm" placeholder="Value ('+k.unit+')" oninput="sKpi(\''+k.id+'\',this.value)" style="width:130px"><div class="kc-bm">'+bm+'</div></div><div class="kbar" id="kbar-'+k.id+'"><div class="kbar-f" id="kbf-'+k.id+'"></div></div></div>';
+    var rows=k.anc.map(function(a,i){
+      var bc=BANDS[Math.min(i,BANDS.length-1)].c;
+      return '<div class="kanc-row'+(a.tgt?' tgt':'')+'"><div class="kanc-sc" style="background:'+bc+'">'+(i+1)+'</div><div class="kanc-ct"><div class="kr">'+a.r+'</div><div class="kt">'+a.t+'</div></div></div>';
+    }).join('');
+    kc.innerHTML+='<div class="kc" id="kc-'+k.id+'"><div class="kc-h"><div><div class="kc-lbl">'+k.lbl+'</div><div class="kc-dsc">'+k.desc+'</div><div class="kc-tgt">'+k.tgt+'</div></div><div class="kbadge" id="kb-'+k.id+'"><div class="kp"></div><div class="kr"></div></div></div><div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><input type="number" class="fis" placeholder="Enter value ('+k.unit+')" oninput="sKpi(\''+k.id+'\',this.value)" style="width:130px"><span style="font-size:12px;color:var(--t3)">'+k.unit+'</span></div><div class="kbar" id="kbar-'+k.id+'"><div class="kbarf" id="kbf-'+k.id+'"></div></div><span class="kanc-tog" id="at-'+k.id+'" onclick="togAnc(\''+k.id+'\')">Score guide — what each level means</span><div class="kanc-body" id="ab-'+k.id+'">'+rows+'</div></div>';
   });
 
   // Competency items
@@ -347,28 +469,61 @@ function init(){
   // Values items
   var vc=document.getElementById("vals-items");
   VALS.forEach(function(v){vc.innerHTML+=mkL(v,"val");});
+
+  // Check URL for scorecard hash
+  checkHash();
 }
 
 function mkL(item,type){
-  return '<div class="lc" id="lc-'+type+'-'+item.id+'"><div class="lc-hdr"><div><div class="l-lbl">'+item.lbl+'</div>'+(item.sub?'<div class="l-sub">'+item.sub+'</div>':'')+(item.mnt?'<div class="l-mnt">"'+item.mnt+'"</div>':'')+'</div><div class="l-badge" id="lb-'+type+'-'+item.id+'"></div></div><div class="lbtns">'+[1,2,3,4,5].map(function(n){return '<button class="lbtn" onclick="sScore(\''+type+'\',\''+item.id+'\','+n+')">'+n+'</button>';}).join('')+'</div><div class="anc" id="at-'+type+'-'+item.id+'"></div></div>';
+  return '<div class="lc" id="lc-'+type+'-'+item.id+'"><div class="lc-h"><div><div class="l-lbl">'+item.lbl+'</div><div class="l-sub">'+(item.sub||'')+'</div>'+(item.mnt?'<div class="l-mnt">"'+item.mnt+'"</div>':'')+'</div><div class="lbadge" id="lb-'+type+'-'+item.id+'"><div class="lp"></div><div class="lr"></div></div></div><div class="lbtns">'+[1,2,3,4,5].map(function(n){return '<button class="lbtn" onclick="sScore(\''+type+'\',\''+item.id+'\','+n+')">'+n+'</button>';}).join('')+'</div><div class="anc" id="an-'+type+'-'+item.id+'"></div></div>';
 }
 
-// ── NAVIGATION ──────────────────────────────────────────────────────────────
 function gt(id){
-  document.querySelectorAll(".panel").forEach(function(p){p.classList.remove("on");});
-  document.querySelectorAll(".tab").forEach(function(b,i){b.classList.remove("on");if(["info","kpi","comp","vals","res"][i]===id)b.classList.add("on");});
+  document.querySelectorAll(".pan").forEach(function(p){p.classList.remove("on");});
+  document.querySelectorAll(".tab").forEach(function(b,i){b.classList.remove("on");if(["home","eval","score","team"][i]===id)b.classList.add("on");});
   document.getElementById("pan-"+id).classList.add("on");
   window.scrollTo(0,0);
-  if(id==="res")renderRes();
+  if(id==="team")renderTeam();
 }
 
-// ── INPUTS ──────────────────────────────────────────────────────────────────
+function gateTab(id){
+  if(ST.pin){gt(id);return;}
+  pendingTab=id;
+  document.getElementById("pin-ov").classList.add("on");
+  document.getElementById("pin-in").value="";
+  document.getElementById("pin-err").style.display="none";
+  setTimeout(function(){document.getElementById("pin-in").focus();},80);
+}
+
+function checkPin(){
+  var v=document.getElementById("pin-in").value;
+  if(v.length<4)return;
+  if(v===PIN){ST.pin=true;closePinModal();gt(pendingTab);}
+  else{document.getElementById("pin-err").style.display="block";document.getElementById("pin-in").value="";}
+}
+
+function closePinModal(){document.getElementById("pin-ov").classList.remove("on");}
+
+function evGo(s){
+  ["info","kpi","comp","vals","results"].forEach(function(x){document.getElementById("ev-"+x).style.display="none";});
+  document.getElementById("ev-"+s).style.display="block";
+  if(s==="results")renderResults();
+  window.scrollTo(0,0);
+}
+
+function togAnc(id){
+  var tog=document.getElementById("at-"+id);
+  var body=document.getElementById("ab-"+id);
+  tog.classList.toggle("open");
+  body.classList.toggle("on");
+}
+
 function selSup(idx){
-  if(idx===""){ST.sup=null;document.getElementById("sup-card").style.display="none";return;}
+  if(idx===""){ST.sup=null;document.getElementById("sup-confirm").style.display="none";return;}
   ST.sup=SUPS[parseInt(idx)];
-  document.getElementById("sup-nm").textContent=ST.sup.n;
-  document.getElementById("sup-mt").textContent=ST.sup.r+" · "+ST.sup.v+" · Ikos Aria";
-  document.getElementById("sup-card").style.display="block";
+  document.getElementById("sup-cn").textContent=ST.sup.n;
+  document.getElementById("sup-cm").textContent=ST.sup.r+" · "+ST.sup.v+" · Ikos Aria";
+  document.getElementById("sup-confirm").style.display="block";
 }
 
 function sKpi(id,val){
@@ -376,46 +531,49 @@ function sKpi(id,val){
   ST.kpis[id]=(val===""||isNaN(v))?null:v;
   var kpi=KPIS.find(function(k){return k.id===id;});
   var sc=(val===""||isNaN(v))?0:kpi.fn(v);
+  var pct=sc>0?s2p(sc):0;
   var badge=document.getElementById("kb-"+id);
-  var bar=document.getElementById("kbar-"+id);
-  var fill=document.getElementById("kbf-"+id);
-  if(sc>0){badge.textContent=sc+"/5";badge.style.color=gb(sc).c;badge.style.display="block";bar.style.display="block";fill.style.width=Math.round(sc/5*100)+"%";fill.style.background=gb(sc).c;}
-  else{badge.style.display="none";bar.style.display="none";}
-  updPAvg("kpi");updHdr();
+  if(sc>0){
+    badge.querySelector(".kp").textContent=pct+"%";
+    badge.querySelector(".kp").style.color=gb(pct).c;
+    badge.querySelector(".kr").textContent=sc+"/5 · "+gb(pct).lbl;
+    badge.style.display="block";
+    var bar=document.getElementById("kbar-"+id),fill=document.getElementById("kbf-"+id);
+    bar.style.display="block";fill.style.width=pct+"%";fill.style.background=gb(pct).c;
+    document.getElementById("kc-"+id).style.borderColor=gb(pct).c+"66";
+  } else {
+    badge.style.display="none";
+    document.getElementById("kbar-"+id).style.display="none";
+    document.getElementById("kc-"+id).style.borderColor="";
+  }
+  updP("kpi");updHdr();
 }
 
 function sScore(type,id,score){
   if(type==="comp")ST.comps[id]=score;else ST.vals[id]=score;
+  var pct=s2p(score);
   document.querySelectorAll("#lc-"+type+"-"+id+" .lbtn").forEach(function(b,i){b.classList.toggle("on",i+1===score);});
   var badge=document.getElementById("lb-"+type+"-"+id);
-  badge.textContent=score+"/5";badge.style.color=gb(score).c;badge.style.display="block";
+  badge.querySelector(".lp").textContent=pct+"%";
+  badge.querySelector(".lp").style.color=gb(pct).c;
+  badge.querySelector(".lr").textContent=score+"/5";
+  badge.style.display="block";
   var items=type==="comp"?COMPS:VALS;
   var item=items.find(function(x){return x.id===id;});
-  var at=document.getElementById("at-"+type+"-"+id);
-  at.innerHTML='<b style="font-style:normal;color:'+gb(score).c+';">'+gb(score).lbl+'</b> — '+item.anc[score-1];
-  at.style.borderLeftColor=gb(score).c;at.classList.add("on");
-  document.getElementById("lc-"+type+"-"+id).style.borderColor=gb(score).c+"88";
-  updPAvg(type==="comp"?"comp":"vals");updHdr();
+  var an=document.getElementById("an-"+type+"-"+id);
+  an.innerHTML='<b style="font-style:normal;color:'+gb(pct).c+'">'+gb(pct).lbl+' ('+pct+'%)</b> — '+item.anc[score-1];
+  an.style.borderLeftColor=gb(pct).c;an.classList.add("on");
+  document.getElementById("lc-"+type+"-"+id).style.borderColor=gb(pct).c+"66";
+  updP(type==="comp"?"comp":"vals");updHdr();
 }
 
-// ── AVERAGES ────────────────────────────────────────────────────────────────
-function kSc(){var r=[];KPIS.forEach(function(k){var v=ST.kpis[k.id];if(v!=null)r.push(k.fn(v));});return r;}
+function kScs(){var r=[];KPIS.forEach(function(k){var v=ST.kpis[k.id];if(v!=null)r.push(k.fn(v));});return r;}
 function avg(a){if(!a.length)return 0;return a.reduce(function(x,y){return x+y;},0)/a.length;}
-function kA(){return avg(kSc());}
+function kA(){return avg(kScs());}
 function cA(){return avg(Object.values(ST.comps).filter(function(v){return v>0;}));}
 function vA(){return avg(Object.values(ST.vals).filter(function(v){return v>0;}));}
 
-function updPAvg(p){
-  var sc,el,vel;
-  if(p==="kpi"){sc=kA();el="kpi-pavg";vel="kpi-pavg-v";}
-  else if(p==="comp"){sc=cA();el="comp-pavg";vel="comp-pavg-v";}
-  else{sc=vA();el="vals-pavg";vel="vals-pavg-v";}
-  var e=document.getElementById(el),v=document.getElementById(vel);
-  if(sc>0){e.style.display="flex";v.textContent=sc.toFixed(2)+" — "+gb(sc).lbl;v.style.color=gb(sc).c;}
-  else e.style.display="none";
-}
-
-function comp(){
+function composite(){
   var parts=[];var ka=kA(),ca=cA(),va=vA();
   if(ka>0)parts.push({s:ka,w:.40});if(ca>0)parts.push({s:ca,w:.35});if(va>0)parts.push({s:va,w:.25});
   if(!parts.length)return 0;
@@ -423,96 +581,169 @@ function comp(){
   return parts.reduce(function(a,p){return a+p.s*(p.w/tw);},0);
 }
 
+function updP(pillar){
+  var sc,eId,vId;
+  if(pillar==="kpi"){sc=kA();eId="kpi-pavg";vId="kpi-pv";}
+  else if(pillar==="comp"){sc=cA();eId="comp-pavg";vId="comp-pv";}
+  else{sc=vA();eId="vals-pavg";vId="vals-pv";}
+  var el=document.getElementById(eId),vl=document.getElementById(vId);
+  if(sc>0){var p=s2p(sc);el.style.display="flex";vl.textContent=p+"% · "+gb(p).lbl+" ("+sc.toFixed(2)+"/5)";vl.style.color=gb(p).c;}
+  else el.style.display="none";
+}
+
 function updHdr(){
-  var c=comp();
-  if(c>0){document.getElementById("hdr-sc").style.display="block";var n=document.getElementById("hs-n"),b=document.getElementById("hs-b");n.textContent=c.toFixed(2);n.style.color=gb(c).c;b.textContent=gb(c).lbl;b.style.color=gb(c).c;}
+  var c=composite();
+  if(c>0){var p=s2p(c);document.getElementById("hdr-sc").style.display="block";var n=document.getElementById("hs-n"),b=document.getElementById("hs-b");n.textContent=p+"%";n.style.color=gb(p).c;b.textContent=gb(p).lbl;b.style.color=gb(p).c;}
   else document.getElementById("hdr-sc").style.display="none";
 }
 
-// ── RESULTS ─────────────────────────────────────────────────────────────────
-function renderRes(){
-  var ka=kA(),ca=cA(),va=vA(),c=comp();
-  var rc=document.getElementById("res-ct");
-  if(!c){rc.innerHTML='<div style="text-align:center;padding:60px 20px;color:var(--text3)"><div style="font-size:56px;margin-bottom:14px">📊</div><div style="font-size:14px">Complete at least one section to see results.</div></div>';return;}
-  var band=gb(c);
-  var notes=document.getElementById("notes-inp").value;
-  var sup=ST.sup,period=document.getElementById("inp-per").value,evaluator=document.getElementById("inp-eval").value;
+function buildSC(data,ctId){
+  var c=data.composite,p=s2p(c),band=gb(p);
+  var ka=data.kpiAvg||0,ca=data.compAvg||0,va=data.valAvg||0;
+  var kp=s2p(ka),cp=s2p(ca),vp=s2p(va);
   var h="";
-
-  // Supervisor header card
-  if(sup){
-    h+='<div class="res-sup"><div><div style="font-size:17px;font-weight:500;color:var(--navy)">'+sup.n+'</div><div style="font-size:13px;color:var(--text2);margin-top:3px">'+sup.r+' · '+sup.v+' · Ikos Aria</div>'+(period?'<div style="font-size:12px;color:var(--text3);margin-top:2px">Period: '+period+'</div>':'')+(evaluator?'<div style="font-size:12px;color:var(--text3)">Evaluated by: '+evaluator+'</div>':'')+'</div><div style="text-align:right"><div class="res-big" style="color:'+band.c+'">'+c.toFixed(2)+'</div><div class="res-band" style="color:'+band.c+'">'+band.lbl+'</div><div class="res-band-gr">'+band.gr+'</div></div></div>';
-  } else {
-    h+='<div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 20px;text-align:right;margin-bottom:16px"><div class="res-big" style="color:'+band.c+'">'+c.toFixed(2)+'</div><div class="res-band" style="color:'+band.c+'">'+band.lbl+'</div><div class="res-band-gr">'+band.gr+'</div></div>';
-  }
-
-  // Pillar breakdown
-  h+='<div class="pill-grid">'+[{l:"Operational KPIs",s:ka,w:"40%"},{l:"Competencies",s:ca,w:"35%"},{l:"Values (RACE+)",s:va,w:"25%"}].map(function(p){return '<div class="pcrd"><div class="pc-l">'+p.l+'</div><div class="pc-s" style="color:'+gc(p.s)+'">'+(p.s>0?p.s.toFixed(2):"—")+'</div>'+(p.s>0?'<div class="pc-b" style="color:'+gb(p.s).c+'">'+gb(p.s).lbl+'</div>':'')+'<div class="pc-w">'+p.w+'</div>'+(p.s>0?'<div class="pc-bar"><div class="pc-barf" style="width:'+Math.round(p.s/5*100)+'%;background:'+gb(p.s).c+'"></div></div>':'')+'</div>';}).join('')+'</div>';
-
-  // Charts row
-  h+='<div class="chart-g">';
-
-  // KPI bars
-  var ks=KPIS.map(function(k){return{l:k.lbl,s:ST.kpis[k.id]!=null?k.fn(ST.kpis[k.id]):0};}).filter(function(x){return x.s>0;});
-  h+='<div class="chart-c"><div class="chart-t">KPI Breakdown</div>';
-  if(ks.length)ks.forEach(function(k){h+='<div class="brow"><div class="blbl" title="'+k.l+'">'+k.l+'</div><div class="btrk"><div class="bfll" style="width:'+Math.round(k.s/5*100)+'%;background:'+gb(k.s).c+'"></div></div><div class="bvl" style="color:'+gb(k.s).c+'">'+k.s+'</div></div>';});
-  else h+='<div style="color:var(--text3);font-size:13px">No KPI data entered.</div>';
+  h+='<div class="sc-hero"><div class="sc-i"><div class="sc-name">'+(data.sup?data.sup.n:"—")+'</div><div class="sc-role">'+(data.sup?data.sup.r+" · "+data.sup.v+" · Ikos Aria":"")+'</div><div class="sc-meta">'+(data.period?"Period: "+data.period+" · ":"")+(data.evaluator?"Evaluated by: "+data.evaluator:"")+(data.date?" · "+data.date:"")+'</div></div><div class="sc-num"><div class="sc-pct" style="color:'+band.c+'">'+p+'%</div><div class="sc-band" style="color:'+band.c+'">'+band.lbl+'</div><div class="sc-gr">'+band.gr+'</div></div></div>';
+  h+='<div class="pill-g">';
+  [{l:"Operational KPIs",p:kp,s:ka,w:"40%"},{l:"Competencies",p:cp,s:ca,w:"35%"},{l:"Values (RACE+)",p:vp,s:va,w:"25%"}].forEach(function(x){
+    h+='<div class="pcrd"><div class="pc-l">'+x.l+'</div><div class="pc-p" style="color:'+gc(x.p)+'">'+(x.s>0?x.p+"%":"—")+'</div>'+(x.s>0?'<div class="pc-b" style="color:'+gc(x.p)+'">'+gb(x.p).lbl+'</div>':'')+'<div class="pc-w">'+x.w+(x.s>0?' · '+x.s.toFixed(2)+'/5':'')+'</div>'+(x.s>0?'<div class="pc-bar"><div class="pc-barf" style="width:'+x.p+'%;background:'+gc(x.p)+'"></div></div>':'')+'</div>';
+  });
+  h+='</div><div class="chart-g">';
+  h+='<div class="chart-c"><div class="chart-ct">KPI Breakdown</div>';
+  var ks=KPIS.map(function(k){var r=data.kpis?data.kpis[k.id]:null;return{l:k.lbl,s:r!=null?k.fn(r):0};}).filter(function(x){return x.s>0;});
+  if(ks.length)ks.forEach(function(k){var q=s2p(k.s);h+='<div class="b-row"><div class="b-lbl" title="'+k.l+'">'+k.l+'</div><div class="b-trk"><div class="b-fll" style="width:'+q+'%;background:'+gb(q).c+'"></div></div><div class="b-vl" style="color:'+gb(q).c+'">'+q+'%</div></div>';});
+  else h+='<div style="font-size:12px;color:var(--t3)">No KPI data.</div>';
   h+='</div>';
-
-  // Radar chart
-  h+='<div class="chart-c"><div class="chart-t">Values Radar</div><canvas id="rc-canvas" style="max-height:220px"></canvas></div>';
+  h+='<div class="chart-c"><div class="chart-ct">Values Radar</div><canvas id="rdr-'+ctId+'" style="max-height:220px"></canvas></div>';
   h+='</div>';
-
-  // Competencies breakdown
-  if(ca>0){
-    h+='<div class="chart-c" style="margin-bottom:14px"><div class="chart-t">Competencies Breakdown</div>';
-    COMPS.forEach(function(comp){var sc=ST.comps[comp.id]||0;if(sc>0)h+='<div class="brow"><div class="blbl">'+comp.lbl+'</div><div class="btrk"><div class="bfll" style="width:'+Math.round(sc/5*100)+'%;background:'+gb(sc).c+'"></div></div><div class="bvl" style="color:'+gb(sc).c+'">'+sc+'</div></div>';});
-    h+='</div>';
-  }
-
-  // Values breakdown
-  if(va>0){
-    h+='<div class="chart-c" style="margin-bottom:14px"><div class="chart-t">Values Breakdown</div>';
-    VALS.forEach(function(val){var sc=ST.vals[val.id]||0;if(sc>0)h+='<div class="brow"><div class="blbl">'+val.lbl+'</div><div class="btrk"><div class="bfll" style="width:'+Math.round(sc/5*100)+'%;background:'+gb(sc).c+'"></div></div><div class="bvl" style="color:'+gb(sc).c+'">'+sc+'</div></div>';});
-    h+='</div>';
-  }
-
-  // Band reference
-  h+='<div class="chart-c" style="margin-bottom:14px"><div class="chart-t">Performance Bands</div><div class="band-pills">'+BANDS.map(function(b){var act=c>=b.min&&c<b.max;return '<div class="bpll" style="'+(act?'background:'+b.c+';color:#fff;border-color:'+b.c+';font-weight:500;':'')+'">'+b.lbl+' '+b.min+'–'+(b.max===5.01?5.0:b.max)+'</div>';}).join('')+'</div></div>';
-
-  if(notes)h+='<div class="nbox"><div class="nbox-l">General Observations / Γενικές Παρατηρήσεις</div><div class="nbox-t">'+notes+'</div></div>';
-
-  rc.innerHTML=h;
-
-  // Draw radar
-  if(va>0){
-    if(RC){RC.destroy();}
-    RC=new Chart(document.getElementById("rc-canvas").getContext("2d"),{
+  if(ca>0){h+='<div class="chart-c" style="margin-bottom:14px"><div class="chart-ct">Competencies Breakdown</div>';COMPS.forEach(function(comp){var sc=data.comps?data.comps[comp.id]:0;if(sc>0){var q=s2p(sc);h+='<div class="b-row"><div class="b-lbl">'+comp.lbl+'</div><div class="b-trk"><div class="b-fll" style="width:'+q+'%;background:'+gb(q).c+'"></div></div><div class="b-vl" style="color:'+gb(q).c+'">'+q+'%</div></div>';}});h+='</div>';}
+  if(va>0){h+='<div class="chart-c" style="margin-bottom:14px"><div class="chart-ct">Values Breakdown</div>';VALS.forEach(function(val){var sc=data.vals?data.vals[val.id]:0;if(sc>0){var q=s2p(sc);h+='<div class="b-row"><div class="b-lbl">'+val.lbl+'</div><div class="b-trk"><div class="b-fll" style="width:'+q+'%;background:'+gb(q).c+'"></div></div><div class="b-vl" style="color:'+gb(q).c+'">'+q+'%</div></div>';}});h+='</div>';}
+  h+='<div class="chart-c" style="margin-bottom:14px"><div class="chart-ct">Performance Bands</div><div class="band-pills">'+BANDS.map(function(b){var act=p>=b.min&&p<b.max;return '<div class="bpll" style="'+(act?'background:'+b.c+';color:#fff;border-color:'+b.c+';font-weight:500;':'')+'">'+b.lbl+' '+b.min+'–'+(b.max===101?100:b.max)+'%</div>';}).join('')+'</div></div>';
+  if(data.notes)h+='<div class="nbox"><div class="nbox-l">General Observations</div><div class="nbox-t">'+data.notes+'</div></div>';
+  document.getElementById(ctId).innerHTML=h;
+  // Radar
+  var rId="rdr-"+ctId;
+  if(va>0&&document.getElementById(rId)){
+    if(CH[rId])CH[rId].destroy();
+    CH[rId]=new Chart(document.getElementById(rId).getContext("2d"),{
       type:"radar",
-      data:{
-        labels:VALS.map(function(v){return v.lbl;}),
-        datasets:[{data:VALS.map(function(v){return ST.vals[v.id]||0;}),backgroundColor:"rgba(20,104,145,.15)",borderColor:"#146891",pointBackgroundColor:"#146891",pointRadius:4,borderWidth:2}]
-      },
-      options:{plugins:{legend:{display:false}},scales:{r:{min:0,max:5,ticks:{stepSize:1,font:{size:10,family:"DM Sans, sans-serif"}},pointLabels:{font:{size:11,family:"DM Sans, sans-serif"},color:"#1B3A6A"}}}}
+      data:{labels:VALS.map(function(v){return v.lbl;}),datasets:[{data:VALS.map(function(v){return data.vals?s2p(data.vals[v.id]||0):0;}),backgroundColor:"rgba(20,104,145,.15)",borderColor:"#146891",pointBackgroundColor:"#146891",pointRadius:4,borderWidth:2}]},
+      options:{plugins:{legend:{display:false}},scales:{r:{min:0,max:100,ticks:{stepSize:20,font:{size:10},callback:function(v){return v+"%"}},pointLabels:{font:{size:11},color:"#1B3A6A"}}}}
     });
   }
 }
 
-// ── RESET ────────────────────────────────────────────────────────────────────
-function resetAll(){
-  ST={sup:null,kpis:{},comps:{},vals:{}};
+function renderResults(){
+  var c=composite();
+  if(!c){document.getElementById("results-ct").innerHTML='<div style="text-align:center;padding:50px;color:var(--t3)"><div style="font-size:48px;margin-bottom:12px">📊</div><div>Complete at least one section to see results.</div></div>';document.getElementById("share-ct").innerHTML="";return;}
+  var data={sup:ST.sup,period:document.getElementById("inp-per").value,evaluator:document.getElementById("inp-eval").value,date:new Date().toLocaleDateString("el-GR"),kpis:ST.kpis,comps:ST.comps,vals:ST.vals,notes:document.getElementById("notes-inp").value,kpiAvg:kA(),compAvg:cA(),valAvg:vA(),composite:c};
+  buildSC(data,"results-ct");
+}
+
+function saveAndShare(){
+  var c=composite();
+  if(!c){alert("Complete at least one section before saving.");return;}
+  var data={sup:ST.sup,period:document.getElementById("inp-per").value,evaluator:document.getElementById("inp-eval").value,date:new Date().toLocaleDateString("el-GR"),kpis:ST.kpis,comps:ST.comps,vals:ST.vals,notes:document.getElementById("notes-inp").value,kpiAvg:kA(),compAvg:cA(),valAvg:vA(),composite:c,id:Date.now()};
+  try{var saved=JSON.parse(localStorage.getItem("spd_evals")||"[]");var idx=saved.findIndex(function(e){return e.sup&&e.sup.n===data.sup.n&&e.period===data.period;});if(idx>-1)saved[idx]=data;else saved.push(data);localStorage.setItem("spd_evals",JSON.stringify(saved));}catch(e){}
+  try{
+    var enc=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+    var url=window.location.href.split('#')[0]+'#s='+enc;
+    var nm=data.sup?data.sup.n:"the supervisor";
+    document.getElementById("share-ct").innerHTML='<div class="shr-box"><div class="shr-t">✅ Saved — Scorecard link generated for '+nm+'</div><input class="shr-url" id="shr-inp" type="text" value="'+url+'" readonly onclick="this.select()"><div class="shr-hint">Copy this link and send it to '+nm+'. They can open it on any device to view their full scorecard with all scores and anchors.</div><div style="margin-top:10px;display:flex;gap:8px"><button class="btn btnp" onclick="cpLink()">Copy Link</button><button class="btn btns" onclick="previewAsSup()">Preview as Supervisor →</button></div></div>';
+  }catch(e){document.getElementById("share-ct").innerHTML='<div style="color:#E24B4A;font-size:13px;margin-top:12px">Could not generate link. Please try again.</div>';}
+}
+
+function cpLink(){
+  var inp=document.getElementById("shr-inp");inp.select();
+  try{document.execCommand("copy");alert("Link copied!");}catch(e){alert("Please manually copy the link above.");}
+}
+
+function previewAsSup(){
+  var url=document.getElementById("shr-inp").value;
+  document.getElementById("paste-link").value=url;
+  gt("score");
+  loadFromPaste();
+}
+
+function checkHash(){
+  var hash=window.location.hash;
+  if(hash&&hash.startsWith("#s=")){
+    try{var data=JSON.parse(decodeURIComponent(escape(atob(hash.slice(3)))));gt("score");showSC(data);}catch(e){}
+  }
+}
+
+function loadFromPaste(){
+  var val=document.getElementById("paste-link").value.trim();
+  var hi=val.indexOf("#s=");
+  if(hi===-1){document.getElementById("paste-err").style.display="block";return;}
+  document.getElementById("paste-err").style.display="none";
+  try{var data=JSON.parse(decodeURIComponent(escape(atob(val.slice(hi+3)))));showSC(data);}
+  catch(e){document.getElementById("paste-err").style.display="block";}
+}
+
+function showSC(data){
+  var ct=document.getElementById("score-ct");
+  ct.innerHTML='<div id="sc-inner"></div><div class="brow"><button class="btn btns" onclick="window.print()">🖨 Print / Save PDF</button><button class="btn btno" onclick="resetScore()">← Back</button></div>';
+  buildSC(data,"sc-inner");
+}
+
+function resetScore(){
+  document.getElementById("score-ct").innerHTML='<div class="ms-empty"><div class="ei">📊</div><div class="et">View your personal scorecard</div><div class="ed">Your manager will send you a personal link after your evaluation is completed. Open the link directly or paste it below.</div><div style="display:flex;gap:10px;align-items:center;max-width:480px;margin:0 auto"><input type="text" class="fis" id="paste-link" placeholder="Paste your scorecard link here..." style="flex:1"><button class="btn btnp" onclick="loadFromPaste()">Load</button></div><div id="paste-err" style="color:#E24B4A;font-size:12px;margin-top:8px;display:none">Invalid link — please check and try again.</div></div>';
+  history.replaceState(null,null,window.location.pathname);
+}
+
+function renderTeam(){
+  var ct=document.getElementById("team-ct");
+  var saved=[];try{saved=JSON.parse(localStorage.getItem("spd_evals")||"[]");}catch(e){}
+  if(!saved.length){ct.innerHTML='<div style="text-align:center;padding:60px 20px;color:var(--t3)"><div style="font-size:48px;margin-bottom:12px">👥</div><div style="font-size:15px;font-weight:500;color:var(--n);margin-bottom:8px">No evaluations saved yet</div><div style="font-size:13px">Complete and save evaluations in the Evaluate tab — they will appear here automatically.</div></div>';return;}
+  var aC=avg(saved.map(function(e){return e.composite||0;}).filter(Boolean));
+  var aK=avg(saved.map(function(e){return e.kpiAvg||0;}).filter(Boolean));
+  var aP=avg(saved.map(function(e){return e.compAvg||0;}).filter(Boolean));
+  var aV=avg(saved.map(function(e){return e.valAvg||0;}).filter(Boolean));
+  var cp=s2p(aC),kp=s2p(aK),pp=s2p(aP),vp=s2p(aV);
+  var h='<div class="g4" style="margin-bottom:20px">';
+  [{l:"Team Overall",p:cp,s:aC},{l:"KPI Average",p:kp,s:aK},{l:"Competencies Avg",p:pp,s:aP},{l:"Values Avg",p:vp,s:aV}].forEach(function(x){h+='<div class="pcrd"><div class="pc-l">'+x.l+'</div><div class="pc-p" style="color:'+gc(x.p)+'">'+x.p+'%</div><div class="pc-b" style="color:'+gc(x.p)+'">'+gb(x.p).lbl+'</div><div class="pc-w">'+x.s.toFixed(2)+'/5</div><div class="pc-bar"><div class="pc-barf" style="width:'+x.p+'%;background:'+gc(x.p)+'"></div></div></div>';});
+  h+='</div>';
+  h+='<div class="chart-c" style="margin-bottom:16px"><div class="chart-ct">Individual Composite Scores</div><canvas id="team-bar" style="max-height:260px"></canvas></div>';
+  h+='<div style="background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:14px"><table class="team-tbl"><thead><tr><th>Supervisor</th><th>Venue / Role</th><th>Period</th><th>KPIs</th><th>Comp.</th><th>Values</th><th>Overall</th></tr></thead><tbody id="team-tbody"></tbody></table></div>';
+  h+='<div style="background:var(--cr);border:1px solid var(--bd);border-radius:10px;padding:12px 15px;font-size:12px;color:var(--t3)"><b style="color:var(--n)">Note:</b> Evaluations are stored on this browser/device. Complete all evaluations from the same device to see the full team picture here.</div>';
+  ct.innerHTML=h;
+  var tbody=document.getElementById("team-tbody");
+  var srt=saved.slice().sort(function(a,b){return(b.composite||0)-(a.composite||0);});
+  srt.forEach(function(e){
+    var xp=s2p(e.composite||0),xk=s2p(e.kpiAvg||0),xc=s2p(e.compAvg||0),xv=s2p(e.valAvg||0);
+    var tr=document.createElement("tr");
+    tr.innerHTML='<td class="nm">'+(e.sup?e.sup.n:"—")+'</td><td style="font-size:11px;color:var(--t3)">'+(e.sup?e.sup.v+" · "+e.sup.r:"—")+'</td><td style="font-size:11px;color:var(--t3)">'+(e.period||"—")+'</td><td><span class="ppill" style="background:'+gb(xk).c+'22;color:'+gb(xk).c+'">'+xk+'%</span></td><td><span class="ppill" style="background:'+gb(xc).c+'22;color:'+gb(xc).c+'">'+xc+'%</span></td><td><span class="ppill" style="background:'+gb(xv).c+'22;color:'+gb(xv).c+'">'+xv+'%</span></td><td><span class="ppill" style="background:'+gb(xp).c+';color:#fff;padding:4px 12px;font-size:13px">'+xp+'%</span></td>';
+    tbody.appendChild(tr);
+  });
+  var avgRow=document.createElement("tr");avgRow.className="team-avg-row";
+  avgRow.innerHTML='<td class="nm" colspan="3">Team Average ('+saved.length+' evaluations)</td><td><span class="ppill" style="background:'+gb(kp).c+'22;color:'+gb(kp).c+'">'+kp+'%</span></td><td><span class="ppill" style="background:'+gb(pp).c+'22;color:'+gb(pp).c+'">'+pp+'%</span></td><td><span class="ppill" style="background:'+gb(vp).c+'22;color:'+gb(vp).c+'">'+vp+'%</span></td><td><span class="ppill" style="background:'+gb(cp).c+';color:#fff;padding:4px 12px;font-size:13px">'+cp+'%</span></td>';
+  tbody.appendChild(avgRow);
+  var labels=srt.map(function(e){return e.sup?e.sup.n.split(' ')[0]:"-";});
+  var vals=srt.map(function(e){return s2p(e.composite||0);});
+  var colors=vals.map(function(v){return gb(v).c;});
+  if(CH.teamBar)CH.teamBar.destroy();
+  CH.teamBar=new Chart(document.getElementById("team-bar").getContext("2d"),{
+    type:"bar",
+    data:{labels:labels,datasets:[{data:vals,backgroundColor:colors,borderRadius:5,borderSkipped:false}]},
+    options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.raw+"%";}}}},scales:{y:{min:0,max:100,ticks:{callback:function(v){return v+"%"},font:{size:10}},grid:{color:"rgba(0,0,0,.05)"}},x:{ticks:{font:{size:10}}}}}
+  });
+}
+
+function resetEval(){
+  ST.sup=null;ST.kpis={};ST.comps={};ST.vals={};
   document.getElementById("sup-sel").value="";
-  document.getElementById("sup-card").style.display="none";
+  document.getElementById("sup-confirm").style.display="none";
   document.getElementById("inp-per").value="";
-  document.querySelectorAll("#kpi-items input").forEach(function(i){i.value="";});
-  KPIS.forEach(function(k){var b=document.getElementById("kb-"+k.id);if(b)b.style.display="none";var r=document.getElementById("kbar-"+k.id);if(r)r.style.display="none";});
-  COMPS.forEach(function(c){document.querySelectorAll("#lc-comp-"+c.id+" .lbtn").forEach(function(b){b.classList.remove("on");});var b=document.getElementById("lb-comp-"+c.id);if(b)b.style.display="none";var a=document.getElementById("at-comp-"+c.id);if(a)a.classList.remove("on");var l=document.getElementById("lc-comp-"+c.id);if(l)l.style.borderColor="";});
-  VALS.forEach(function(v){document.querySelectorAll("#lc-val-"+v.id+" .lbtn").forEach(function(b){b.classList.remove("on");});var b=document.getElementById("lb-val-"+v.id);if(b)b.style.display="none";var a=document.getElementById("at-val-"+v.id);if(a)a.classList.remove("on");var l=document.getElementById("lc-val-"+v.id);if(l)l.style.borderColor="";});
+  document.querySelectorAll("#kpi-items input[type=number]").forEach(function(i){i.value="";});
+  KPIS.forEach(function(k){var b=document.getElementById("kb-"+k.id);if(b)b.style.display="none";var r=document.getElementById("kbar-"+k.id);if(r)r.style.display="none";document.getElementById("kc-"+k.id).style.borderColor="";});
+  COMPS.forEach(function(c){document.querySelectorAll("#lc-comp-"+c.id+" .lbtn").forEach(function(b){b.classList.remove("on");});var b=document.getElementById("lb-comp-"+c.id);if(b)b.style.display="none";var a=document.getElementById("an-comp-"+c.id);if(a)a.classList.remove("on");var l=document.getElementById("lc-comp-"+c.id);if(l)l.style.borderColor="";});
+  VALS.forEach(function(v){document.querySelectorAll("#lc-val-"+v.id+" .lbtn").forEach(function(b){b.classList.remove("on");});var b=document.getElementById("lb-val-"+v.id);if(b)b.style.display="none";var a=document.getElementById("an-val-"+v.id);if(a)a.classList.remove("on");var l=document.getElementById("lc-val-"+v.id);if(l)l.style.borderColor="";});
   document.querySelectorAll(".pavg").forEach(function(e){e.style.display="none";});
   document.getElementById("notes-inp").value="";
   document.getElementById("hdr-sc").style.display="none";
-  if(RC){RC.destroy();RC=null;}
-  gt("info");
+  document.getElementById("results-ct").innerHTML="";
+  document.getElementById("share-ct").innerHTML="";
+  evGo("info");
 }
 
 init();
