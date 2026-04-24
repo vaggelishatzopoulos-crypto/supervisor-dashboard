@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supervisor Performance Dashboard — Ikos Aria</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1B3A6A;--teal:#146891;--gold:#C9A96E;
+  --cream:#FAF6F0;--sand:#F0E8DB;--border:#E0D8CF;
+  --text:#1B3A6A;--text2:#5A6B82;--text3:#8A9AB0;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,#1B3A6A 0%,#146891 100%);padding:20px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(27,58,106,.25)}
+.hdr-brand{font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:4px}
+.hdr-title{font-size:18px;font-weight:300;color:#fff;letter-spacing:.3px}
+.hdr-sub{font-size:11px;color:rgba(255,255,255,.5);font-style:italic;margin-top:2px}
+.hdr-score{text-align:right;display:none}
+.hs-n{font-size:40px;font-weight:600;line-height:1}
+.hs-b{font-size:12px;font-weight:500;margin-top:2px}
+
+/* TABS */
+.tabs{background:#fff;border-bottom:1px solid var(--border);display:flex;overflow-x:auto;position:sticky;top:75px;z-index:99}
+.tab{padding:13px 20px;border:none;background:none;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--text3);border-bottom:2.5px solid transparent;white-space:nowrap;transition:all .2s;font-weight:400}
+.tab.on{color:var(--navy);border-bottom-color:var(--navy);font-weight:500}
+.tab:hover{color:var(--navy)}
+
+/* PANELS */
+.panel{display:none;max-width:880px;margin:0 auto;padding:32px 24px}
+.panel.on{display:block}
+
+/* Section header */
+.sec-hdr{border-left:3px solid var(--gold);padding-left:13px;margin-bottom:20px}
+.sec-ttl{font-size:20px;font-weight:300;color:var(--navy)}
+.sec-sub{font-size:12px;color:var(--text3);font-style:italic;margin-top:3px}
+
+/* Cards */
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:12px}
+
+/* Form */
+label.fl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:6px}
+.fi{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:9px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--navy);background:#fff;outline:none;transition:border-color .2s;margin-bottom:14px}
+.fi:focus{border-color:var(--teal)}
+select.fi{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235A6B82' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
+input.fi-sm{padding:9px 12px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--navy);background:var(--cream);border:1px solid var(--border);border-radius:8px;outline:none;transition:border-color .2s}
+input.fi-sm:focus{border-color:var(--teal);background:#fff}
+textarea.fi{min-height:80px;resize:vertical;line-height:1.6}
+
+/* Sup card */
+.sup-card{display:none;background:linear-gradient(135deg,rgba(27,58,106,.06),rgba(20,104,145,.06));border:1px solid rgba(27,58,106,.15);border-radius:10px;padding:14px 16px;margin-bottom:16px}
+.sup-nm{font-size:15px;font-weight:500;color:var(--navy)}
+.sup-mt{font-size:12px;color:var(--text2);margin-top:3px}
+
+/* KPI card */
+.kc{background:#fff;border:1px solid var(--border);border-radius:11px;padding:16px 18px;margin-bottom:10px;transition:border-color .2s}
+.kc-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.kc-lbl{font-size:14px;font-weight:500;color:var(--navy)}
+.kc-dsc{font-size:12px;color:var(--text3);margin-top:2px}
+.kc-badge{font-size:22px;font-weight:600;display:none;margin-left:12px;flex-shrink:0}
+.kc-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.kc-bm{font-size:11px;color:var(--text3);flex:1;line-height:1.8;min-width:140px}
+.kc-bm span{margin-right:8px;white-space:nowrap}
+.kbar{height:4px;background:var(--sand);border-radius:2px;margin-top:10px;overflow:hidden;display:none}
+.kbar-f{height:100%;border-radius:2px;transition:width .4s ease}
+
+/* Likert card */
+.lc{background:#fff;border:1px solid var(--border);border-radius:11px;padding:16px 18px;margin-bottom:10px;transition:border-color .3s}
+.lc-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.l-lbl{font-size:14px;font-weight:500;color:var(--navy)}
+.l-sub{font-size:11px;color:var(--text3);font-style:italic;margin-top:2px}
+.l-mnt{font-size:11px;color:var(--gold);margin-top:3px}
+.l-badge{font-size:20px;font-weight:600;display:none;margin-left:12px;flex-shrink:0;text-align:right}
+.lbtns{display:flex;gap:6px}
+.lbtn{flex:1;padding:9px 0;border:1px solid var(--border);border-radius:8px;background:var(--cream);color:var(--text2);font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.lbtn:hover{border-color:var(--teal);color:var(--teal)}
+.lbtn.on{background:var(--navy);color:#fff;border-color:var(--navy);box-shadow:0 2px 8px rgba(27,58,106,.28)}
+.anc{display:none;margin-top:10px;font-size:12px;color:var(--text2);font-style:italic;background:var(--cream);padding:10px 12px;border-radius:8px;border-left:3px solid var(--border);line-height:1.6}
+.anc.on{display:block}
+
+/* Pillar avg bar */
+.pavg{display:none;justify-content:space-between;align-items:center;background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin:8px 0 4px}
+.pavg-l{font-size:13px;font-weight:500;color:var(--navy)}
+.pavg-r{font-size:18px;font-weight:600}
+
+/* Buttons */
+.btn-row{display:flex;gap:10px;margin-top:22px}
+.btn{padding:11px 22px;border-radius:9px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s}
+.btn-p{background:var(--navy);color:#fff;border:none;box-shadow:0 2px 8px rgba(27,58,106,.2)}
+.btn-p:hover{background:var(--teal)}
+.btn-s{background:transparent;color:var(--text2);border:1px solid var(--border)}
+.btn-s:hover{border-color:var(--teal);color:var(--teal)}
+
+/* Framework cards */
+.fw-g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.fw-c{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px}
+.fw-w{font-size:20px;font-weight:600;color:var(--navy)}
+.fw-n{font-size:12px;font-weight:500;color:var(--navy);margin-top:3px}
+.fw-d{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.5}
+
+/* RESULTS */
+.res-sup{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:16px}
+.res-big{font-size:52px;font-weight:600;line-height:1}
+.res-band{font-size:16px;font-weight:600;margin-top:4px}
+.res-band-gr{font-size:12px;color:var(--text3);font-style:italic}
+.pill-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.pcrd{background:#fff;border:1px solid var(--border);border-radius:11px;padding:16px;text-align:center}
+.pc-l{font-size:11px;color:var(--text3);margin-bottom:4px}
+.pc-s{font-size:26px;font-weight:600}
+.pc-b{font-size:11px;font-weight:500;margin-top:2px}
+.pc-w{font-size:10px;color:var(--gold);margin-top:4px}
+.pc-bar{height:4px;background:var(--sand);border-radius:2px;margin-top:10px;overflow:hidden}
+.pc-barf{height:100%;border-radius:2px;transition:width .5s ease}
+.chart-g{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.chart-c{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px}
+.chart-t{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:500;margin-bottom:14px}
+.brow{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.blbl{font-size:12px;color:var(--text2);width:145px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btrk{flex:1;height:6px;background:var(--sand);border-radius:3px;overflow:hidden}
+.bfll{height:100%;border-radius:3px;transition:width .5s ease}
+.bvl{font-size:12px;font-weight:600;width:20px;text-align:right;flex-shrink:0}
+.band-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.bpll{font-size:11px;padding:4px 11px;border-radius:20px;border:1px solid var(--border);color:var(--text3)}
+.sec-sm{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);font-weight:500;margin:14px 0 8px}
+.nbox{background:var(--navy);border-radius:12px;padding:18px 20px;margin-top:14px}
+.nbox-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.nbox-t{color:#fff;font-size:13px;line-height:1.7;white-space:pre-wrap}
+
+/* Grid helpers */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* Responsive */
+@media(max-width:640px){
+  .fw-g,.pill-grid,.chart-g,.g2{grid-template-columns:1fr}
+  .hdr{padding:14px 16px}
+  .hdr-title{font-size:15px}
+  .panel{padding:20px 14px}
+  .hs-n{font-size:30px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div>
+    <div class="hdr-brand">Sani · Ikos Group</div>
+    <div class="hdr-title">Supervisor Performance Dashboard</div>
+    <div class="hdr-sub">Αξιολόγηση Απόδοσης Προϊσταμένου · Ikos Aria</div>
+  </div>
+  <div class="hdr-score" id="hdr-sc">
+    <div class="hs-n" id="hs-n">—</div>
+    <div class="hs-b" id="hs-b"></div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab on" onclick="gt('info')">👤 Info</button>
+  <button class="tab" onclick="gt('kpi')">📊 KPIs</button>
+  <button class="tab" onclick="gt('comp')">⚡ Competencies</button>
+  <button class="tab" onclick="gt('vals')">⭐ Values</button>
+  <button class="tab" onclick="gt('res')">🎯 Results</button>
+</div>
+
+<!-- INFO -->
+<div class="panel on" id="pan-info">
+  <div class="sec-hdr">
+    <div class="sec-ttl">Supervisor Information</div>
+    <div class="sec-sub">Στοιχεία αξιολογούμενου προϊσταμένου</div>
+  </div>
+  <label class="fl">Select supervisor / Επιλογή αξιολογούμενου</label>
+  <select class="fi" id="sup-sel" onchange="selSup(this.value)">
+    <option value="">— Select a supervisor —</option>
+  </select>
+  <div class="sup-card" id="sup-card">
+    <div class="sup-nm" id="sup-nm"></div>
+    <div class="sup-mt" id="sup-mt"></div>
+  </div>
+  <div class="g2">
+    <div><label class="fl">Evaluation period</label><input type="text" class="fi" id="inp-per" placeholder="e.g. Season 2025"></div>
+    <div><label class="fl">Evaluated by</label><input type="text" class="fi" id="inp-eval" value="Evangelos Hatzopoulos / F&B Manager"></div>
+  </div>
+  <div style="background:#F5EDE0;border-radius:13px;padding:20px;margin-top:4px">
+    <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);font-weight:500;margin-bottom:12px">Evaluation Framework</div>
+    <div class="fw-g">
+      <div class="fw-c"><div class="fw-w">40%</div><div class="fw-n">Operational KPIs</div><div class="fw-d">LQA, GRI/ReviewPro, Cost vs Budget, Revenue vs Target, Complaints</div></div>
+      <div class="fw-c"><div class="fw-w">35%</div><div class="fw-n">Supervisor Competencies</div><div class="fw-d">Decision Making, Organization, Communication, Creativity, Staff Care</div></div>
+      <div class="fw-c"><div class="fw-w">25%</div><div class="fw-n">Values Alignment (RACE+)</div><div class="fw-d">Respectful, Authentic, Creative, Passionate, Responsible, Excellent</div></div>
+    </div>
+    <div style="margin-top:14px;padding:12px 14px;background:var(--navy);border-radius:9px">
+      <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:7px">Performance Bands</div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap" id="bref"></div>
+    </div>
+  </div>
+  <div class="btn-row"><button class="btn btn-p" onclick="gt('kpi')">Start Evaluation →</button></div>
+</div>
+
+<!-- KPI -->
+<div class="panel" id="pan-kpi">
+  <div class="sec-hdr"><div class="sec-ttl">Operational KPIs</div><div class="sec-sub">Επιχειρησιακοί Δείκτες Απόδοσης — Weight 40% — Scores assigned automatically from benchmarks</div></div>
+  <div id="kpi-items"></div>
+  <div class="pavg" id="kpi-pavg"><span class="pavg-l">KPI pillar average</span><span class="pavg-r" id="kpi-pavg-v"></span></div>
+  <div class="btn-row"><button class="btn btn-s" onclick="gt('info')">← Info</button><button class="btn btn-p" onclick="gt('comp')">Competencies →</button></div>
+</div>
+
+<!-- COMPETENCIES -->
+<div class="panel" id="pan-comp">
+  <div class="sec-hdr"><div class="sec-ttl">Supervisor Competencies</div><div class="sec-sub">Ικανότητες Προϊσταμένου — Weight 35% — Likert 1–5 with full anchor descriptions</div></div>
+  <div id="comp-items"></div>
+  <div class="pavg" id="comp-pavg"><span class="pavg-l">Competencies pillar average</span><span class="pavg-r" id="comp-pavg-v"></span></div>
+  <div class="btn-row"><button class="btn btn-s" onclick="gt('kpi')">← KPIs</button><button class="btn btn-p" onclick="gt('vals')">Values →</button></div>
+</div>
+
+<!-- VALUES -->
+<div class="panel" id="pan-vals">
+  <div class="sec-hdr"><div class="sec-ttl">Values Alignment (RACE+)</div><div class="sec-sub">Ευθυγράμμιση με τις Αξίες του Ομίλου — Weight 25%</div></div>
+  <div id="vals-items"></div>
+  <div class="pavg" id="vals-pavg"><span class="pavg-l">Values pillar average</span><span class="pavg-r" id="vals-pavg-v"></span></div>
+  <div style="margin-top:20px"><label class="fl">General observations / Γενικές παρατηρήσεις</label><textarea class="fi" id="notes-inp" placeholder="Development areas, strengths, agreed next steps..."></textarea></div>
+  <div class="btn-row"><button class="btn btn-s" onclick="gt('comp')">← Competencies</button><button class="btn btn-p" onclick="gt('res')">View Results 🎯</button></div>
+</div>
+
+<!-- RESULTS -->
+<div class="panel" id="pan-res">
+  <div class="sec-hdr"><div class="sec-ttl">Performance Overview</div><div class="sec-sub">Σύνοψη Αξιολόγησης</div></div>
+  <div id="res-ct"><div style="text-align:center;padding:60px 20px;color:var(--text3)"><div style="font-size:56px;margin-bottom:14px">📊</div><div style="font-size:14px">Complete at least one section to see results.</div></div></div>
+  <div class="btn-row"><button class="btn btn-s" onclick="gt('vals')">← Values</button><button class="btn btn-p" onclick="resetAll()">New Evaluation ↺</button></div>
+</div>
+
+<script>
+// ── DATA ────────────────────────────────────────────────────────────────────
+
+var SUPS=[
+  {n:"Dimitrios Stefanakos",r:"Restaurant Manager",v:"Flavors"},
+  {n:"Ahmed Rizwan",r:"Asst. Restaurant Manager",v:"Flavors"},
+  {n:"Vojtech Vitek",r:"Asst. Restaurant Manager",v:"Flavors"},
+  {n:"George Doumos",r:"Restaurant Manager",v:"Anaya"},
+  {n:"Nika Papacshvili",r:"Asst. Restaurant Manager",v:"Anaya"},
+  {n:"Anna Tzavela",r:"Restaurant Manager",v:"Provence"},
+  {n:"Panagiotis Vourvoulakis",r:"Asst. Restaurant Manager",v:"Provence"},
+  {n:"Athanasia Nasr",r:"Restaurant Manager",v:"Fresco"},
+  {n:"Sofia Karipidou",r:"Asst. Restaurant Manager",v:"Fresco"},
+  {n:"Antonios Galouzis",r:"Asst. Restaurant Manager",v:"Fresco"},
+  {n:"Evangelos Dinas",r:"Restaurant Manager",v:"Ouzo"},
+  {n:"Konstantinos Gounaris",r:"Asst. Restaurant Manager",v:"Ouzo"},
+  {n:"Jurgen Bako",r:"Asst. Restaurant Manager",v:"Ouzo"},
+  {n:"Stavros Spirolaris",r:"Restaurant Manager",v:"Kos"},
+  {n:"Christoforos Lousiopoulos",r:"Restaurant Manager",v:"Kos"},
+  {n:"Giulia Berhane",r:"Asst. Restaurant Manager",v:"Kos"},
+  {n:"Sofia Ioanna Papadopoulou",r:"Restaurant Manager",v:"Seasons"},
+  {n:"Marta Anna Krawczyk",r:"Asst. Restaurant Manager",v:"Seasons"},
+  {n:"Dominik Michal Bednarski",r:"Asst. Restaurant Manager",v:"Seasons"},
+  {n:"Stylianos Bizas",r:"Restaurant Manager",v:"Oliva"},
+  {n:"Dorela Bici",r:"Asst. Restaurant Manager",v:"Oliva"},
+  {n:"Sofia Gkigi",r:"Room Service Manager",v:"Room Service"},
+  {n:"Isik Moumin",r:"Bar Manager",v:"Lobby Area"},
+  {n:"Oumit Moumin",r:"Asst. Bar Manager",v:"Lobby Area"},
+  {n:"Spyridon Chiotis",r:"Bar Manager",v:"Beach Pool"},
+  {n:"Zuzana Patkosova",r:"Bar Manager",v:"Deluxe Lobby Bar"},
+  {n:"Lucie Neduchalova",r:"Asst. Bar Manager",v:"Deluxe Lobby Bar"},
+  {n:"Vasileios Kouroutsalis",r:"Asst. Bars Manager",v:"Lagoon"},
+  {n:"Anastasia Tzika",r:"Asst. Bars Manager",v:"Lagoon"},
+  {n:"Dimitrios Kiriakidis",r:"Bar Manager",v:"Beach Bar"},
+  {n:"Andrea Topali",r:"Bar Manager",v:"Main Pool"},
+  {n:"Christos Gkalios",r:"Bar Manager",v:"Main Pool"},
+  {n:"Ioanna Kovi",r:"Bar Manager",v:"Deluxe Pool Bar"},
+  {n:"Dimitrios Chatzigeorgantis",r:"Bar Manager",v:"Theater"},
+  {n:"Theofilos Panidis",r:"Beach Experience Manager",v:"Beach Experience"},
+  {n:"Florenc Gjeli",r:"Asst. Beach Experience Manager",v:"Beach Experience"},
+  {n:"Χρήστος Γούναρας",r:"F&B Concierge",v:"F&B"},
+  {n:"Θεοδώρα Κόστριβα",r:"Sommelier",v:"F&B"}
+];
+
+var COMPS=[
+  {id:"dec",lbl:"Decision Making",sub:"Λήψη Αποφάσεων",anc:["Avoids making decisions entirely; shows no initiative.","Slow in decision-making; hesitant and delayed in implementation.","Makes decisions mechanically, following routine only.","Always considers outcomes and consequences; proactive and decisive.","Decisions fully aligned with company standards; embraces challenges with exceptional results."]},
+  {id:"org",lbl:"Organization & Planning",sub:"Οργάνωση",anc:["Has not planned, scheduled, or organized department tasks.","Department planning not always successful; inconsistent execution.","Plans and organizes mechanically per existing procedures only.","Thoroughly planned and organized; encourages staff through task delegation.","Achieved exceptional department performance through outstanding organizational skills."]},
+  {id:"com",lbl:"Communication",sub:"Επικοινωνία",anc:["Unable to communicate clearly; poor instructions negatively impacted team results.","Often missed staff behavioral cues; struggled verbally and in writing.","Developed good communication skills; shares important information and seeks feedback.","Very good communicator; entire team follows instructions and information comfortably.","Exceptional communication skills; reliable, precise, and trusted unconditionally by the team."]},
+  {id:"cre",lbl:"Creativity & Innovation",sub:"Δημιουργικότητα",anc:["Never proposed new ideas or improvements.","Rarely contributed ideas; proposals had no meaningful impact on operations.","Proposals were generally relevant and most were implemented.","Ideas were significant and contributed meaningfully to problem resolution.","Exceptional creativity; ideas substantially improved department results and team culture."]},
+  {id:"sta",lbl:"Staff Care & Development",sub:"Φροντίδα Προσωπικού",anc:["Indifferent to team development, proposals, and wellbeing.","Minimal care; organizes training only when explicitly required.","Listens and helps when necessary; follows preset training schedule.","Encourages creative input; anticipates issues and corrects proactively through coaching.","Continuous, enthusiastic investment in team growth; transfers all knowledge and skills."]}
+];
+
+var VALS=[
+  {id:"rsp",lbl:"Respectful",mnt:"See value in everyone and everything.",anc:["Shows no regard for others; dismissive of equality and environment.","Occasionally kind but inconsistent in listening or treating others as equal.","Generally kind and understanding; attempts to listen actively without judgment.","Consistently kind; treats everyone equally, protects environment, listens actively.","Role model of respectful conduct; champions inclusion and environmental care at all times."]},
+  {id:"aut",lbl:"Authentic",mnt:"Just be your awesome self.",anc:["Avoids transparency; inconsistent in honest dialogue.","Occasionally honest but withholds opinions or relevant information.","Generally truthful and transparent; speaks mind at appropriate times.","Consistently honest; respectfully voices opinions and embraces differences.","Exemplary authenticity; always truthful, speaks up with respect, celebrates diversity."]},
+  {id:"crt",lbl:"Creative",mnt:"Imagine new possibility — be bold, make it happen!",anc:["Never challenges the status quo; avoids innovation.","Rarely shows curiosity or seeks new solutions.","Occasionally proposes improvements; somewhat open to change.","Regularly challenges the status quo; embraces innovation proactively.","Consistently bold; changes perspectives, seeks solutions, and inspires team innovation."]},
+  {id:"pas",lbl:"Passionate",mnt:"Do what you love and love what you do.",anc:["Shows no enthusiasm; avoids challenges and comfort zone.","Rarely inspired; tends toward complacency.","Generally positive; takes on challenges when required.","Consistently enthusiastic; steps outside comfort zone and maintains positive outlook.","Infectious passion; turns challenges into motivation and elevates the entire team's energy."]},
+  {id:"res",lbl:"Responsible",mnt:"Be accountable to each other and for your work.",anc:["Does not take ownership; avoids accountability entirely.","Rarely credits others or admits mistakes.","Generally owns work; occasionally recognizes colleagues' contributions.","Consistently owns work and admits mistakes; regularly credits and recognizes colleagues.","Exemplary accountability; role model for ownership, transparency, and team recognition."]},
+  {id:"exc",lbl:"Excellent",mnt:"Always striving — settling for nothing less than great!",anc:["Pays no attention to detail; unclear about what adds value.","Inconsistent attention to detail; limited confidence in self or team.","Generally attentive; works with reasonable enthusiasm toward quality.","Consistently detail-focused; knows what adds value and pursues it with enthusiasm.","Exceptional excellence; obsessive attention to detail, inspires entire team to the highest quality."]}
+];
+
+var KPIS=[
+  {id:"lqa",lbl:"LQA / Audit Score",unit:"/100",desc:"Latest LQA inspection or internal quality audit result",fn:function(v){return v>=90?5:v>=80?4:v>=70?3:v>=60?2:1},bm:["&lt;60","60–69","70–79","80–89","≥90"]},
+  {id:"gri",lbl:"Guest Satisfaction (GRI / ReviewPro)",unit:"/100",desc:"Overall Guest Review Index or NPS composite score",fn:function(v){return v>=92?5:v>=85?4:v>=78?3:v>=70?2:1},bm:["&lt;70","70–77","78–84","85–91","≥92"]},
+  {id:"cst",lbl:"Cost vs Budget Variance",unit:"%",desc:"Actual vs approved budget — negative = under budget = better",fn:function(v){return v<=-3?5:v<=0?4:v<=2?3:v<=5?2:1},bm:["&gt;5%","3–5%","1–2%","0 to −2%","≤−3%"]},
+  {id:"rev",lbl:"Revenue Achievement vs Target",unit:"%",desc:"Revenue as % of period target",fn:function(v){return v>=105?5:v>=100?4:v>=95?3:v>=90?2:1},bm:["&lt;90%","90–94%","95–99%","100–104%","≥105%"]},
+  {id:"cmp",lbl:"Guest Complaint Rate",unit:"/100 covers",desc:"Formal complaints per 100 guest interactions",fn:function(v){return v===0?5:v<=0.5?4:v<=1?3:v<=2?2:1},bm:["&gt;2","1–2","0.5–1","0.1–0.5","0"]}
+];
+
+var BANDS=[
+  {min:1,max:1.5,lbl:"Inadequate",gr:"Ανεπαρκής",c:"#E24B4A"},
+  {min:1.5,max:2.5,lbl:"Low",gr:"Χαμηλή",c:"#D85A30"},
+  {min:2.5,max:3.0,lbl:"Acceptable",gr:"Κατώτατο Αποδεκτό",c:"#BA7517"},
+  {min:3.0,max:3.5,lbl:"Good",gr:"Καλή",c:"#639922"},
+  {min:3.5,max:4.5,lbl:"Very Good",gr:"Πολύ Καλή",c:"#1D9E75"},
+  {min:4.5,max:5.01,lbl:"Excellent",gr:"Εξαιρετική",c:"#185FA5"}
+];
+
+// ── STATE ───────────────────────────────────────────────────────────────────
+function gb(s){return BANDS.find(function(b){return s>=b.min&&s<b.max})||BANDS[BANDS.length-1];}
+function gc(s){return s>0?gb(s).c:"#8A9AB0";}
+var ST={sup:null,kpis:{},comps:{},vals:{}};
+var RC=null; // radar chart instance
+
+// ── INIT ────────────────────────────────────────────────────────────────────
+function init(){
+  // Supervisor dropdown with optgroups
+  var sel=document.getElementById("sup-sel");
+  var grps={},ord=[];
+  SUPS.forEach(function(s,i){if(!grps[s.v]){grps[s.v]=[];ord.push(s.v);}grps[s.v].push({s:s,i:i});});
+  ord.forEach(function(v){
+    var og=document.createElement("optgroup");og.label=v;
+    grps[v].forEach(function(x){var o=document.createElement("option");o.value=x.i;o.textContent=x.s.n+" ("+x.s.r+")";og.appendChild(o);});
+    sel.appendChild(og);
+  });
+
+  // Band reference pills
+  document.getElementById("bref").innerHTML=BANDS.map(function(b){
+    return '<span style="font-size:11px;padding:3px 10px;border-radius:12px;background:'+b.c+'33;color:'+b.c+';font-weight:500;border:1px solid '+b.c+'55;">'+b.lbl+'</span>';
+  }).join('');
+
+  // KPI items
+  var kc=document.getElementById("kpi-items");
+  KPIS.forEach(function(k){
+    var bm=k.bm.map(function(b,i){return '<span><b style="color:'+BANDS[i].c+';">'+(i+1)+'</b>: '+b+'</span>';}).join('');
+    kc.innerHTML+='<div class="kc" id="kc-'+k.id+'"><div class="kc-hdr"><div><div class="kc-lbl">'+k.lbl+'</div><div class="kc-dsc">'+k.desc+'</div></div><div class="kc-badge" id="kb-'+k.id+'"></div></div><div class="kc-row"><input type="number" class="fi-sm" placeholder="Value ('+k.unit+')" oninput="sKpi(\''+k.id+'\',this.value)" style="width:130px"><div class="kc-bm">'+bm+'</div></div><div class="kbar" id="kbar-'+k.id+'"><div class="kbar-f" id="kbf-'+k.id+'"></div></div></div>';
+  });
+
+  // Competency items
+  var cc=document.getElementById("comp-items");
+  COMPS.forEach(function(c){cc.innerHTML+=mkL(c,"comp");});
+
+  // Values items
+  var vc=document.getElementById("vals-items");
+  VALS.forEach(function(v){vc.innerHTML+=mkL(v,"val");});
+}
+
+function mkL(item,type){
+  return '<div class="lc" id="lc-'+type+'-'+item.id+'"><div class="lc-hdr"><div><div class="l-lbl">'+item.lbl+'</div>'+(item.sub?'<div class="l-sub">'+item.sub+'</div>':'')+(item.mnt?'<div class="l-mnt">"'+item.mnt+'"</div>':'')+'</div><div class="l-badge" id="lb-'+type+'-'+item.id+'"></div></div><div class="lbtns">'+[1,2,3,4,5].map(function(n){return '<button class="lbtn" onclick="sScore(\''+type+'\',\''+item.id+'\','+n+')">'+n+'</button>';}).join('')+'</div><div class="anc" id="at-'+type+'-'+item.id+'"></div></div>';
+}
+
+// ── NAVIGATION ──────────────────────────────────────────────────────────────
+function gt(id){
+  document.querySelectorAll(".panel").forEach(function(p){p.classList.remove("on");});
+  document.querySelectorAll(".tab").forEach(function(b,i){b.classList.remove("on");if(["info","kpi","comp","vals","res"][i]===id)b.classList.add("on");});
+  document.getElementById("pan-"+id).classList.add("on");
+  window.scrollTo(0,0);
+  if(id==="res")renderRes();
+}
+
+// ── INPUTS ──────────────────────────────────────────────────────────────────
+function selSup(idx){
+  if(idx===""){ST.sup=null;document.getElementById("sup-card").style.display="none";return;}
+  ST.sup=SUPS[parseInt(idx)];
+  document.getElementById("sup-nm").textContent=ST.sup.n;
+  document.getElementById("sup-mt").textContent=ST.sup.r+" · "+ST.sup.v+" · Ikos Aria";
+  document.getElementById("sup-card").style.display="block";
+}
+
+function sKpi(id,val){
+  var v=parseFloat(val);
+  ST.kpis[id]=(val===""||isNaN(v))?null:v;
+  var kpi=KPIS.find(function(k){return k.id===id;});
+  var sc=(val===""||isNaN(v))?0:kpi.fn(v);
+  var badge=document.getElementById("kb-"+id);
+  var bar=document.getElementById("kbar-"+id);
+  var fill=document.getElementById("kbf-"+id);
+  if(sc>0){badge.textContent=sc+"/5";badge.style.color=gb(sc).c;badge.style.display="block";bar.style.display="block";fill.style.width=Math.round(sc/5*100)+"%";fill.style.background=gb(sc).c;}
+  else{badge.style.display="none";bar.style.display="none";}
+  updPAvg("kpi");updHdr();
+}
+
+function sScore(type,id,score){
+  if(type==="comp")ST.comps[id]=score;else ST.vals[id]=score;
+  document.querySelectorAll("#lc-"+type+"-"+id+" .lbtn").forEach(function(b,i){b.classList.toggle("on",i+1===score);});
+  var badge=document.getElementById("lb-"+type+"-"+id);
+  badge.textContent=score+"/5";badge.style.color=gb(score).c;badge.style.display="block";
+  var items=type==="comp"?COMPS:VALS;
+  var item=items.find(function(x){return x.id===id;});
+  var at=document.getElementById("at-"+type+"-"+id);
+  at.innerHTML='<b style="font-style:normal;color:'+gb(score).c+';">'+gb(score).lbl+'</b> — '+item.anc[score-1];
+  at.style.borderLeftColor=gb(score).c;at.classList.add("on");
+  document.getElementById("lc-"+type+"-"+id).style.borderColor=gb(score).c+"88";
+  updPAvg(type==="comp"?"comp":"vals");updHdr();
+}
+
+// ── AVERAGES ────────────────────────────────────────────────────────────────
+function kSc(){var r=[];KPIS.forEach(function(k){var v=ST.kpis[k.id];if(v!=null)r.push(k.fn(v));});return r;}
+function avg(a){if(!a.length)return 0;return a.reduce(function(x,y){return x+y;},0)/a.length;}
+function kA(){return avg(kSc());}
+function cA(){return avg(Object.values(ST.comps).filter(function(v){return v>0;}));}
+function vA(){return avg(Object.values(ST.vals).filter(function(v){return v>0;}));}
+
+function updPAvg(p){
+  var sc,el,vel;
+  if(p==="kpi"){sc=kA();el="kpi-pavg";vel="kpi-pavg-v";}
+  else if(p==="comp"){sc=cA();el="comp-pavg";vel="comp-pavg-v";}
+  else{sc=vA();el="vals-pavg";vel="vals-pavg-v";}
+  var e=document.getElementById(el),v=document.getElementById(vel);
+  if(sc>0){e.style.display="flex";v.textContent=sc.toFixed(2)+" — "+gb(sc).lbl;v.style.color=gb(sc).c;}
+  else e.style.display="none";
+}
+
+function comp(){
+  var parts=[];var ka=kA(),ca=cA(),va=vA();
+  if(ka>0)parts.push({s:ka,w:.40});if(ca>0)parts.push({s:ca,w:.35});if(va>0)parts.push({s:va,w:.25});
+  if(!parts.length)return 0;
+  var tw=parts.reduce(function(a,p){return a+p.w;},0);
+  return parts.reduce(function(a,p){return a+p.s*(p.w/tw);},0);
+}
+
+function updHdr(){
+  var c=comp();
+  if(c>0){document.getElementById("hdr-sc").style.display="block";var n=document.getElementById("hs-n"),b=document.getElementById("hs-b");n.textContent=c.toFixed(2);n.style.color=gb(c).c;b.textContent=gb(c).lbl;b.style.color=gb(c).c;}
+  else document.getElementById("hdr-sc").style.display="none";
+}
+
+// ── RESULTS ─────────────────────────────────────────────────────────────────
+function renderRes(){
+  var ka=kA(),ca=cA(),va=vA(),c=comp();
+  var rc=document.getElementById("res-ct");
+  if(!c){rc.innerHTML='<div style="text-align:center;padding:60px 20px;color:var(--text3)"><div style="font-size:56px;margin-bottom:14px">📊</div><div style="font-size:14px">Complete at least one section to see results.</div></div>';return;}
+  var band=gb(c);
+  var notes=document.getElementById("notes-inp").value;
+  var sup=ST.sup,period=document.getElementById("inp-per").value,evaluator=document.getElementById("inp-eval").value;
+  var h="";
+
+  // Supervisor header card
+  if(sup){
+    h+='<div class="res-sup"><div><div style="font-size:17px;font-weight:500;color:var(--navy)">'+sup.n+'</div><div style="font-size:13px;color:var(--text2);margin-top:3px">'+sup.r+' · '+sup.v+' · Ikos Aria</div>'+(period?'<div style="font-size:12px;color:var(--text3);margin-top:2px">Period: '+period+'</div>':'')+(evaluator?'<div style="font-size:12px;color:var(--text3)">Evaluated by: '+evaluator+'</div>':'')+'</div><div style="text-align:right"><div class="res-big" style="color:'+band.c+'">'+c.toFixed(2)+'</div><div class="res-band" style="color:'+band.c+'">'+band.lbl+'</div><div class="res-band-gr">'+band.gr+'</div></div></div>';
+  } else {
+    h+='<div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 20px;text-align:right;margin-bottom:16px"><div class="res-big" style="color:'+band.c+'">'+c.toFixed(2)+'</div><div class="res-band" style="color:'+band.c+'">'+band.lbl+'</div><div class="res-band-gr">'+band.gr+'</div></div>';
+  }
+
+  // Pillar breakdown
+  h+='<div class="pill-grid">'+[{l:"Operational KPIs",s:ka,w:"40%"},{l:"Competencies",s:ca,w:"35%"},{l:"Values (RACE+)",s:va,w:"25%"}].map(function(p){return '<div class="pcrd"><div class="pc-l">'+p.l+'</div><div class="pc-s" style="color:'+gc(p.s)+'">'+(p.s>0?p.s.toFixed(2):"—")+'</div>'+(p.s>0?'<div class="pc-b" style="color:'+gb(p.s).c+'">'+gb(p.s).lbl+'</div>':'')+'<div class="pc-w">'+p.w+'</div>'+(p.s>0?'<div class="pc-bar"><div class="pc-barf" style="width:'+Math.round(p.s/5*100)+'%;background:'+gb(p.s).c+'"></div></div>':'')+'</div>';}).join('')+'</div>';
+
+  // Charts row
+  h+='<div class="chart-g">';
+
+  // KPI bars
+  var ks=KPIS.map(function(k){return{l:k.lbl,s:ST.kpis[k.id]!=null?k.fn(ST.kpis[k.id]):0};}).filter(function(x){return x.s>0;});
+  h+='<div class="chart-c"><div class="chart-t">KPI Breakdown</div>';
+  if(ks.length)ks.forEach(function(k){h+='<div class="brow"><div class="blbl" title="'+k.l+'">'+k.l+'</div><div class="btrk"><div class="bfll" style="width:'+Math.round(k.s/5*100)+'%;background:'+gb(k.s).c+'"></div></div><div class="bvl" style="color:'+gb(k.s).c+'">'+k.s+'</div></div>';});
+  else h+='<div style="color:var(--text3);font-size:13px">No KPI data entered.</div>';
+  h+='</div>';
+
+  // Radar chart
+  h+='<div class="chart-c"><div class="chart-t">Values Radar</div><canvas id="rc-canvas" style="max-height:220px"></canvas></div>';
+  h+='</div>';
+
+  // Competencies breakdown
+  if(ca>0){
+    h+='<div class="chart-c" style="margin-bottom:14px"><div class="chart-t">Competencies Breakdown</div>';
+    COMPS.forEach(function(comp){var sc=ST.comps[comp.id]||0;if(sc>0)h+='<div class="brow"><div class="blbl">'+comp.lbl+'</div><div class="btrk"><div class="bfll" style="width:'+Math.round(sc/5*100)+'%;background:'+gb(sc).c+'"></div></div><div class="bvl" style="color:'+gb(sc).c+'">'+sc+'</div></div>';});
+    h+='</div>';
+  }
+
+  // Values breakdown
+  if(va>0){
+    h+='<div class="chart-c" style="margin-bottom:14px"><div class="chart-t">Values Breakdown</div>';
+    VALS.forEach(function(val){var sc=ST.vals[val.id]||0;if(sc>0)h+='<div class="brow"><div class="blbl">'+val.lbl+'</div><div class="btrk"><div class="bfll" style="width:'+Math.round(sc/5*100)+'%;background:'+gb(sc).c+'"></div></div><div class="bvl" style="color:'+gb(sc).c+'">'+sc+'</div></div>';});
+    h+='</div>';
+  }
+
+  // Band reference
+  h+='<div class="chart-c" style="margin-bottom:14px"><div class="chart-t">Performance Bands</div><div class="band-pills">'+BANDS.map(function(b){var act=c>=b.min&&c<b.max;return '<div class="bpll" style="'+(act?'background:'+b.c+';color:#fff;border-color:'+b.c+';font-weight:500;':'')+'">'+b.lbl+' '+b.min+'–'+(b.max===5.01?5.0:b.max)+'</div>';}).join('')+'</div></div>';
+
+  if(notes)h+='<div class="nbox"><div class="nbox-l">General Observations / Γενικές Παρατηρήσεις</div><div class="nbox-t">'+notes+'</div></div>';
+
+  rc.innerHTML=h;
+
+  // Draw radar
+  if(va>0){
+    if(RC){RC.destroy();}
+    RC=new Chart(document.getElementById("rc-canvas").getContext("2d"),{
+      type:"radar",
+      data:{
+        labels:VALS.map(function(v){return v.lbl;}),
+        datasets:[{data:VALS.map(function(v){return ST.vals[v.id]||0;}),backgroundColor:"rgba(20,104,145,.15)",borderColor:"#146891",pointBackgroundColor:"#146891",pointRadius:4,borderWidth:2}]
+      },
+      options:{plugins:{legend:{display:false}},scales:{r:{min:0,max:5,ticks:{stepSize:1,font:{size:10,family:"DM Sans, sans-serif"}},pointLabels:{font:{size:11,family:"DM Sans, sans-serif"},color:"#1B3A6A"}}}}
+    });
+  }
+}
+
+// ── RESET ────────────────────────────────────────────────────────────────────
+function resetAll(){
+  ST={sup:null,kpis:{},comps:{},vals:{}};
+  document.getElementById("sup-sel").value="";
+  document.getElementById("sup-card").style.display="none";
+  document.getElementById("inp-per").value="";
+  document.querySelectorAll("#kpi-items input").forEach(function(i){i.value="";});
+  KPIS.forEach(function(k){var b=document.getElementById("kb-"+k.id);if(b)b.style.display="none";var r=document.getElementById("kbar-"+k.id);if(r)r.style.display="none";});
+  COMPS.forEach(function(c){document.querySelectorAll("#lc-comp-"+c.id+" .lbtn").forEach(function(b){b.classList.remove("on");});var b=document.getElementById("lb-comp-"+c.id);if(b)b.style.display="none";var a=document.getElementById("at-comp-"+c.id);if(a)a.classList.remove("on");var l=document.getElementById("lc-comp-"+c.id);if(l)l.style.borderColor="";});
+  VALS.forEach(function(v){document.querySelectorAll("#lc-val-"+v.id+" .lbtn").forEach(function(b){b.classList.remove("on");});var b=document.getElementById("lb-val-"+v.id);if(b)b.style.display="none";var a=document.getElementById("at-val-"+v.id);if(a)a.classList.remove("on");var l=document.getElementById("lc-val-"+v.id);if(l)l.style.borderColor="";});
+  document.querySelectorAll(".pavg").forEach(function(e){e.style.display="none";});
+  document.getElementById("notes-inp").value="";
+  document.getElementById("hdr-sc").style.display="none";
+  if(RC){RC.destroy();RC=null;}
+  gt("info");
+}
+
+init();
+</script>
+</body>
+</html>
