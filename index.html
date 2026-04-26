@@ -10,7 +10,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--n:#1B3A6A;--t:#146891;--g:#C9A96E;--cr:#FAF6F0;--sd:#F0E8DB;--bd:#E0D8CF;--t2:#5A6B82;--t3:#8A9AB0}
 body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--n);min-height:100vh}
-.hdr{background:linear-gradient(135deg,#1B3A6A 0%,#146891 100%);padding:14px 28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(27,58,106,.25)}
+.hdr{background:linear-gradient(135deg,#1B3A6A,#146891);padding:14px 28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(27,58,106,.25)}
 .hdr-l .brand{color:var(--g);font-size:10px;letter-spacing:3px;margin-bottom:3px}
 .hdr-l .ttl{color:#fff;font-size:17px;font-weight:300}
 .hdr-l .sub{color:rgba(255,255,255,.5);font-size:11px;font-style:italic;margin-top:1px}
@@ -29,7 +29,7 @@ textarea.fi{min-height:70px;resize:vertical;line-height:1.6}
 .fis:focus{border-color:var(--t);background:#fff}
 .brow{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
 .btn{padding:10px 22px;border-radius:9px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s}
-.btnp{background:var(--n);color:#fff;border:none;box-shadow:0 2px 8px rgba(27,58,106,.2)}.btnp:hover{background:var(--t)}
+.btnp{background:var(--n);color:#fff;border:none}.btnp:hover{background:var(--t)}
 .btns{background:transparent;color:var(--t2);border:1px solid var(--bd)}.btns:hover{border-color:var(--t);color:var(--t)}
 .btng{background:#1D9E75;color:#fff;border:none}.btng:hover{background:#0F6E56}
 .btno{background:#D85A30;color:#fff;border:none}
@@ -43,7 +43,7 @@ textarea.fi{min-height:70px;resize:vertical;line-height:1.6}
 .hero .ht{font-size:24px;font-weight:300;line-height:1.35;margin-bottom:10px}
 .hero .hd{font-size:13px;line-height:1.75;opacity:.75;max-width:520px}
 .how-c{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:18px;text-align:center}
-.how-c .hw{font-size:22px;font-weight:600;color:var(--n)}.how-c .hn{font-size:13px;font-weight:500;color:var(--n);margin-top:3px}.how-c .hd{font-size:12px;color:var(--t3);margin-top:5px;line-height:1.5}
+.how-c .hw{font-size:22px;font-weight:600}.how-c .hn{font-size:13px;font-weight:500;margin-top:3px}.how-c .hd{font-size:12px;color:var(--t3);margin-top:5px;line-height:1.5}
 .cta-g{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
 .cta-c{background:#fff;border:1.5px solid var(--bd);border-radius:14px;padding:24px;text-align:center;cursor:pointer;transition:all .2s}
 .cta-c:hover{border-color:var(--t);transform:translateY(-2px);box-shadow:0 4px 16px rgba(20,104,145,.12)}
@@ -64,13 +64,19 @@ textarea.fi{min-height:70px;resize:vertical;line-height:1.6}
 .kbadge .kp{font-size:26px;font-weight:600;line-height:1}.kbadge .kr{font-size:11px;color:var(--t3);margin-top:1px}
 .kbar{height:4px;background:var(--sd);border-radius:2px;overflow:hidden;display:none;margin-bottom:10px}
 .kbarf{height:100%;border-radius:2px;transition:width .4s}
-.kanc-tog{font-size:11px;color:var(--t);cursor:pointer;display:inline-flex;align-items:center;gap:4px;user-select:none}
+.outlet-info{display:none;background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.35);border-radius:8px;padding:9px 13px;margin-bottom:10px;font-size:12px;color:var(--t2)}
+.outlet-info b{color:var(--n)}
+.kanc-tog{font-size:11px;color:var(--t);cursor:pointer;display:inline-flex;align-items:center;gap:4px;user-select:none;margin-bottom:0}
 .kanc-tog::before{content:'▶';font-size:8px;transition:transform .2s}.kanc-tog.open::before{transform:rotate(90deg)}
-.kanc-body{display:none;margin-top:10px;border-radius:8px;overflow:hidden;border:1px solid var(--bd)}.kanc-body.on{display:block}
-.kanc-row{display:flex;border-bottom:1px solid var(--bd)}.kanc-row:last-child{border-bottom:none}
-.kanc-sc{width:70px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;text-align:center;padding:2px}
-.kanc-ct{padding:9px 12px;flex:1;background:#fff}.kanc-ct .kr{font-size:11px;font-weight:500;margin-bottom:3px}.kanc-ct .kt{font-size:12px;color:var(--t2);line-height:1.5}
-.kanc-row.tgt .kanc-ct{background:#EAF3DE}.kanc-row.tgt .kr{color:#3B6D11}.kanc-row.tgt .kt{color:#27500A}
+.kanc-body{display:none;margin-top:10px}.kanc-body.on{display:block}
+/* KPI TIER TABLE */
+.tier-tbl{width:100%;border-collapse:collapse;border-radius:8px;overflow:hidden;border:1px solid var(--bd);font-size:12px}
+.tier-tbl th{padding:7px 10px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--t3);background:var(--cr);border-bottom:1px solid var(--bd);font-weight:500}
+.tier-tbl td{padding:8px 10px;border-bottom:1px solid var(--bd);color:var(--t2);vertical-align:middle}
+.tier-tbl tr:last-child td{border-bottom:none}
+.tier-tbl tr.active td{background:rgba(27,58,106,.07)!important;font-weight:500;color:var(--n)}
+.tier-tbl tr.tgt-row td{border-left:3px solid var(--g)}
+.tier-lvl{display:inline-block;padding:2px 8px;border-radius:10px;font-weight:600;font-size:11px;color:#fff}
 /* LIKERT 10 */
 .lc{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:16px 18px;margin-bottom:10px;transition:border-color .25s}
 .lc-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
@@ -83,6 +89,11 @@ textarea.fi{min-height:70px;resize:vertical;line-height:1.6}
 .anc{display:none;margin-top:10px;font-size:12px;color:var(--t2);font-style:italic;background:var(--cr);padding:10px 12px;border-radius:8px;border-left:3px solid var(--bd);line-height:1.6}.anc.on{display:block}
 .pavg{display:none;justify-content:space-between;align-items:center;background:var(--cr);border:1px solid var(--bd);border-radius:10px;padding:11px 15px;margin:8px 0 4px}
 .pavg .pl{font-size:13px;font-weight:500}.pavg .pr{font-size:17px;font-weight:600}
+/* DEV PRIORITIES */
+.dev-box{background:rgba(27,58,106,.05);border:1px solid rgba(27,58,106,.12);border-radius:11px;padding:18px;margin-bottom:16px}
+.dev-box .db-t{font-size:13px;font-weight:500;color:var(--n);margin-bottom:12px}
+.dev-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.dev-num{background:var(--n);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;margin-top:2px}
 /* SHARE */
 .shr-box{background:#EAF3DE;border:1px solid #97C459;border-radius:11px;padding:16px 18px;margin-top:16px}
 .shr-t{font-size:12px;font-weight:500;color:#3B6D11;margin-bottom:8px}
@@ -94,19 +105,35 @@ textarea.fi{min-height:70px;resize:vertical;line-height:1.6}
 .pill-g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
 .pcrd{background:#fff;border:1px solid var(--bd);border-radius:11px;padding:15px;text-align:center}
 .pc-l{font-size:11px;color:var(--t3);margin-bottom:3px}.pc-p{font-size:26px;font-weight:600}.pc-b{font-size:11px;font-weight:500;margin-top:2px}.pc-w{font-size:10px;color:var(--g);margin-top:3px}
-.pc-bar{height:4px;background:var(--sd);border-radius:2px;margin-top:8px;overflow:hidden}.pc-barf{height:100%;border-radius:2px;transition:width .5s}
+.pc-bar{height:4px;background:var(--sd);border-radius:2px;margin-top:8px;overflow:hidden}.pc-barf{height:100%;border-radius:2px}
 .chart-g{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 .chart-c{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:18px}
 .chart-ct{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);font-weight:500;margin-bottom:12px}
 .b-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.b-lbl{font-size:12px;color:var(--t2);width:150px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.b-trk{flex:1;height:6px;background:var(--sd);border-radius:3px;overflow:hidden}.b-fll{height:100%;border-radius:3px;transition:width .5s}
+.b-lbl{font-size:12px;color:var(--t2);width:145px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.b-trk{flex:1;height:6px;background:var(--sd);border-radius:3px;overflow:hidden}.b-fll{height:100%;border-radius:3px}
 .b-vl{font-size:12px;font-weight:600;width:42px;text-align:right;flex-shrink:0}
+/* DEV CARD ON SCORECARD */
+.dev-sc{background:linear-gradient(135deg,rgba(27,58,106,.06),rgba(201,169,110,.08));border:1px solid rgba(201,169,110,.3);border-radius:12px;padding:18px 20px;margin-bottom:14px}
+.dev-sc .ds-t{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--g);font-weight:500;margin-bottom:12px}
+.dev-sc .ds-item{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+.dev-sc .ds-item:last-child{margin-bottom:0}
+.dev-sc .ds-num{background:var(--g);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;margin-top:1px}
+.dev-sc .ds-txt{font-size:13px;color:var(--n);line-height:1.5}
 .nbox{background:var(--n);border-radius:12px;padding:18px 20px;margin-top:14px}
 .nbox-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--g);margin-bottom:7px}
 .nbox-t{color:#fff;font-size:13px;line-height:1.7;white-space:pre-wrap}
 .band-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .bpll{font-size:11px;padding:4px 11px;border-radius:20px;border:1px solid var(--bd);color:var(--t3)}
+/* HISTORY */
+.hist-c{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:18px;margin-top:14px}
+.hist-t{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);font-weight:500;margin-bottom:14px}
+.hist-items{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.hist-item{background:var(--cr);border:1px solid var(--bd);border-radius:10px;padding:12px 16px;text-align:center;min-width:100px}
+.hist-item.current{border-color:var(--n);background:rgba(27,58,106,.06)}
+.hi-period{font-size:10px;color:var(--t3);margin-bottom:4px}
+.hi-pct{font-size:24px;font-weight:600}
+.hi-date{font-size:10px;color:var(--t3);margin-top:2px}
 /* TEAM */
 .team-tbl{width:100%;border-collapse:collapse;font-size:13px}
 .team-tbl th{padding:9px 11px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--t3);border-bottom:1px solid var(--bd);font-weight:500;background:var(--cr)}
@@ -117,8 +144,6 @@ textarea.fi{min-height:70px;resize:vertical;line-height:1.6}
 .ms-empty{background:#fff;border:1px solid var(--bd);border-radius:14px;padding:40px 30px;text-align:center;margin-top:12px}
 .ms-empty .ei{font-size:48px;margin-bottom:14px}.ms-empty .et{font-size:16px;font-weight:500;margin-bottom:8px}.ms-empty .ed{font-size:13px;color:var(--t3);line-height:1.65;max-width:420px;margin:0 auto 20px}
 .sup-confirm{display:none;background:rgba(27,58,106,.07);border:1px solid rgba(27,58,106,.15);border-radius:10px;padding:13px 15px;margin-bottom:14px}
-.eq-ref{display:none;background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.35);border-radius:8px;padding:10px 14px;margin-bottom:10px;font-size:12px;color:var(--t2)}
-.eq-ref b{color:var(--n)}
 @media(max-width:600px){
   .g2,.g3,.g4,.chart-g,.cta-g,.pill-g{grid-template-columns:1fr}
   .lbtns{grid-template-columns:repeat(5,1fr)}
@@ -133,7 +158,7 @@ textarea.fi{min-height:70px;resize:vertical;line-height:1.6}
   <div class="hdr-l">
     <div class="brand">SANI · IKOS GROUP</div>
     <div class="ttl">F&B Performance Dashboard · Ikos Aria</div>
-    <div class="sub">Αξιολόγηση Απόδοσης Προϊσταμένου — Season 2025/2026</div>
+    <div class="sub">Αξιολόγηση Απόδοσης Προϊσταμένου — 46 Supervisors</div>
   </div>
   <div class="hdr-r" id="hdr-sc"><div class="hscr" id="hs-n">—</div><div class="hband" id="hs-b"></div></div>
 </div>
@@ -148,7 +173,7 @@ textarea.fi{min-height:70px;resize:vertical;line-height:1.6}
     <div class="pt">Manager Access</div>
     <div class="ps">Enter your 4-digit access code</div>
     <input class="pin-in" type="password" maxlength="4" id="pin-in" oninput="checkPin()" placeholder="····">
-    <div class="pin-err" id="pin-err">Incorrect. Please try again.</div>
+    <div class="pin-err" id="pin-err">Incorrect. Try again.</div>
     <button class="btn btns" onclick="closePM()" style="width:100%;margin-top:4px">Cancel</button>
   </div>
 </div>
@@ -158,21 +183,21 @@ textarea.fi{min-height:70px;resize:vertical;line-height:1.6}
   <div class="hero">
     <div class="htag">IKOS ARIA · F&B LEADERSHIP TEAM · 46 SUPERVISORS</div>
     <div class="ht">F&B Performance Dashboard</div>
-    <div class="hd">A structured, transparent platform for evaluating and developing all F&B supervisors at Ikos Aria. Every score is calculated from the actual number you enter — no ranges, no subjectivity, no ambiguity.</div>
+    <div class="hd">A structured, transparent, and fair platform for evaluating all F&B supervisors at Ikos Aria. Every score is calculated from the actual number you enter — no subjectivity, no ranges, no ambiguity.</div>
   </div>
-  <div class="sh"><div class="t">How it works</div><div class="s">Three pillars · one composite score · every number is exact</div></div>
+  <div class="sh"><div class="t">How it works</div><div class="s">Three pillars · one composite score · 10 discrete, unambiguous levels per criterion</div></div>
   <div class="g3" style="margin-bottom:22px">
-    <div class="how-c"><div class="hw">40%</div><div class="hn">Operational KPIs</div><div class="hd">Enter the actual number (e.g. LQA = 83). The score is calculated automatically using continuous linear interpolation — 83 and 87 are different scores. No bands, no ranges.</div></div>
-    <div class="how-c"><div class="hw">35%</div><div class="hn">Supervisor Competencies</div><div class="hd">10-point scale. Each point = exactly 10%. Score 7 = 70%, Score 8 = 80%. Full behavioral anchor shown for every level — click to see what each score means.</div></div>
-    <div class="how-c"><div class="hw">25%</div><div class="hn">Values Alignment (RACE+)</div><div class="hd">Same 10-point scale. Respectful, Authentic, Creative, Passionate, Responsible, Excellent — the Sani/Ikos Group values, scored with full transparency and precision.</div></div>
+    <div class="how-c"><div class="hw">40%</div><div class="hn">Operational KPIs</div><div class="hd">7 measurable KPIs with 10 clear levels each. Enter the actual number — the level is assigned automatically. Level 9 for LQA = 90–94. No range ambiguity: 91 and 93 both give the same score.</div></div>
+    <div class="how-c"><div class="hw">35%</div><div class="hn">Supervisor Competencies</div><div class="hd">5 competencies on a 10-point scale. Score 8 = exactly 80%. Full behavioral anchor shown for every point — no interpretation needed.</div></div>
+    <div class="how-c"><div class="hw">25%</div><div class="hn">Values Alignment (RACE+)</div><div class="hd">6 Sani/Ikos Group values on a 10-point scale. Same precision, same transparency. Score 7 = exactly 70%, every time.</div></div>
   </div>
-  <div class="sh"><div class="t">Performance bands</div><div class="s">The final composite % maps to these bands</div></div>
+  <div class="sh"><div class="t">Performance bands</div></div>
   <div style="background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:22px"><table style="width:100%;border-collapse:collapse" id="bands-tbl"></table></div>
-  <div class="sh"><div class="t">Transparency</div><div class="s">Every supervisor sees exactly how they were evaluated</div></div>
-  <div class="info-box">After each evaluation, the manager generates a <strong>personal scorecard link</strong> — unique to each supervisor. Open it on any device to see the exact % scored on every KPI, competency, and value. The anchor that guided each scoring decision is shown in full. <strong>Nothing is hidden. Nothing is rounded.</strong></div>
+  <div class="sh"><div class="t">Transparency & History</div></div>
+  <div class="info-box">Each supervisor receives a <strong>personal scorecard link</strong> showing every score, every level, every anchor. <strong>Year-over-year history</strong> is visible when you have evaluated the same person across multiple seasons — building a genuine record of growth over time.</div>
   <div class="cta-g">
-    <div class="cta-c" onclick="gateTab('eval')"><div class="ci">📝</div><div class="ct">I'm a Manager</div><div class="cd">Evaluate supervisors, save results, generate scorecard links, and view team performance. Requires access code.</div></div>
-    <div class="cta-c" onclick="gt('score')"><div class="ci">📊</div><div class="ct">I'm a Supervisor</div><div class="cd">View your personal scorecard. Open the link your manager sent, or paste it below.</div></div>
+    <div class="cta-c" onclick="gateTab('eval')"><div class="ci">📝</div><div class="ct">I'm a Manager</div><div class="cd">Evaluate supervisors, save results, generate scorecard links, view team overview. Requires access code.</div></div>
+    <div class="cta-c" onclick="gt('score')"><div class="ci">📊</div><div class="ct">I'm a Supervisor</div><div class="cd">View your personal scorecard. Open the link your manager sent, or paste it here.</div></div>
   </div>
 </div>
 
@@ -182,36 +207,50 @@ textarea.fi{min-height:70px;resize:vertical;line-height:1.6}
     <div class="sh"><div class="t">Supervisor Information</div><div class="s">Στοιχεία αξιολογούμενου</div></div>
     <label class="fl">Select supervisor</label>
     <select class="fi" id="sup-sel" onchange="selSup(this.value)"><option value="">— Select —</option></select>
-    <div class="sup-confirm" id="sup-confirm"><div style="font-size:15px;font-weight:500" id="sup-cn"></div><div style="font-size:12px;color:var(--t2);margin-top:2px" id="sup-cm"></div></div>
-    <div class="g2">
-      <div><label class="fl">Evaluation period</label><input type="text" class="fi" id="inp-per" placeholder="e.g. Season 2025"></div>
-      <div><label class="fl">Evaluated by</label><input type="text" class="fi" id="inp-eval" value="Evangelos Hatzopoulos / F&B Manager"></div>
+    <div class="sup-confirm" id="sup-confirm">
+      <div style="font-size:15px;font-weight:500" id="sup-cn"></div>
+      <div style="font-size:12px;color:var(--t2);margin-top:2px" id="sup-cm"></div>
     </div>
+    <div class="g2">
+      <div><label class="fl">Season / Period</label><input type="text" class="fi" id="inp-per" placeholder="e.g. Season 2025"></div>
+      <div><label class="fl">Evaluation Date</label><input type="text" class="fi" id="inp-date" placeholder="e.g. October 2025"></div>
+    </div>
+    <div><label class="fl">Evaluated by</label><input type="text" class="fi" id="inp-eval" value="Evangelos Hatzopoulos / F&B Manager"></div>
     <div class="brow"><button class="btn btnp" onclick="evGo('kpi')">Start Evaluation →</button></div>
   </div>
   <div id="ev-kpi" style="display:none">
-    <div class="sh"><div class="t">Operational KPIs</div><div class="s">Weight 40% · Enter the actual value · Score calculated automatically with exact precision</div></div>
+    <div class="sh"><div class="t">Operational KPIs</div><div class="s">Weight 40% · 7 KPIs · 10 discrete levels each · exact, unambiguous scoring</div></div>
     <div id="kpi-items"></div>
-    <div class="pavg" id="kpi-pavg"><span class="pl">KPI pillar average</span><span class="pr" id="kpi-pv"></span></div>
+    <div class="pavg" id="kpi-pavg"><span class="pl">KPI pillar</span><span class="pr" id="kpi-pv"></span></div>
     <div class="brow"><button class="btn btns" onclick="evGo('info')">← Back</button><button class="btn btnp" onclick="evGo('comp')">Competencies →</button></div>
   </div>
   <div id="ev-comp" style="display:none">
-    <div class="sh"><div class="t">Supervisor Competencies</div><div class="s">Weight 35% · 10-point scale · 1 = 10%, 2 = 20%, … 10 = 100% · Click any score to see its anchor</div></div>
+    <div class="sh"><div class="t">Supervisor Competencies</div><div class="s">Weight 35% · 10-point scale · 1=10%, 2=20%… 10=100% · click any score to see its anchor</div></div>
     <div id="comp-items"></div>
-    <div class="pavg" id="comp-pavg"><span class="pl">Competencies pillar average</span><span class="pr" id="comp-pv"></span></div>
+    <div class="pavg" id="comp-pavg"><span class="pl">Competencies pillar</span><span class="pr" id="comp-pv"></span></div>
     <div class="brow"><button class="btn btns" onclick="evGo('kpi')">← KPIs</button><button class="btn btnp" onclick="evGo('vals')">Values →</button></div>
   </div>
   <div id="ev-vals" style="display:none">
-    <div class="sh"><div class="t">Values Alignment (RACE+)</div><div class="s">Weight 25% · 10-point scale · How consistently this supervisor lives the Sani/Ikos Group values</div></div>
+    <div class="sh"><div class="t">Values Alignment (RACE+)</div><div class="s">Weight 25% · 10-point scale · Sani/Ikos Group values</div></div>
     <div id="vals-items"></div>
-    <div class="pavg" id="vals-pavg"><span class="pl">Values pillar average</span><span class="pr" id="vals-pv"></span></div>
-    <div style="margin-top:20px"><label class="fl">General observations / Γενικές παρατηρήσεις</label><textarea class="fi" id="notes-inp" placeholder="Development areas, strengths, agreed next steps..."></textarea></div>
-    <div class="brow"><button class="btn btns" onclick="evGo('comp')">← Competencies</button><button class="btn btnp" onclick="evGo('results')">View Results →</button></div>
+    <div class="pavg" id="vals-pavg"><span class="pl">Values pillar</span><span class="pr" id="vals-pv"></span></div>
+    <div class="brow"><button class="btn btns" onclick="evGo('comp')">← Competencies</button><button class="btn btnp" onclick="evGo('dev')">Development →</button></div>
+  </div>
+  <div id="ev-dev" style="display:none">
+    <div class="sh"><div class="t">Development & Observations</div><div class="s">Visible on the supervisor's personal scorecard</div></div>
+    <div class="dev-box">
+      <div class="db-t">📌 Top 2 Development Priorities for next period</div>
+      <div class="dev-item"><div class="dev-num">1</div><div style="flex:1"><label class="fl">Priority 1</label><input type="text" class="fi" id="dev1" placeholder="e.g. Improve daily shift briefing structure and consistency" style="margin-bottom:0"></div></div>
+      <div class="dev-item" style="margin-bottom:0"><div class="dev-num">2</div><div style="flex:1"><label class="fl">Priority 2</label><input type="text" class="fi" id="dev2" placeholder="e.g. Strengthen upselling coaching — focus on wine pairing knowledge" style="margin-bottom:0"></div></div>
+    </div>
+    <label class="fl">General observations</label>
+    <textarea class="fi" id="notes-inp" placeholder="Strengths, context, agreed next steps..."></textarea>
+    <div class="brow"><button class="btn btns" onclick="evGo('vals')">← Values</button><button class="btn btnp" onclick="evGo('results')">View Results →</button></div>
   </div>
   <div id="ev-results" style="display:none">
     <div id="results-ct"></div><div id="share-ct"></div>
     <div class="brow">
-      <button class="btn btns" onclick="evGo('vals')">← Edit</button>
+      <button class="btn btns" onclick="evGo('dev')">← Edit</button>
       <button class="btn btng" onclick="saveShare()">💾 Save & Generate Link</button>
       <button class="btn btns" onclick="window.print()">🖨 Print</button>
       <button class="btn btno" onclick="resetEval()">New ↺</button>
@@ -225,28 +264,39 @@ textarea.fi{min-height:70px;resize:vertical;line-height:1.6}
   <div id="score-ct">
     <div class="ms-empty">
       <div class="ei">📊</div><div class="et">View your personal scorecard</div>
-      <div class="ed">Your manager will send you a personal link after your evaluation. Open the link directly or paste it below to see your full scorecard — every score, every criterion, every anchor that guided your evaluation.</div>
+      <div class="ed">Your manager will send you a link after your evaluation. Open it directly or paste it below to see your full scorecard — every score, every level, every anchor.</div>
       <div style="display:flex;gap:10px;align-items:center;max-width:480px;margin:0 auto">
         <input type="text" class="fis" id="paste-link" placeholder="Paste your scorecard link here..." style="flex:1">
         <button class="btn btnp" onclick="loadPaste()">Load</button>
       </div>
-      <div id="paste-err" style="color:#E24B4A;font-size:12px;margin-top:8px;display:none">Invalid link — please check and try again.</div>
+      <div id="paste-err" style="color:#E24B4A;font-size:12px;margin-top:8px;display:none">Invalid link.</div>
     </div>
   </div>
 </div>
 
 <!-- TEAM -->
 <div class="pan" id="pan-team">
-  <div class="sh"><div class="t">Team Performance Overview</div><div class="s">All saved evaluations — Συνολική Εικόνα Ομάδας · 46 Supervisors</div></div>
+  <div class="sh"><div class="t">Team Performance Overview</div><div class="s">All saved evaluations — Συνολική Εικόνα Ομάδας</div></div>
   <div id="team-ct"></div>
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════
-// SUPERVISORS — 46 TOTAL
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
+// GRI TARGETS PER VENUE (2026, /10 scale)
+// ══════════════════════════════════════════
+var GRI={
+  "Flavors":9.43,"Anaya":9.48,"Provence":9.55,"Fresco":9.55,
+  "Ouzo":9.62,"Kos":9.60,"Seasons":9.65,"Oliva":9.55,
+  "Room Service":9.50,"Lobby Area":9.65,"Beach Pool":9.63,
+  "Deluxe Lobby Bar":9.70,"Lagoon":9.63,"Beach Bar":9.55,
+  "Main Pool":9.65,"Deluxe Pool Bar":9.65,"Theater":9.60,
+  "Beach Experience":9.55,"F&B":9.55,"Senior Management":9.55
+};
+
+// ══════════════════════════════════════════
+// SUPERVISORS — 46
+// ══════════════════════════════════════════
 var SUPS=[
-  // RESTAURANTS
   {n:"Dimitrios Stefanakos",r:"Restaurant Manager",v:"Flavors"},
   {n:"Ahmed Rizwan",r:"Asst. Restaurant Manager",v:"Flavors"},
   {n:"Vojtech Vitek",r:"Asst. Restaurant Manager",v:"Flavors"},
@@ -268,7 +318,6 @@ var SUPS=[
   {n:"Dominik Michal Bednarski",r:"Asst. Restaurant Manager",v:"Seasons"},
   {n:"Stylianos Bizas",r:"Restaurant Manager",v:"Oliva"},
   {n:"Dorela Bici",r:"Asst. Restaurant Manager",v:"Oliva"},
-  // BARS
   {n:"Isik Moumin",r:"Bar Manager",v:"Lobby Area"},
   {n:"Oumit Moumin",r:"Asst. Bar Manager",v:"Lobby Area"},
   {n:"Spyridon Chiotis",r:"Bar Manager",v:"Beach Pool"},
@@ -281,18 +330,14 @@ var SUPS=[
   {n:"Christos Gkalios",r:"Bar Manager",v:"Main Pool"},
   {n:"Ioanna Kovi",r:"Bar Manager",v:"Deluxe Pool Bar"},
   {n:"Dimitrios Chatzigeorgantis",r:"Bar Manager",v:"Theater"},
-  // ROOM SERVICE & MINI BAR
   {n:"Sofia Gkigi",r:"Room Service Manager",v:"Room Service"},
   {n:"Kostas Gkrampolhs",r:"Asst. RS & Mini Bar Manager",v:"Room Service"},
   {n:"Artemis Parembora",r:"Asst. RS & Mini Bar Manager",v:"Room Service"},
-  // BEACH EXPERIENCE
   {n:"Theofilos Panidis",r:"Beach Experience Manager",v:"Beach Experience"},
   {n:"Florenc Gjeli",r:"Asst. Beach Experience Manager",v:"Beach Experience"},
   {n:"Adrianos Leonov",r:"Asst. Beach Experience Manager",v:"Beach Experience"},
-  // F&B SPECIALISTS
   {n:"Χρήστος Γούναρας",r:"F&B Concierge",v:"F&B"},
   {n:"Θεοδώρα Κόστριβα",r:"Sommelier",v:"F&B"},
-  // SENIOR OUTLET MANAGERS
   {n:"Miltos Tzimkas",r:"Senior Outlet Manager",v:"Senior Management"},
   {n:"Giannis Katsaros",r:"Senior Outlet Manager",v:"Senior Management"},
   {n:"Kostas Nasis",r:"Senior Outlet Manager",v:"Senior Management"},
@@ -300,239 +345,291 @@ var SUPS=[
   {n:"Paris Zisopoulos",r:"Senior Outlet Manager",v:"Senior Management"}
 ];
 
-// ══════════════════════════════════════════════════════
-// EQUIPMENT BASELINES 2025 (per outlet, actual deficit €)
-// ══════════════════════════════════════════════════════
-var EQ_BASE={
+// ══════════════════════════════════════════
+// DISCRETE LEVEL FUNCTION
+// tiers: [[minVal, score%],...] sorted desc
+// ══════════════════════════════════════════
+function disc(v,tiers){for(var i=0;i<tiers.length;i++){if(v>=tiers[i][0])return tiers[i][1];}return 10;}
+function discNeg(v,tiers){for(var i=0;i<tiers.length;i++){if(v<=tiers[i][0])return tiers[i][1];}return 10;}
+
+// ══════════════════════════════════════════
+// KPIs — 7 items, discrete 10-level
+// ══════════════════════════════════════════
+var KPIS=[
+  {id:"lqa",lbl:"LQA / Audit Score",unit:"/100",
+   desc:"Latest LQA inspection or internal quality audit result",
+   tgt:"Target: ≥ 90 · Source: Sani/Ikos LQA Reports",
+   fn:function(v){return disc(v,[[95,100],[90,90],[85,80],[80,70],[75,60],[70,50],[65,40],[60,30],[55,20]]);},
+   tiers:[
+     {min:"≥ 95",sc:100,lbl:"Benchmark",txt:"Perfect execution across all audit dimensions. Standard-setting example for the entire property."},
+     {min:"90–94",sc:90,lbl:"Target ★",txt:"Meets the Ikos Aria target. Near-perfect delivery — this is the expected standard.",tgt:true},
+     {min:"85–89",sc:80,lbl:"Very Good",txt:"Good standard with minor gaps. Supervisor proactively drives continuous improvement."},
+     {min:"80–84",sc:70,lbl:"Good",txt:"Adequate. Some inconsistencies remain. Targeted coaching and regular follow-up needed."},
+     {min:"75–79",sc:60,lbl:"Acceptable",txt:"Below expectations. Recurring deficiencies. Active corrective plan required."},
+     {min:"70–74",sc:50,lbl:"Low",txt:"Minimum threshold only. Significant gaps. Structured training and close monitoring essential."},
+     {min:"65–69",sc:40,lbl:"Low",txt:"Below minimum. Frequent non-conformances. Improvement plan required immediately."},
+     {min:"60–64",sc:30,lbl:"Inadequate",txt:"Critical gaps. Outlet poses brand risk. Immediate management intervention required."},
+     {min:"55–59",sc:20,lbl:"Inadequate",txt:"Severe failure. Fundamental quality standards not being met."},
+     {min:"< 55",sc:10,lbl:"Critical",txt:"Critical audit failure. Complete operational review required."}
+   ]},
+  {id:"gri",lbl:"Guest Satisfaction (ReviewPro /10)",unit:"/10",
+   desc:"F&B Service score from ReviewPro — outlet-specific 2026 target auto-loaded",
+   tgt:"Outlet target auto-loads when supervisor is selected",
+   griKpi:true,
+   fn:function(v){return disc(v,[[9.65,100],[9.55,90],[9.50,80],[9.43,70],[9.35,60],[9.25,50],[9.10,40],[8.90,30],[8.70,20]]);},
+   tiers:[
+     {min:"≥ 9.65",sc:100,lbl:"Exceptional",txt:"Top-performer tier. Guests specifically name the outlet in positive reviews. Service is anticipatory."},
+     {min:"9.55–9.64",sc:90,lbl:"Excellent",txt:"Consistently outstanding. Strong review pattern. Team delivers exceptional service experiences."},
+     {min:"9.50–9.54",sc:80,lbl:"Very Good",txt:"Above target for most outlets. Proactive service culture, strong guest satisfaction."},
+     {min:"9.43–9.49",sc:70,lbl:"Good",txt:"Meets target for several outlets (Flavors 9.43, Anaya 9.48). Solid, consistent delivery."},
+     {min:"9.35–9.42",sc:60,lbl:"Acceptable",txt:"Below most outlet targets. Improvement in service consistency and team briefing needed."},
+     {min:"9.25–9.34",sc:50,lbl:"Low",txt:"Significantly below target. Service recovery is reactive. Structured coaching plan required."},
+     {min:"9.10–9.24",sc:40,lbl:"Low",txt:"Well below standard. Guest feedback is consistently lukewarm. Team culture needs attention."},
+     {min:"8.90–9.09",sc:30,lbl:"Inadequate",txt:"Critical satisfaction gap. Systemic service delivery issues. Immediate corrective action required."},
+     {min:"8.70–8.89",sc:20,lbl:"Inadequate",txt:"Severe dissatisfaction. Outlet is generating negative sentiment. Management intervention required."},
+     {min:"< 8.70",sc:10,lbl:"Critical",txt:"Critical guest satisfaction failure. Complete service and leadership review required immediately."}
+   ]},
+  {id:"cst",lbl:"Cost vs Budget Variance",unit:"%",
+   desc:"Actual vs approved budget — enter negative if under budget (e.g. −3)",
+   tgt:"Target: 0% or below · Under budget without quality compromise",
+   costKpi:true,
+   fn:function(v){return discNeg(v,[[-5,100],[-3,90],[-1,80],[0,70],[1,60],[2,50],[3,40],[4,30],[5,20]]);},
+   tiers:[
+     {min:"≤ −5%",sc:100,lbl:"Exceptional",txt:"5%+ under budget without compromising quality. Outstanding financial stewardship."},
+     {min:"−3% to −4.9%",sc:90,lbl:"Excellent",txt:"Significantly under budget. Excellent cost control — a model for the department."},
+     {min:"−1% to −2.9%",sc:80,lbl:"Very Good",txt:"Under budget. Good cost discipline maintained while upholding quality standards."},
+     {min:"0% to −0.9%",sc:70,lbl:"Good",txt:"On target or marginally under. Proactive monitoring and day-to-day cost awareness."},
+     {min:"+0.1% to +1%",sc:60,lbl:"Acceptable",txt:"Marginally over budget. Budget-aware but lacking consistent daily execution."},
+     {min:"+1.1% to +2%",sc:50,lbl:"Low",txt:"Slightly over budget. Improved discipline in procurement and wastage control needed."},
+     {min:"+2.1% to +3%",sc:40,lbl:"Low",txt:"Over budget. Insufficient cost management. Coaching on budget tracking required."},
+     {min:"+3.1% to +4%",sc:30,lbl:"Inadequate",txt:"Significantly over budget. Lack of financial awareness. Structured corrective plan needed."},
+     {min:"+4.1% to +5%",sc:20,lbl:"Inadequate",txt:"Well over budget. No demonstrable cost control. Immediate corrective action required."},
+     {min:"> +5%",sc:10,lbl:"Critical",txt:"Critically over budget. Financial discipline is absent. Escalation and intervention required."}
+   ]},
+  {id:"rev",lbl:"Revenue Achievement vs Target",unit:"%",
+   desc:"Revenue delivered as % of period budget — 100 = on target",
+   tgt:"Target: ≥ 100% · Meet or exceed budget",
+   fn:function(v){return disc(v,[[110,100],[105,90],[102,80],[100,70],[98,60],[95,50],[92,40],[88,30],[84,20]]);},
+   tiers:[
+     {min:"≥ 110%",sc:100,lbl:"Exceptional",txt:"10%+ above target. Extraordinary revenue delivery through deep product knowledge and team motivation."},
+     {min:"105–109%",sc:90,lbl:"Excellent",txt:"5%+ above target. Exceptional upselling culture and consistent team coaching."},
+     {min:"102–104%",sc:80,lbl:"Very Good",txt:"Above target. Team is briefed, motivated, and converting upselling opportunities consistently."},
+     {min:"100–101%",sc:70,lbl:"Good ★",txt:"Meets target. Solid revenue performance — this is the expected standard.",tgt:true},
+     {min:"98–99%",sc:60,lbl:"Acceptable",txt:"Near target. Minor shortfall. Inconsistent execution across shifts."},
+     {min:"95–97%",sc:50,lbl:"Low",txt:"Below target. Some opportunities captured but upselling is not embedded in daily culture."},
+     {min:"92–94%",sc:40,lbl:"Low",txt:"Significantly below target. Revenue-driving opportunities consistently missed."},
+     {min:"88–91%",sc:30,lbl:"Inadequate",txt:"Well below target. Upselling culture and team briefing need urgent restructuring."},
+     {min:"84–87%",sc:20,lbl:"Inadequate",txt:"Critical revenue shortfall. Fundamental issues with product knowledge and team engagement."},
+     {min:"< 84%",sc:10,lbl:"Critical",txt:"Severe underperformance. Complete review of revenue strategy and leadership required."}
+   ]},
+  {id:"cmp",lbl:"Guest Complaint Rate",unit:"/100 covers",
+   desc:"Formal complaints per 100 guest interactions — lower is better",
+   tgt:"Target: 0 formal complaints · The Ikos standard",
+   cmpKpi:true,
+   fn:function(v){
+     if(v===0)return 100;
+     return discNeg(v,[[0.10,90],[0.25,80],[0.50,70],[0.75,60],[1.00,50],[1.25,40],[1.50,30],[2.00,20]]);
+   },
+   tiers:[
+     {min:"0",sc:100,lbl:"Target ★",txt:"Zero formal complaints. Exceptional anticipation of guest needs. Service issues resolved proactively at source.",tgt:true},
+     {min:"0.01–0.10",sc:90,lbl:"Excellent",txt:"Near-zero complaints. Strong service culture. Issues caught and resolved before escalation."},
+     {min:"0.11–0.25",sc:80,lbl:"Very Good",txt:"Very low complaint rate. Team proactively addresses guest concerns."},
+     {min:"0.26–0.50",sc:70,lbl:"Good",txt:"Low complaint rate. Service recovery is effective but could be more anticipatory."},
+     {min:"0.51–0.75",sc:60,lbl:"Acceptable",txt:"Moderate rate. Average performance. Service recovery exists but is reactive."},
+     {min:"0.76–1.00",sc:50,lbl:"Low",txt:"Elevated complaint rate. Service issues not being anticipated or prevented."},
+     {min:"1.01–1.25",sc:40,lbl:"Low",txt:"High complaint rate. Recurring service issues are not being resolved before formal escalation."},
+     {min:"1.26–1.50",sc:30,lbl:"Inadequate",txt:"Very high rate. Systematic service failures. Team retraining and operational review required."},
+     {min:"1.51–2.00",sc:20,lbl:"Inadequate",txt:"Critical complaint rate. Root-cause analysis and structured improvement plan required immediately."},
+     {min:"> 2.00",sc:10,lbl:"Critical",txt:"Severe service failure. Fundamental issues with service delivery. Immediate management intervention."}
+   ]},
+  {id:"eq",lbl:"Equipment Management (vs 2025 Baseline)",unit:"€ deficit",
+   desc:"Enter current season actual equipment deficit (€). Outlet 2025 baseline auto-loads.",
+   tgt:"Target 2026: −12% vs 2025 actual · Source: Equipment Replenishment Report",
+   eqKpi:true,
+   fn:function(v,base){
+     if(!base||base<=0)return null;
+     var pct=(v-base)/base*100;
+     return discNeg(pct,[[-20,100],[-15,90],[-12,80],[-8,70],[-4,60],[0,50],[5,40],[10,30],[20,20]]);
+   },
+   tiers:[
+     {min:"≤ −20%",sc:100,lbl:"Exceptional",txt:"20%+ reduction vs 2025. Exceptional equipment stewardship. Far exceeds the GM-approved target."},
+     {min:"−15% to −19.9%",sc:90,lbl:"Excellent",txt:"Significantly exceeds the −12% target. Outstanding handling culture and accountability systems."},
+     {min:"−12% to −14.9%",sc:80,lbl:"Target ★",txt:"Meets the GM-approved −12% reduction target. Strong equipment accountability and staff awareness.",tgt:true},
+     {min:"−8% to −11.9%",sc:70,lbl:"Good",txt:"Good improvement but slightly short of target. Controls are strengthening — continue monthly tracking."},
+     {min:"−4% to −7.9%",sc:60,lbl:"Acceptable",txt:"Moderate improvement. Moving in the right direction. Tighten outlet sign-off and staff training."},
+     {min:"0% to −3.9%",sc:50,lbl:"Low",txt:"Marginal improvement vs 2025. Not on track for target. Action plan and inventory discipline needed."},
+     {min:"+1% to +4.9%",sc:40,lbl:"Low",txt:"Equipment losses same or slightly higher than 2025. No baseline improvement. Staff training required."},
+     {min:"+5% to +9.9%",sc:30,lbl:"Inadequate",txt:"Equipment losses significantly higher than 2025. Poor handling culture. Urgent intervention needed."},
+     {min:"+10% to +19.9%",sc:20,lbl:"Inadequate",txt:"Losses have increased substantially. Lack of ownership and accountability. Structured plan required."},
+     {min:"> +20%",sc:10,lbl:"Critical",txt:"Critical increase in equipment losses. Complete review of handling, storage, and accountability."}
+   ]},
+  {id:"eess",lbl:"EESS NPS — Team / Outlet",unit:"NPS score",
+   desc:"Employee NPS for the team/outlet (from EESS report). Enter the outlet sub-group NPS.",
+   tgt:"Target 2026: ≥ 0 · F&B 2025 baseline: −4 · Source: EESS Report",
+   npsKpi:true,
+   fn:function(v){return disc(v,[[50,100],[30,90],[10,80],[0,70],[-5,60],[-10,50],[-20,40],[-40,30],[-60,20]]);},
+   tiers:[
+     {min:"≥ +50",sc:100,lbl:"Exceptional",txt:"Exceptional team loyalty and satisfaction. Highly engaged team that actively promotes the workplace."},
+     {min:"+30 to +49",sc:90,lbl:"Excellent",txt:"Excellent employee satisfaction. Strong team culture and high advocacy."},
+     {min:"+10 to +29",sc:80,lbl:"Very Good",txt:"Above average team engagement. Majority are promoters of the workplace."},
+     {min:"0 to +9",sc:70,lbl:"Target ★",txt:"Meets the 2026 target. More promoters than detractors — a meaningful improvement from 2025.",tgt:true},
+     {min:"−1 to −5",sc:60,lbl:"Acceptable",txt:"Near target. Slightly more detractors than promoters. Focused engagement actions needed."},
+     {min:"−6 to −10",sc:50,lbl:"Low",txt:"Below target. Recognition, communication, and workload balance need attention."},
+     {min:"−11 to −20",sc:40,lbl:"Low",txt:"Significantly below target. Team satisfaction issues are impacting performance culture."},
+     {min:"−21 to −40",sc:30,lbl:"Inadequate",txt:"High detractor count. Structured engagement intervention and feedback sessions required."},
+     {min:"−41 to −60",sc:20,lbl:"Inadequate",txt:"Critical disengagement. Team morale is a serious operational risk. Urgent HOD action needed."},
+     {min:"< −60",sc:10,lbl:"Critical",txt:"Extreme disengagement. Fundamental leadership and culture issues require immediate review."}
+   ]}
+];
+
+// ══════════════════════════════════════════
+// EQUIPMENT 2025 BASELINES (€)
+// ══════════════════════════════════════════
+var EQ={
   "Flavors":1524,"Anaya":5762,"Provence":1320,"Fresco":10114,
   "Ouzo":15260,"Kos":7660,"Seasons":9992,"Oliva":8551,
-  "Room Service":3542,"Lobby Area":4538,"Beach Pool":2362,
+  "Room Service":4839,"Lobby Area":4538,"Beach Pool":2362,
   "Deluxe Lobby Bar":4538,"Lagoon":1215,"Beach Bar":0,
   "Main Pool":3125,"Deluxe Pool Bar":3440,"Theater":0,
   "Beach Experience":0,"F&B":0,"Senior Management":0
 };
 
-// ══════════════════════════════════════════════════════
-// SCORING — piecewise linear interpolation
-// pts = [[x,y%],...] sorted ascending by x
-// ══════════════════════════════════════════════════════
-function pw(v,pts){
-  if(v<=pts[0][0])return pts[0][1];
-  if(v>=pts[pts.length-1][0])return pts[pts.length-1][1];
-  for(var i=0;i<pts.length-1;i++){
-    if(v>=pts[i][0]&&v<=pts[i+1][0]){
-      return pts[i][1]+(v-pts[i][0])/(pts[i+1][0]-pts[i][0])*(pts[i+1][1]-pts[i][1]);
-    }
-  }return 0;
-}
-
-// ══════════════════════════════════════════════════════
-// KPIs — 6 KPIs with exact continuous scoring
-// ══════════════════════════════════════════════════════
-var KPIS=[
-  {id:"lqa",lbl:"LQA / Audit Score",unit:"/100",desc:"Latest LQA inspection or internal quality audit result",
-   tgt:"Target 2025: ≥ 90 · Source: Sani/Ikos LQA Reports",
-   fn:function(v){return pw(v,[[50,0],[60,20],[70,40],[80,60],[90,80],[100,100]]);},
-   anc:[
-     {r:"< 60 · 0–20%",t:"Critical audit failure. Multiple non-conformances across key brand standards. Outlet poses reputational risk — immediate management intervention required."},
-     {r:"60–70 · 20–40%",t:"Below acceptable LQA threshold. Recurring deficiencies in service delivery, mise en place or standard adherence. Active corrective plan and close monitoring required."},
-     {r:"70–80 · 40–60%",t:"Meets minimum standard. Inconsistencies in execution remain. Targeted coaching and regular follow-up needed to ensure reliable delivery."},
-     {r:"80–90 · 60–80%",t:"Good standard. Minor gaps only. Supervisor proactively addresses inconsistencies and drives continuous improvement within the team."},
-     {r:"≥ 90 ★ · 80–100%",t:"Benchmark performance. Near-perfect execution across all audit dimensions. Standard-setting example for the property. Every point above 90 is rewarded.",tgt:true}
-   ]},
-  {id:"gri",lbl:"Guest Satisfaction (GRI / ReviewPro)",unit:"/100",desc:"Overall Guest Review Index — approved 2025 target from GM",
-   tgt:"Target 2025: ≥ 92.5 (from 91.65 in 2024) · Source: ReviewPro",
-   fn:function(v){return pw(v,[[65,0],[70,20],[78,40],[85,60],[92.5,80],[100,100]]);},
-   anc:[
-     {r:"< 70 · 0–20%",t:"Critically low guest satisfaction. Significant negative review pattern. Service culture and leadership issues require a structured improvement plan immediately."},
-     {r:"70–78 · 20–40%",t:"Below target. Recurring guest concerns are not being adequately identified or resolved. Action plan and guest feedback root-cause analysis required."},
-     {r:"78–85 · 40–60%",t:"Meets baseline satisfaction. Majority of guests satisfied but significant headroom remains. Service recovery is reactive rather than anticipatory."},
-     {r:"85–92.5 · 60–80%",t:"Strong satisfaction. Consistently positive feedback. Supervisor proactively resolves issues and regularly creates memorable service moments."},
-     {r:"≥ 92.5 ★ · 80–100%",t:"Outstanding guest experience. Meets or exceeds the GM-approved 2025 target. Guests name the outlet and team specifically in reviews. Service is anticipatory.",tgt:true}
-   ]},
-  {id:"cst",lbl:"Cost vs Budget Variance",unit:"%",desc:"Actual vs approved budget — enter negative if under budget (e.g. −2.5)",
-   tgt:"Target: 0% or below · Under budget without quality compromise",
-   fn:function(v){return pw(v,[[8,0],[5,20],[2,40],[0,60],[-3,80],[-8,100]]);},
-   anc:[
-     {r:"> +8% · 0–20%",t:"Significantly over budget. No demonstrable cost control. Financial awareness and basic budget discipline are absent. Immediate corrective action required."},
-     {r:"+5% to +8% · 20–40%",t:"Over budget. Insufficient cost management. Requires coaching on procurement, wastage control, and budget tracking."},
-     {r:"+2% to +5% · 40–60%",t:"Slightly over budget. Generally budget-aware but lacking consistent execution. Improved day-to-day cost discipline needed."},
-     {r:"0% to +2% · 60–80%",t:"On target or marginally over. Good cost awareness. Supervisor monitors expenditure proactively and makes course-corrections."},
-     {r:"≤ 0% ★ · 80–100%",t:"On or under budget. Excellent cost management without compromising quality or guest experience. Every percentage point under budget is rewarded.",tgt:true}
-   ]},
-  {id:"rev",lbl:"Revenue Achievement vs Target",unit:"%",desc:"Revenue delivered as % of period budget — 100 = on target",
-   tgt:"Target: ≥ 100% · Meet or exceed budget",
-   fn:function(v){return pw(v,[[75,0],[85,20],[92,40],[97,60],[100,80],[115,100]]);},
-   anc:[
-     {r:"< 85% · 0–20%",t:"Significantly underperformed vs target. Revenue-driving opportunities are consistently missed. Upselling culture and team briefing need urgent attention."},
-     {r:"85–92% · 20–40%",t:"Below target. Some revenue opportunities captured but inconsistently. Upselling scripts and product knowledge coaching needed."},
-     {r:"92–97% · 40–60%",t:"Near target. Minor shortfall. Team is generally engaged in revenue delivery but execution is inconsistent across shifts."},
-     {r:"97–100% · 60–80%",t:"Close to target. Team is briefed and motivated; minor gaps in converting upselling opportunities."},
-     {r:"≥ 100% ★ · 80–100%",t:"Met or exceeded target. Solid revenue performance through proactive upselling, deep product knowledge, and consistent team coaching. Every point above 100% is rewarded.",tgt:true}
-   ]},
-  {id:"cmp",lbl:"Guest Complaint Rate",unit:"/100 covers",desc:"Formal complaints per 100 guest interactions — lower is better",
-   tgt:"Target: 0 formal complaints · The Ikos standard",
-   fn:function(v){return Math.max(0,Math.min(100,(3-v)/3*100));},
-   anc:[
-     {r:"> 2 · 0–33%",t:"High complaint rate. Systematic service failures. Immediate root-cause analysis, team retraining, and operational review required."},
-     {r:"1–2 · 33–67%",t:"Above acceptable threshold. Recurring service issues not being proactively identified or resolved before escalating to formal complaints."},
-     {r:"0.5–1 · 67–83%",t:"Moderate rate. Service recovery exists but is primarily reactive. Guest issues are not being anticipated or prevented."},
-     {r:"0–0.5 · 83–100%",t:"Low to zero complaints. Strong service culture. Issues are caught and resolved by the team before formal complaints are raised."},
-     {r:"0 ★ · 100%",t:"Zero formal complaints. Exceptional anticipation of guest needs. Service issues resolved proactively at source — the standard we aspire to every day.",tgt:true}
-   ]},
-  {id:"eq",lbl:"Equipment Management (vs 2025 Baseline)",unit:"€ deficit",desc:"Enter current season's actual equipment deficit (€). Baseline auto-loaded from 2025 data.",
-   tgt:"Target 2025: −12% reduction vs 2025 baseline · Source: Equipment Replenishment Report",
-   fn:function(v,base){
-     if(!base||base<=0)return null;
-     var pct=(v-base)/base*100;
-     return pw(pct,[[-30,100],[-20,90],[-12,80],[-6,65],[0,50],[10,30],[20,15],[35,0]]);
-   },
-   eqKpi:true,
-   anc:[
-     {r:"Increased > +20% · 0–15%",t:"Equipment losses have increased significantly vs 2025. Poor handling culture, lack of ownership, and insufficient controls. Urgent intervention required."},
-     {r:"+0% to +20% · 15–50%",t:"Equipment losses same or higher than 2025. Baseline has not improved. Staff training on handling, storage SOPs, and accountability measures needed."},
-     {r:"−6% to 0% · 50–65%",t:"Marginal improvement vs 2025. Moving in the right direction but not on track to meet the −12% target. Tighten controls and outlet sign-off procedures."},
-     {r:"−12% to −6% · 65–80%",t:"Good improvement. Approaching the GM-approved target. Inventory management is strengthening — continue monthly tracking and staff awareness."},
-     {r:"≤ −12% ★ · 80–100%",t:"Meets or exceeds the −12% reduction target approved by the GM. Excellent equipment stewardship. Every percentage point beyond target is rewarded.",tgt:true}
-   ]}
-];
-
-// ══════════════════════════════════════════════════════
-// COMPETENCIES — 10-point scale
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
+// COMPETENCIES — 5 items, 10-point
+// ══════════════════════════════════════════
 var COMPS=[
   {id:"dec",lbl:"Decision Making",sub:"Λήψη Αποφάσεων",anc:[
     "Never decides; completely avoids responsibility and ignores situations requiring judgment.",
     "Almost always avoids decisions; acts only when directly told what to do.",
     "Rarely decides independently; consistently needs direction before taking any action.",
     "Often hesitant; delayed implementation, uncomfortable acting without confirmation.",
-    "Mechanical; follows routines and existing procedures without independent thought.",
-    "Beginning to show independent thinking; generally follows the right approach without prompting.",
+    "Mechanical; follows routines without independent thought.",
+    "Beginning to show independent thinking; follows the right approach without prompting.",
     "Usually decisive and thoughtful; applies sound judgment in familiar situations.",
     "Consistently proactive and well-considered; sound outcomes within their full scope of responsibility.",
-    "Highly decisive and confident; handles complex situations with skill, composure, and excellent results.",
-    "Exemplary decision-maker; consistently exceptional outcomes that inspire full confidence across the team."
+    "Highly decisive; handles complex situations with skill, composure, and excellent results.",
+    "Exemplary; consistently exceptional outcomes that inspire full confidence across the team."
   ]},
   {id:"org",lbl:"Organization & Planning",sub:"Οργάνωση",anc:[
-    "No planning or scheduling whatsoever; department operates without any structure.",
-    "Minimal organization; tasks are poorly assigned and outcomes are unpredictable.",
-    "Basic organization; some tasks managed but significant gaps exist in planning.",
-    "Below expectations; planning is inconsistent and often reactive to problems.",
-    "Mechanical; follows existing schedules without adaptation, improvement, or anticipation.",
+    "No planning or scheduling whatsoever; department operates without structure.",
+    "Minimal organization; tasks poorly assigned, outcomes unpredictable.",
+    "Basic organization; some tasks managed but significant planning gaps exist.",
+    "Below expectations; planning is inconsistent and largely reactive.",
+    "Mechanical; follows existing schedules without adaptation or anticipation.",
     "Adequately organized; plans department work with acceptable consistency.",
     "Good organization; proactively plans, delegates, and adjusts to operational needs.",
-    "Strong organizational capability; runs operations smoothly through clear planning and follow-through.",
-    "Excellent planner; anticipates challenges and organizes the department exceptionally well.",
-    "Outstanding; achieves seamless operations through exceptional forward planning and meaningful delegation."
+    "Strong capability; runs operations smoothly through clear planning and follow-through.",
+    "Excellent planner; anticipates challenges and organizes the department exceptionally.",
+    "Outstanding; seamless operations through exceptional forward planning and delegation."
   ]},
   {id:"com",lbl:"Communication",sub:"Επικοινωνία",anc:[
     "Unable to communicate; instructions are unclear, absent, or consistently incorrect.",
-    "Very poor communication; significant breakdowns causing confusion and operational errors.",
+    "Very poor; significant breakdowns causing confusion and operational errors.",
     "Often unclear; communication gaps cause recurring operational issues.",
-    "Inconsistent; some effective communication but frequent misunderstandings remain.",
-    "Basic; shares information when necessary but does not initiate or follow up proactively.",
-    "Generally communicates well; information is shared accurately and in a timely manner.",
-    "Good communicator; team is informed, instructions are clear, feedback is sought and acted upon.",
-    "Very effective; team receives and processes information reliably in all directions at all times.",
-    "Excellent communicator; team operates in full alignment, trusted and fully understood by everyone.",
-    "Exceptional; precision and clarity that earns unconditional trust from both team and peers."
+    "Inconsistent; some effective communication but frequent misunderstandings.",
+    "Basic; shares information when necessary but does not initiate proactively.",
+    "Generally communicates well; information shared accurately and on time.",
+    "Good communicator; team informed, instructions clear, feedback sought and acted upon.",
+    "Very effective; team receives and processes information reliably in all directions.",
+    "Excellent; team operates in full alignment, trusted and understood by everyone.",
+    "Exceptional; precision and clarity that earns unconditional trust from team and peers."
   ]},
   {id:"cre",lbl:"Creativity & Innovation",sub:"Δημιουργικότητα",anc:[
-    "Actively resists change; dismisses any new ideas or improvement suggestions from any source.",
-    "Shows no initiative; entirely content with the status quo, no proposals offered.",
-    "Rarely contributes ideas; remains strictly within existing frameworks at all times.",
+    "Actively resists change; dismisses any new ideas from any source.",
+    "Shows no initiative; entirely content with the status quo.",
+    "Rarely contributes ideas; stays strictly within existing frameworks.",
     "Occasionally offers input but ideas have no meaningful operational impact.",
-    "Sometimes relevant proposals; generally implementation-ready but limited in scope and impact.",
-    "Reasonably creative; suggests improvements that have some measurable positive effect.",
-    "Regularly proposes valuable ideas; several have been implemented with clear results.",
-    "Strong innovator; ideas consistently address real problems and improve measurable performance.",
+    "Sometimes relevant proposals; limited in scope and impact.",
+    "Reasonably creative; suggests improvements with some measurable positive effect.",
+    "Regularly proposes valuable ideas; several implemented with clear results.",
+    "Strong innovator; ideas consistently address real problems and improve performance.",
     "Highly creative; generates impactful solutions that significantly elevate the department.",
     "Exceptional; transformative creativity that elevates results, guest experience, and team culture."
   ]},
   {id:"sta",lbl:"Staff Care & Development",sub:"Φροντίδα Προσωπικού",anc:[
     "Completely indifferent to team wellbeing, professional growth, and individual development.",
-    "Avoids people development entirely; only engages when directly forced to by management.",
-    "Minimal effort; participates in training only when directly scheduled and required.",
-    "Inconsistent; occasionally listens to staff but rarely follows through with meaningful support.",
-    "Basic; follows the preset training plan without adding anything beyond the minimum required.",
+    "Avoids people development; only engages when directly forced by management.",
+    "Minimal effort; participates in training only when scheduled and required.",
+    "Inconsistent; occasionally listens but rarely follows through with meaningful support.",
+    "Basic; follows the preset training plan without adding anything beyond minimum.",
     "Listens and responds adequately; provides support when approached by team members.",
     "Actively supports the team; coaches, praises, and identifies development needs proactively.",
-    "Strong staff developer; transfers knowledge and provides meaningful, consistent guidance.",
-    "Highly invested; consistently coaches with passion and creates real, lasting development impact.",
+    "Strong developer; transfers knowledge and provides meaningful, consistent guidance.",
+    "Highly invested; coaches with passion and creates lasting development impact.",
     "Exceptional; invests fully in every individual's growth with energy, genuine care, and long-term vision."
   ]}
 ];
 
-// ══════════════════════════════════════════════════════
-// VALUES — RACE+ — 10-point scale
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
+// VALUES — RACE+ — 6 items, 10-point
+// ══════════════════════════════════════════
 var VALS=[
   {id:"rsp",lbl:"Respectful",mnt:"See value in everyone and everything.",anc:[
-    "Disregards dignity and equality entirely; dismissive of colleagues, guests, or the environment.",
-    "Very inconsistent respect; shows regard for others only when convenient or visible.",
-    "Sometimes respectful but inconsistent in treating all people and situations equally.",
-    "Generally kind but passive; does not actively listen or champion inclusion.",
-    "Adequate; treats others with basic courtesy but shows no leadership in this area.",
-    "Consistently kind and considerate; actively listens and treats all colleagues fairly.",
-    "Reliably respectful; creates a warm, inclusive environment in day-to-day interactions.",
+    "Disregards dignity; dismissive of colleagues, guests, or the environment.",
+    "Very inconsistent; shows regard for others only when convenient.",
+    "Sometimes respectful but inconsistent in treating all people equally.",
+    "Generally kind but passive; does not actively champion inclusion.",
+    "Adequate; treats others with basic courtesy but shows no leadership here.",
+    "Consistently kind; actively listens and treats all colleagues fairly.",
+    "Reliably respectful; creates a warm, inclusive environment daily.",
     "Strong model of respect; equality, listening, and dignity are visible daily behaviors.",
-    "Actively champions respect; raises standards around them through consistent personal example.",
+    "Actively champions respect; raises standards around them through personal example.",
     "Exemplary; an undisputed role model for inclusion, dignity, and environmental care."
   ]},
   {id:"aut",lbl:"Authentic",mnt:"Just be your awesome self.",anc:[
     "Consistently dishonest or opaque; avoids transparency in almost all situations.",
     "Rarely honest in a meaningful way; withholds relevant information regularly.",
     "Sometimes open, but discomfort with difficult truths limits genuine dialogue.",
-    "Inconsistent; occasionally transparent but avoids sharing uncomfortable perspectives.",
+    "Inconsistent; occasionally transparent but avoids uncomfortable perspectives.",
     "Basic honesty; tells the truth when asked but seldom volunteers genuine opinions.",
     "Generally open and honest; shares relevant opinions respectfully when appropriate.",
-    "Reliably authentic; voices views constructively and actively welcomes honest feedback.",
+    "Reliably authentic; voices views constructively and welcomes honest feedback.",
     "Strong authenticity; transparent, consistent, and genuinely embraces diverse perspectives.",
-    "Highly authentic; always truthful, confident in respectful dissent, values inclusion deeply.",
+    "Highly authentic; always truthful, confident in respectful dissent.",
     "Exemplary; unconditionally honest, speaks up with courage and celebrates all differences."
   ]},
   {id:"crt",lbl:"Creative",mnt:"Imagine new possibility — be bold, make it happen!",anc:[
     "Completely resistant to change; actively dismisses new ideas from any source.",
-    "Never initiates innovation; content with the status quo in all aspects of their role.",
-    "Avoids creativity entirely; waits passively for others to propose changes.",
+    "Never initiates innovation; content with the status quo in all aspects.",
+    "Avoids creativity; waits passively for others to propose changes.",
     "Rarely shows curiosity; ideas are infrequent and generally low-impact.",
-    "Occasionally proposes something new when prompted; limited proactive curiosity.",
-    "Shows openness to change; suggests improvements with some relevant positive impact.",
-    "Regularly challenges the status quo; proposes and tests practical new approaches.",
-    "Proactively innovative; ideas are implemented and create measurable, meaningful improvement.",
-    "Highly creative; bold thinking that changes perspectives and consistently improves operations.",
+    "Occasionally proposes something when prompted; limited proactive curiosity.",
+    "Shows openness to change; suggests improvements with some positive impact.",
+    "Regularly challenges the status quo; proposes and tests new approaches.",
+    "Proactively innovative; ideas are implemented and create meaningful improvement.",
+    "Highly creative; bold thinking that changes perspectives and improves operations.",
     "Exceptional; transformative curiosity that inspires the entire team to think differently."
   ]},
   {id:"pas",lbl:"Passionate",mnt:"Do what you love and love what you do.",anc:[
-    "No enthusiasm whatsoever; disengaged, avoids challenges, operates purely on autopilot.",
-    "Rarely motivated; shows indifference to the outcome of their work or team's success.",
-    "Low energy; steps up only when absolutely required, retreats quickly to comfort zone.",
+    "No enthusiasm; disengaged, avoids challenges, operates purely on autopilot.",
+    "Rarely motivated; indifferent to the outcome of work or team success.",
+    "Low energy; steps up only when absolutely required.",
     "Inconsistent; occasional bursts of energy but largely uninspired.",
     "Adequate; does what is needed without genuine enthusiasm or discretionary effort.",
     "Generally positive; takes on challenges reasonably and maintains a steady attitude.",
-    "Consistently enthusiastic; steps outside comfort zone and inspires those immediately nearby.",
-    "Highly motivated; transforms pressure into energy and maintains a genuinely positive outlook.",
+    "Consistently enthusiastic; steps outside comfort zone and inspires those nearby.",
+    "Highly motivated; transforms pressure into energy and maintains genuine positive outlook.",
     "Infectious passion; elevates team morale and finds motivation in every challenge.",
-    "Exceptional; extraordinary energy that raises the entire team's standards and performance."
+    "Exceptional; extraordinary energy that raises the entire team's standards."
   ]},
   {id:"res",lbl:"Responsible",mnt:"Be accountable to each other and for your work.",anc:[
     "Deflects all accountability; consistently blames others for outcomes.",
-    "Rarely owns mistakes; recognition of others' contributions is completely absent.",
-    "Inconsistent accountability; sometimes takes ownership but often deflects or minimizes.",
-    "Below expectations; acknowledges mistakes when pressed but avoids doing so proactively.",
+    "Rarely owns mistakes; recognition of others' contributions is absent.",
+    "Inconsistent accountability; sometimes takes ownership but often deflects.",
+    "Below expectations; acknowledges mistakes when pressed but not proactively.",
     "Basic accountability; owns work outcomes but does not actively credit the team.",
-    "Generally responsible; owns both successes and failures with reasonable consistency.",
+    "Generally responsible; owns both successes and failures with consistency.",
     "Reliably accountable; regularly acknowledges team contributions and takes ownership.",
     "Strong ownership culture; transparent about mistakes and consistent in recognizing others.",
-    "Highly responsible; a clear role model for accountability, trust, and team recognition.",
-    "Exemplary; unconditional ownership at all times, inspiring full accountability in those around them."
+    "Highly responsible; a clear role model for accountability, trust, and recognition.",
+    "Exemplary; unconditional ownership inspiring full accountability in those around them."
   ]},
   {id:"exc",lbl:"Excellent",mnt:"Always striving — settling for nothing less than great!",anc:[
-    "No attention to quality; unable to identify what adds value or meet basic standards.",
+    "No attention to quality; unable to identify what adds value.",
     "Very inconsistent quality; standard is unpredictable and rarely meets expectations.",
-    "Below expectations; quality is inconsistent and the pursuit of excellence is absent.",
-    "Inconsistent attention to detail; sustained management attention required to maintain standards.",
-    "Basic; meets the minimum standard with adequate but uninspired attention to quality.",
+    "Below expectations; inconsistent quality, pursuit of excellence is absent.",
+    "Inconsistent attention to detail; sustained management attention required.",
+    "Basic; meets the minimum standard with adequate but uninspired attention.",
     "Generally attentive; pursues quality with reasonable energy and consistency.",
     "Good standard; knows what adds value and delivers it with consistent enthusiasm.",
     "Very strong; detail-focused and energized by the pursuit of excellence every day.",
@@ -542,26 +639,22 @@ var VALS=[
 ];
 
 var BANDS=[
-  {min:0,max:20,lbl:"Inadequate",gr:"Ανεπαρκής",c:"#E24B4A",desc:"Critical performance gap. Fundamental intervention required."},
-  {min:20,max:40,lbl:"Low",gr:"Χαμηλή",c:"#D85A30",desc:"Does not meet the minimum expected level. A structured improvement plan is essential."},
-  {min:40,max:60,lbl:"Acceptable",gr:"Κατώτατο Αποδεκτό",c:"#BA7517",desc:"At the lower edge of acceptable. Improvement needed to reach consistent good performance."},
-  {min:60,max:75,lbl:"Good",gr:"Καλή",c:"#639922",desc:"Meets the defined standard. Most responsibilities fulfilled in the correct manner."},
-  {min:75,max:90,lbl:"Very Good",gr:"Πολύ Καλή",c:"#1D9E75",desc:"Notably above standard. Handles unexpected situations professionally."},
-  {min:90,max:101,lbl:"Excellent",gr:"Εξαιρετική",c:"#185FA5",desc:"Exceptional and consistent performance. A true role model for the department."}
+  {min:0,max:20,lbl:"Inadequate",gr:"Ανεπαρκής",c:"#E24B4A"},
+  {min:20,max:40,lbl:"Low",gr:"Χαμηλή",c:"#D85A30"},
+  {min:40,max:60,lbl:"Acceptable",gr:"Κατώτατο Αποδεκτό",c:"#BA7517"},
+  {min:60,max:75,lbl:"Good",gr:"Καλή",c:"#639922"},
+  {min:75,max:90,lbl:"Very Good",gr:"Πολύ Καλή",c:"#1D9E75"},
+  {min:90,max:101,lbl:"Excellent",gr:"Εξαιρετική",c:"#185FA5"}
 ];
 
 function gb(p){return BANDS.find(function(b){return p>=b.min&&p<b.max;})||BANDS[BANDS.length-1];}
 function gc(p){return p>0?gb(p).c:"#8A9AB0";}
-function fmtP(p){return Math.round(p*10)/10+"%";}
 function avg(a){if(!a.length)return 0;return a.reduce(function(x,y){return x+y;},0)/a.length;}
 
-var ST={sup:null,kpiV:{},kpiS:{},comps:{},vals:{},pin:false};
+var ST={sup:null,kpiV:{},kpiS:{},comps:{},vals:{},pin:false,eqBase:0,griTgt:0};
 var CH={};
 var PIN="2025",pendingTab="";
 
-// ══════════════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════════════
 function init(){
   var sel=document.getElementById("sup-sel");
   var grps={},ord=[];
@@ -571,41 +664,45 @@ function init(){
     grps[v].forEach(function(x){var o=document.createElement("option");o.value=x.i;o.textContent=x.s.n+" · "+x.s.r;og.appendChild(o);});
     sel.appendChild(og);
   });
-  // Bands home
+  // Bands home table
   var bt=document.getElementById("bands-tbl");
-  bt.innerHTML='<thead><tr style="background:var(--cr)"><th style="padding:9px 12px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--t3);border-bottom:1px solid var(--bd)">Score %</th><th style="padding:9px 12px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--t3);border-bottom:1px solid var(--bd)">Band</th><th style="padding:9px 12px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--t3);border-bottom:1px solid var(--bd)">Greek</th><th style="padding:9px 12px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--t3);border-bottom:1px solid var(--bd)">What it means</th></tr></thead><tbody>';
-  var tb="";
-  BANDS.slice().reverse().forEach(function(b){tb+='<tr><td style="padding:9px 12px;font-size:15px;font-weight:600;color:'+b.c+'">'+b.min+'–'+(b.max===101?100:b.max)+'%</td><td style="padding:9px 12px;font-weight:500;color:'+b.c+'">'+b.lbl+'</td><td style="padding:9px 12px;font-size:11px;color:var(--t3);font-style:italic">'+b.gr+'</td><td style="padding:9px 12px;font-size:12px;color:var(--t2)">'+b.desc+'</td></tr>';});
-  bt.innerHTML+=tb+"</tbody>";
+  var hd='<thead><tr style="background:var(--cr)">';
+  ["Score %","Band","Greek","What it means"].forEach(function(h){hd+='<th style="padding:9px 12px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--t3);border-bottom:1px solid var(--bd)">'+h+'</th>';});
+  hd+='</tr></thead><tbody>';
+  BANDS.slice().reverse().forEach(function(b){
+    hd+='<tr><td style="padding:9px 12px;font-size:15px;font-weight:600;color:'+b.c+'">'+b.min+'–'+(b.max===101?100:b.max)+'%</td><td style="padding:9px 12px;font-weight:500;color:'+b.c+'">'+b.lbl+'</td><td style="padding:9px 12px;font-size:11px;color:var(--t3);font-style:italic">'+b.gr+'</td><td style="padding:9px 12px;font-size:12px;color:var(--t2)"></td></tr>';
+  });
+  bt.innerHTML=hd+'</tbody>';
   // KPI items
   var kc=document.getElementById("kpi-items");
-  KPIS.forEach(function(k){
-    var rows=k.anc.map(function(a,i){
-      var bc=BANDS[Math.min(i,BANDS.length-1)].c;
-      return '<div class="kanc-row'+(a.tgt?' tgt':'')+'"><div class="kanc-sc" style="background:'+bc+'">'+a.r+'</div><div class="kanc-ct"><div class="kt">'+a.t+'</div></div></div>';
-    }).join('');
-    var eqExtra=k.eqKpi?'<div class="eq-ref" id="eq-ref"><b>2025 Baseline:</b> <span id="eq-base-val">—</span> · <b>% Change:</b> <span id="eq-pct-val">—</span></div>':'';
-    kc.innerHTML+='<div class="kc" id="kc-'+k.id+'"><div class="kc-h"><div><div class="kc-lbl">'+k.lbl+'</div><div class="kc-dsc">'+k.desc+'</div><div class="kc-tgt">'+k.tgt+'</div></div><div class="kbadge" id="kb-'+k.id+'"><div class="kp"></div><div class="kr"></div></div></div>'+eqExtra+'<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><input type="number" class="fis" placeholder="Enter value ('+k.unit+')" oninput="sKpi(\''+k.id+'\',this.value)" style="width:150px"><span style="font-size:12px;color:var(--t3)">'+k.unit+'</span></div><div class="kbar" id="kbar-'+k.id+'"><div class="kbarf" id="kbf-'+k.id+'"></div></div><span class="kanc-tog" id="at-'+k.id+'" onclick="togAnc(\''+k.id+'\')">Score guide — what each range means</span><div class="kanc-body" id="ab-'+k.id+'">'+rows+'</div></div>';
-  });
-  // Comp items
-  var cc=document.getElementById("comp-items");
-  COMPS.forEach(function(c){cc.innerHTML+=mkL(c,"comp");});
-  // Val items
-  var vc=document.getElementById("vals-items");
-  VALS.forEach(function(v){vc.innerHTML+=mkL(v,"val");});
+  KPIS.forEach(function(k){kc.innerHTML+=mkKPI(k);});
+  // Comp & val items
+  var cc=document.getElementById("comp-items");COMPS.forEach(function(c){cc.innerHTML+=mkL(c,"comp");});
+  var vc=document.getElementById("vals-items");VALS.forEach(function(v){vc.innerHTML+=mkL(v,"val");});
   checkHash();
 }
 
+function mkKPI(k){
+  var rows='<table class="tier-tbl"><thead><tr><th>Level</th><th>Score</th><th>Value</th><th>What it means</th></tr></thead><tbody>';
+  k.tiers.forEach(function(t,i){
+    var lvl=10-i;var bc=gb(t.sc).c;
+    rows+='<tr id="tier-'+k.id+'-'+lvl+'"'+(t.tgt?' class="tgt-row"':'')+'><td><span class="tier-lvl" style="background:'+bc+'">'+lvl+'</span></td><td style="font-weight:600;color:'+bc+'">'+t.sc+'%</td><td style="font-size:11px;font-weight:500">'+t.min+(t.tgt?' ★':' ')+'</td><td style="font-size:11px;color:var(--t2)">'+t.txt+'</td></tr>';
+  });
+  rows+='</tbody></table>';
+  var extra='';
+  if(k.griKpi)extra='<div class="outlet-info" id="gri-info"><b>Outlet 2026 target:</b> <span id="gri-tgt-val">—</span></div>';
+  if(k.eqKpi)extra='<div class="outlet-info" id="eq-info"><b>2025 Baseline:</b> <span id="eq-base-val">—</span> · <b>% Change:</b> <span id="eq-pct-val">—</span></div>';
+  return '<div class="kc" id="kc-'+k.id+'"><div class="kc-h"><div><div class="kc-lbl">'+k.lbl+'</div><div class="kc-dsc">'+k.desc+'</div><div class="kc-tgt">'+k.tgt+'</div></div><div class="kbadge" id="kb-'+k.id+'"><div class="kp"></div><div class="kr"></div></div></div>'+extra+'<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><input type="number" class="fis" placeholder="Enter value ('+k.unit+')" oninput="sKpi(\''+k.id+'\',this.value)" id="kpi-inp-'+k.id+'" style="width:155px"><span style="font-size:12px;color:var(--t3)">'+k.unit+'</span></div><div class="kbar" id="kbar-'+k.id+'"><div class="kbarf" id="kbf-'+k.id+'"></div></div><span class="kanc-tog" id="at-'+k.id+'" onclick="togAnc(\''+k.id+'\')">Score guide — 10 levels with exact thresholds</span><div class="kanc-body" id="ab-'+k.id+'">'+rows+'</div></div>';
+}
+
 function mkL(item,type){
-  var btns=[1,2,3,4,5,6,7,8,9,10].map(function(n){
-    return '<button class="lbtn" onclick="sScore(\''+type+'\',\''+item.id+'\','+n+')">'+n+'</button>';
-  }).join('');
+  var btns=[1,2,3,4,5,6,7,8,9,10].map(function(n){return '<button class="lbtn" onclick="sScore(\''+type+'\',\''+item.id+'\','+n+')">'+n+'</button>';}).join('');
   return '<div class="lc" id="lc-'+type+'-'+item.id+'"><div class="lc-h"><div><div class="l-lbl">'+item.lbl+'</div><div class="l-sub">'+(item.sub||'')+'</div>'+(item.mnt?'<div class="l-mnt">"'+item.mnt+'"</div>':'')+'</div><div class="lbadge" id="lb-'+type+'-'+item.id+'"><div class="lp"></div><div class="lr"></div></div></div><div class="lbtns">'+btns+'</div><div class="anc" id="an-'+type+'-'+item.id+'"></div></div>';
 }
 
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
 // NAVIGATION
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
 function gt(id){
   document.querySelectorAll(".pan").forEach(function(p){p.classList.remove("on");});
   document.querySelectorAll(".tab").forEach(function(b,i){b.classList.remove("on");if(["home","eval","score","team"][i]===id)b.classList.add("on");});
@@ -613,93 +710,72 @@ function gt(id){
   window.scrollTo(0,0);
   if(id==="team")renderTeam();
 }
-function gateTab(id){
-  if(ST.pin){gt(id);return;}
-  pendingTab=id;
-  document.getElementById("pin-ov").classList.add("on");
-  document.getElementById("pin-in").value="";
-  document.getElementById("pin-err").style.display="none";
-  setTimeout(function(){document.getElementById("pin-in").focus();},80);
-}
-function checkPin(){
-  var v=document.getElementById("pin-in").value;
-  if(v.length<4)return;
-  if(v===PIN){ST.pin=true;closePM();gt(pendingTab);}
-  else{document.getElementById("pin-err").style.display="block";document.getElementById("pin-in").value="";}
-}
+function gateTab(id){if(ST.pin){gt(id);return;}pendingTab=id;document.getElementById("pin-ov").classList.add("on");document.getElementById("pin-in").value="";document.getElementById("pin-err").style.display="none";setTimeout(function(){document.getElementById("pin-in").focus();},80);}
+function checkPin(){var v=document.getElementById("pin-in").value;if(v.length<4)return;if(v===PIN){ST.pin=true;closePM();gt(pendingTab);}else{document.getElementById("pin-err").style.display="block";document.getElementById("pin-in").value="";}}
 function closePM(){document.getElementById("pin-ov").classList.remove("on");}
-function evGo(s){
-  ["info","kpi","comp","vals","results"].forEach(function(x){document.getElementById("ev-"+x).style.display="none";});
-  document.getElementById("ev-"+s).style.display="block";
-  if(s==="results")renderResults();
-  window.scrollTo(0,0);
-}
-function togAnc(id){
-  document.getElementById("at-"+id).classList.toggle("open");
-  document.getElementById("ab-"+id).classList.toggle("on");
-}
+function evGo(s){["info","kpi","comp","vals","dev","results"].forEach(function(x){document.getElementById("ev-"+x).style.display="none";});document.getElementById("ev-"+s).style.display="block";if(s==="results")renderResults();window.scrollTo(0,0);}
+function togAnc(id){document.getElementById("at-"+id).classList.toggle("open");document.getElementById("ab-"+id).classList.toggle("on");}
 
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
 // INPUTS
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
 function selSup(idx){
   if(idx===""){ST.sup=null;document.getElementById("sup-confirm").style.display="none";return;}
   ST.sup=SUPS[parseInt(idx)];
   document.getElementById("sup-cn").textContent=ST.sup.n;
   document.getElementById("sup-cm").textContent=ST.sup.r+" · "+ST.sup.v+" · Ikos Aria";
   document.getElementById("sup-confirm").style.display="block";
-  // Update equipment baseline reference
-  var base=EQ_BASE[ST.sup.v]||0;
-  ST.eqBase=base;
-  var ref=document.getElementById("eq-ref");
-  var bv=document.getElementById("eq-base-val");
-  if(ref&&bv){
-    if(base>0){ref.style.display="block";bv.textContent="€"+base.toLocaleString()+" ("+ST.sup.v+" 2025 — target: €"+(Math.round(base*0.88)).toLocaleString()+" = −12%)";}
-    else{ref.style.display="block";bv.textContent="No 2025 data — equipment KPI will be skipped";}
+  // GRI target
+  ST.griTgt=GRI[ST.sup.v]||9.55;
+  var gi=document.getElementById("gri-info"),gtv=document.getElementById("gri-tgt-val");
+  if(gi&&gtv){gi.style.display="block";gtv.textContent=ST.griTgt+"/10 ("+ST.sup.v+" 2026 target)";}
+  // Equipment baseline
+  ST.eqBase=EQ[ST.sup.v]||0;
+  var ei=document.getElementById("eq-info"),ebv=document.getElementById("eq-base-val");
+  if(ei&&ebv){
+    if(ST.eqBase>0){ei.style.display="block";ebv.textContent="€"+ST.eqBase.toLocaleString()+" · Target ≤ €"+Math.round(ST.eqBase*0.88).toLocaleString()+" (−12%)";}
+    else{ei.style.display="block";ebv.textContent="No 2025 data — KPI will be skipped";}
   }
-  // Re-score equipment KPI if value already entered
-  var eqInp=document.querySelector("#kc-eq input");
-  if(eqInp&&eqInp.value)sKpi("eq",eqInp.value);
+  // Re-score if already entered
+  ["eq","gri"].forEach(function(id){var inp=document.getElementById("kpi-inp-"+id);if(inp&&inp.value)sKpi(id,inp.value);});
 }
 
 function sKpi(id,val){
   var v=parseFloat(val);
-  if(val===""||isNaN(v)){ST.kpiV[id]=null;ST.kpiS[id]=null;showKpiBadge(id,null);updP("kpi");updHdr();return;}
+  if(val===""||isNaN(v)){ST.kpiV[id]=null;ST.kpiS[id]=null;showKpiBadge(id,null);highlightTier(id,null);updP("kpi");updHdr();return;}
   ST.kpiV[id]=v;
   var kpi=KPIS.find(function(k){return k.id===id;});
-  var score=kpi.eqKpi?kpi.fn(v,ST.eqBase||0):kpi.fn(v);
-  if(kpi.eqKpi&&(!ST.eqBase||ST.eqBase<=0)){
-    ST.kpiS[id]=null;showKpiBadge(id,null);
-    var pv=document.getElementById("eq-pct-val");if(pv)pv.textContent="No baseline — skipped";
-    updP("kpi");updHdr();return;
-  }
+  var score=null;
+  if(kpi.eqKpi){score=kpi.fn(v,ST.eqBase);var pct=ST.eqBase>0?(v-ST.eqBase)/ST.eqBase*100:0;var pv=document.getElementById("eq-pct-val");if(pv)pv.textContent=(pct>=0?"+":"")+Math.round(pct*10)/10+"% vs 2025";}
+  else score=kpi.fn(v);
   if(score===null){ST.kpiS[id]=null;showKpiBadge(id,null);updP("kpi");updHdr();return;}
   ST.kpiS[id]=score;
   showKpiBadge(id,score);
-  // Update equipment % display
-  if(kpi.eqKpi){
-    var pct=(v-(ST.eqBase||0))/(ST.eqBase||1)*100;
-    var pv=document.getElementById("eq-pct-val");
-    if(pv)pv.textContent=(pct>=0?"+":"")+Math.round(pct*10)/10+"% vs 2025";
-  }
+  highlightTier(id,score);
   updP("kpi");updHdr();
 }
 
 function showKpiBadge(id,score){
   var badge=document.getElementById("kb-"+id);
-  var bar=document.getElementById("kbar-"+id);var fill=document.getElementById("kbf-"+id);
+  var bar=document.getElementById("kbar-"+id),fill=document.getElementById("kbf-"+id);
   if(score!==null&&score>=0){
-    var p=Math.round(score*10)/10;
+    var p=score;
     badge.querySelector(".kp").textContent=p+"%";
     badge.querySelector(".kp").style.color=gb(p).c;
-    badge.querySelector(".kr").textContent=gb(p).lbl;
+    badge.querySelector(".kr").textContent="Level "+(p/10)+" · "+gb(p).lbl;
     badge.style.display="block";
     bar.style.display="block";fill.style.width=p+"%";fill.style.background=gb(p).c;
     document.getElementById("kc-"+id).style.borderColor=gb(p).c+"66";
   } else {
-    badge.style.display="none";
-    bar.style.display="none";
+    badge.style.display="none";bar.style.display="none";
     document.getElementById("kc-"+id).style.borderColor="";
+  }
+}
+
+function highlightTier(id,score){
+  for(var lvl=1;lvl<=10;lvl++){
+    var row=document.getElementById("tier-"+id+"-"+lvl);
+    if(row){row.classList.toggle("active",score!==null&&lvl===score/10);}
   }
 }
 
@@ -708,10 +784,8 @@ function sScore(type,id,score){
   var pct=score*10;
   document.querySelectorAll("#lc-"+type+"-"+id+" .lbtn").forEach(function(b,i){b.classList.toggle("on",i+1===score);});
   var badge=document.getElementById("lb-"+type+"-"+id);
-  badge.querySelector(".lp").textContent=pct+"%";
-  badge.querySelector(".lp").style.color=gb(pct).c;
-  badge.querySelector(".lr").textContent=score+"/10";
-  badge.style.display="block";
+  badge.querySelector(".lp").textContent=pct+"%";badge.querySelector(".lp").style.color=gb(pct).c;
+  badge.querySelector(".lr").textContent=score+"/10";badge.style.display="block";
   var items=type==="comp"?COMPS:VALS;
   var item=items.find(function(x){return x.id===id;});
   var an=document.getElementById("an-"+type+"-"+id);
@@ -721,76 +795,86 @@ function sScore(type,id,score){
   updP(type==="comp"?"comp":"vals");updHdr();
 }
 
-// ══════════════════════════════════════════════════════
-// PILLAR AVERAGES
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
+// SCORING
+// ══════════════════════════════════════════
 function kpiAvg(){var v=Object.values(ST.kpiS).filter(function(x){return x!==null&&x>=0;});return avg(v);}
 function compAvg(){var v=Object.values(ST.comps).filter(function(x){return x>0;}).map(function(x){return x*10;});return avg(v);}
 function valsAvg(){var v=Object.values(ST.vals).filter(function(x){return x>0;}).map(function(x){return x*10;});return avg(v);}
-function hasKpi(){return Object.values(ST.kpiS).some(function(x){return x!==null&&x>=0;});}
-function hasComp(){return Object.values(ST.comps).some(function(x){return x>0;});}
-function hasVals(){return Object.values(ST.vals).some(function(x){return x>0;});}
-
 function composite(){
   var parts=[];
-  if(hasKpi())parts.push({s:kpiAvg(),w:.40});
-  if(hasComp())parts.push({s:compAvg(),w:.35});
-  if(hasVals())parts.push({s:valsAvg(),w:.25});
+  if(Object.values(ST.kpiS).some(function(x){return x!==null&&x>=0;}))parts.push({s:kpiAvg(),w:.40});
+  if(Object.values(ST.comps).some(function(x){return x>0;}))parts.push({s:compAvg(),w:.35});
+  if(Object.values(ST.vals).some(function(x){return x>0;}))parts.push({s:valsAvg(),w:.25});
   if(!parts.length)return 0;
   var tw=parts.reduce(function(a,p){return a+p.w;},0);
   return parts.reduce(function(a,p){return a+p.s*(p.w/tw);},0);
 }
-
 function updP(pillar){
   var sc,eId,vId;
-  if(pillar==="kpi"&&hasKpi()){sc=kpiAvg();eId="kpi-pavg";vId="kpi-pv";}
-  else if(pillar==="comp"&&hasComp()){sc=compAvg();eId="comp-pavg";vId="comp-pv";}
-  else if(pillar==="vals"&&hasVals()){sc=valsAvg();eId="vals-pavg";vId="vals-pv";}
-  else{if(pillar==="kpi")document.getElementById("kpi-pavg").style.display="none";else if(pillar==="comp")document.getElementById("comp-pavg").style.display="none";else document.getElementById("vals-pavg").style.display="none";return;}
+  if(pillar==="kpi"){sc=kpiAvg();eId="kpi-pavg";vId="kpi-pv";}
+  else if(pillar==="comp"){sc=compAvg();eId="comp-pavg";vId="comp-pv";}
+  else{sc=valsAvg();eId="vals-pavg";vId="vals-pv";}
   var el=document.getElementById(eId),vl=document.getElementById(vId);
-  var p=Math.round(sc*10)/10;
-  el.style.display="flex";vl.textContent=p+"% · "+gb(p).lbl;vl.style.color=gb(p).c;
+  if(sc>0){var p=Math.round(sc*10)/10;el.style.display="flex";vl.textContent=p+"% · "+gb(p).lbl;vl.style.color=gb(p).c;}
+  else el.style.display="none";
 }
-
 function updHdr(){
   var c=composite();
   if(c>0){var p=Math.round(c*10)/10;document.getElementById("hdr-sc").style.display="block";var n=document.getElementById("hs-n"),b=document.getElementById("hs-b");n.textContent=p+"%";n.style.color=gb(p).c;b.textContent=gb(p).lbl;b.style.color=gb(p).c;}
   else document.getElementById("hdr-sc").style.display="none";
 }
 
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
 // SCORECARD BUILDER
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
 function buildSC(data,ctId){
   var c=data.composite,p=Math.round(c*10)/10,band=gb(p);
   var ka=data.kpiAvg||0,ca=data.compAvg||0,va=data.valsAvg||0;
   var kp=Math.round(ka*10)/10,cp=Math.round(ca*10)/10,vp=Math.round(va*10)/10;
   var h="";
-  h+='<div class="sc-hero"><div class="sc-i"><div class="sc-name">'+(data.sup?data.sup.n:"—")+'</div><div class="sc-role">'+(data.sup?data.sup.r+" · "+data.sup.v+" · Ikos Aria":"")+'</div><div class="sc-meta">'+(data.period?"Period: "+data.period+" · ":"")+(data.evaluator?"By: "+data.evaluator:"")+(data.date?" · "+data.date:"")+'</div></div><div class="sc-num"><div class="sc-pct" style="color:'+band.c+'">'+p+'%</div><div class="sc-band" style="color:'+band.c+'">'+band.lbl+'</div><div class="sc-gr">'+band.gr+'</div></div></div>';
+  // Hero
+  h+='<div class="sc-hero"><div class="sc-i"><div class="sc-name">'+(data.sup?data.sup.n:"—")+'</div><div class="sc-role">'+(data.sup?data.sup.r+" · "+data.sup.v+" · Ikos Aria":"")+'</div><div class="sc-meta">'+(data.period?data.period+" · ":"")+( data.evalDate?data.evalDate+" · ":"")+(data.evaluator?"By: "+data.evaluator:"")+'</div></div><div class="sc-num"><div class="sc-pct" style="color:'+band.c+'">'+p+'%</div><div class="sc-band" style="color:'+band.c+'">'+band.lbl+'</div><div class="sc-gr">'+band.gr+'</div></div></div>';
+  // Pillar pills
   h+='<div class="pill-g">';
   [{l:"Operational KPIs",p:kp,s:ka,w:"40%"},{l:"Competencies",p:cp,s:ca,w:"35%"},{l:"Values (RACE+)",p:vp,s:va,w:"25%"}].forEach(function(x){
     h+='<div class="pcrd"><div class="pc-l">'+x.l+'</div><div class="pc-p" style="color:'+gc(x.p)+'">'+(x.s>0?x.p+"%":"—")+'</div>'+(x.s>0?'<div class="pc-b" style="color:'+gc(x.p)+'">'+gb(x.p).lbl+'</div>':'')+'<div class="pc-w">'+x.w+'</div>'+(x.s>0?'<div class="pc-bar"><div class="pc-barf" style="width:'+x.p+'%;background:'+gc(x.p)+'"></div></div>':'')+'</div>';
   });
-  h+='</div><div class="chart-g">';
+  h+='</div>';
+  // Development priorities
+  if(data.dev1||data.dev2){
+    h+='<div class="dev-sc"><div class="ds-t">Development Priorities</div>';
+    if(data.dev1)h+='<div class="ds-item"><div class="ds-num">1</div><div class="ds-txt">'+data.dev1+'</div></div>';
+    if(data.dev2)h+='<div class="ds-item"><div class="ds-num">2</div><div class="ds-txt">'+data.dev2+'</div></div>';
+    h+='</div>';
+  }
+  // Charts
+  h+='<div class="chart-g">';
   // KPI breakdown
-  h+='<div class="chart-c"><div class="chart-ct">KPI Breakdown — Exact Scores</div>';
-  var ks=KPIS.map(function(k){var s=data.kpiS?data.kpiS[k.id]:null;var v=data.kpiV?data.kpiV[k.id]:null;return{l:k.lbl,s:s,v:v,unit:k.unit};}).filter(function(x){return x.s!==null&&x.s>=0;});
-  if(ks.length)ks.forEach(function(k){var q=Math.round(k.s*10)/10;h+='<div class="b-row"><div class="b-lbl" title="'+k.l+' = '+k.v+k.unit+'">'+k.l+'</div><div class="b-trk"><div class="b-fll" style="width:'+q+'%;background:'+gb(q).c+'"></div></div><div class="b-vl" style="color:'+gb(q).c+'">'+q+'%</div></div>';});
+  h+='<div class="chart-c"><div class="chart-ct">KPI Breakdown — Discrete Levels</div>';
+  var ks=KPIS.map(function(k){var s=data.kpiS?data.kpiS[k.id]:null;return{l:k.lbl.split('(')[0].trim(),s:s};}).filter(function(x){return x.s!==null&&x.s>=0;});
+  if(ks.length)ks.forEach(function(k){var q=k.s;h+='<div class="b-row"><div class="b-lbl" title="'+k.l+'">'+k.l+'</div><div class="b-trk"><div class="b-fll" style="width:'+q+'%;background:'+gb(q).c+'"></div></div><div class="b-vl" style="color:'+gb(q).c+'">'+q+'%</div></div>';});
   else h+='<div style="font-size:12px;color:var(--t3)">No KPI data.</div>';
   h+='</div>';
   // Radar
   h+='<div class="chart-c"><div class="chart-ct">Values Radar</div><canvas id="rdr-'+ctId+'" style="max-height:220px"></canvas></div>';
   h+='</div>';
-  if(ca>0){h+='<div class="chart-c" style="margin-bottom:14px"><div class="chart-ct">Competencies — Exact Scores</div>';COMPS.forEach(function(comp){var sc=data.comps?data.comps[comp.id]:0;if(sc>0){var q=sc*10;h+='<div class="b-row"><div class="b-lbl">'+comp.lbl+'</div><div class="b-trk"><div class="b-fll" style="width:'+q+'%;background:'+gb(q).c+'"></div></div><div class="b-vl" style="color:'+gb(q).c+'">'+q+'%</div></div>';}});h+='</div>';}
-  if(va>0){h+='<div class="chart-c" style="margin-bottom:14px"><div class="chart-ct">Values Alignment — Exact Scores</div>';VALS.forEach(function(val){var sc=data.vals?data.vals[val.id]:0;if(sc>0){var q=sc*10;h+='<div class="b-row"><div class="b-lbl">'+val.lbl+'</div><div class="b-trk"><div class="b-fll" style="width:'+q+'%;background:'+gb(q).c+'"></div></div><div class="b-vl" style="color:'+gb(q).c+'">'+q+'%</div></div>';}});h+='</div>';}
-  h+='<div class="chart-c" style="margin-bottom:14px"><div class="chart-ct">Performance Band</div><div class="band-pills">'+BANDS.map(function(b){var act=p>=b.min&&p<b.max;return '<div class="bpll" style="'+(act?'background:'+b.c+';color:#fff;border-color:'+b.c+';font-weight:500;':'')+'">'+b.lbl+' '+b.min+'–'+(b.max===101?100:b.max)+'%</div>';}).join('')+'</div></div>';
+  if(ca>0){h+='<div class="chart-c" style="margin-bottom:14px"><div class="chart-ct">Competencies</div>';COMPS.forEach(function(comp){var sc=data.comps?data.comps[comp.id]:0;if(sc>0){var q=sc*10;h+='<div class="b-row"><div class="b-lbl">'+comp.lbl+'</div><div class="b-trk"><div class="b-fll" style="width:'+q+'%;background:'+gb(q).c+'"></div></div><div class="b-vl" style="color:'+gb(q).c+'">'+q+'%</div></div>';}});h+='</div>';}
+  if(va>0){h+='<div class="chart-c" style="margin-bottom:14px"><div class="chart-ct">Values Alignment</div>';VALS.forEach(function(val){var sc=data.vals?data.vals[val.id]:0;if(sc>0){var q=sc*10;h+='<div class="b-row"><div class="b-lbl">'+val.lbl+'</div><div class="b-trk"><div class="b-fll" style="width:'+q+'%;background:'+gb(q).c+'"></div></div><div class="b-vl" style="color:'+gb(q).c+'">'+q+'%</div></div>';}});h+='</div>';}
+  // Band reference
+  h+='<div class="chart-c" style="margin-bottom:14px"><div class="chart-ct">Performance Band</div><div class="band-pills">'+BANDS.map(function(b){var act=p>=b.min&&p<b.max;return'<div class="bpll" style="'+(act?'background:'+b.c+';color:#fff;border-color:'+b.c+';font-weight:500;':'')+'">'+b.lbl+' '+b.min+'–'+(b.max===101?100:b.max)+'%</div>';}).join('')+'</div></div>';
+  // Notes
   if(data.notes)h+='<div class="nbox"><div class="nbox-l">General Observations</div><div class="nbox-t">'+data.notes+'</div></div>';
+  // History (from localStorage)
+  if(data.sup){
+    var history=getHistory(data.sup.n,data.period);
+    if(history.length>0)h+=renderHistory(history,data);
+  }
   document.getElementById(ctId).innerHTML=h;
-  // Radar chart
-  var rId="rdr-"+ctId;
-  if(va>0&&document.getElementById(rId)){
-    if(CH[rId])CH[rId].destroy();
-    CH[rId]=new Chart(document.getElementById(rId).getContext("2d"),{
+  // Radar
+  if(va>0&&document.getElementById("rdr-"+ctId)){
+    if(CH["rdr-"+ctId])CH["rdr-"+ctId].destroy();
+    CH["rdr-"+ctId]=new Chart(document.getElementById("rdr-"+ctId).getContext("2d"),{
       type:"radar",
       data:{labels:VALS.map(function(v){return v.lbl;}),datasets:[{data:VALS.map(function(v){return data.vals?((data.vals[v.id]||0)*10):0;}),backgroundColor:"rgba(20,104,145,.15)",borderColor:"#146891",pointBackgroundColor:"#146891",pointRadius:4,borderWidth:2}]},
       options:{plugins:{legend:{display:false}},scales:{r:{min:0,max:100,ticks:{stepSize:20,font:{size:10},callback:function(v){return v+"%"}},pointLabels:{font:{size:11},color:"#1B3A6A"}}}}
@@ -798,114 +882,129 @@ function buildSC(data,ctId){
   }
 }
 
+// ══════════════════════════════════════════
+// HISTORY
+// ══════════════════════════════════════════
+function getHistory(supName,currentPeriod){
+  var saved=[];try{saved=JSON.parse(localStorage.getItem("spd_evals")||"[]");}catch(e){}
+  return saved.filter(function(e){return e.sup&&e.sup.n===supName&&e.period!==currentPeriod;}).sort(function(a,b){return (a.period||"").localeCompare(b.period||"");});
+}
+
+function renderHistory(history,current){
+  if(!history.length)return "";
+  var all=history.slice();all.push(current);
+  all.sort(function(a,b){return (a.period||"").localeCompare(b.period||"");});
+  var h='<div class="hist-c"><div class="hist-t">📈 Performance History — '+current.sup.n+'</div><div class="hist-items">';
+  all.forEach(function(e){
+    var p=Math.round((e.composite||0)*10)/10;var isCurrent=(e.period===current.period);
+    h+='<div class="hist-item'+(isCurrent?' current':'')+'"><div class="hi-period">'+(e.period||"—")+'</div><div class="hi-pct" style="color:'+gc(p)+'">'+p+'%</div><div style="font-size:10px;font-weight:500;color:'+gc(p)+'">'+gb(p).lbl+'</div><div class="hi-date">'+(e.evalDate||"")+'</div>'+(isCurrent?'<div style="font-size:9px;color:var(--t3);margin-top:2px">Current</div>':'')+'</div>';
+  });
+  h+='</div>';
+  // Mini trend chart
+  h+='<canvas id="hist-chart-'+current.sup.n.replace(/\s/g,"_")+'" style="max-height:120px"></canvas></div>';
+  // Draw after DOM update
+  setTimeout(function(){
+    var labels=all.map(function(e){return e.period||"";});
+    var vals=all.map(function(e){return Math.round((e.composite||0)*10)/10;});
+    var cid="hist-chart-"+current.sup.n.replace(/\s/g,"_");
+    var canvas=document.getElementById(cid);
+    if(!canvas)return;
+    if(CH[cid])CH[cid].destroy();
+    CH[cid]=new Chart(canvas.getContext("2d"),{
+      type:"line",
+      data:{labels:labels,datasets:[{data:vals,borderColor:"#1B3A6A",backgroundColor:"rgba(27,58,106,.08)",pointBackgroundColor:vals.map(function(v){return gb(v).c;}),pointRadius:6,borderWidth:2,tension:.3,fill:true}]},
+      options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.raw+"%";}}}},scales:{y:{min:0,max:100,ticks:{callback:function(v){return v+"%"},font:{size:10}},grid:{color:"rgba(0,0,0,.05)"}},x:{ticks:{font:{size:10}}}}}
+    });
+  },100);
+  return h;
+}
+
 function renderResults(){
   var c=composite();
   if(!c){document.getElementById("results-ct").innerHTML='<div style="text-align:center;padding:50px;color:var(--t3)"><div style="font-size:48px;margin-bottom:12px">📊</div><div>Complete at least one section to see results.</div></div>';document.getElementById("share-ct").innerHTML="";return;}
-  var data={sup:ST.sup,period:document.getElementById("inp-per").value,evaluator:document.getElementById("inp-eval").value,date:new Date().toLocaleDateString("el-GR"),kpiV:ST.kpiV,kpiS:ST.kpiS,comps:ST.comps,vals:ST.vals,notes:document.getElementById("notes-inp").value,kpiAvg:kpiAvg(),compAvg:compAvg(),valsAvg:valsAvg(),composite:c,eqBase:ST.eqBase};
+  var data={sup:ST.sup,period:document.getElementById("inp-per").value,evalDate:document.getElementById("inp-date").value,evaluator:document.getElementById("inp-eval").value,kpiV:ST.kpiV,kpiS:ST.kpiS,comps:ST.comps,vals:ST.vals,dev1:document.getElementById("dev1").value,dev2:document.getElementById("dev2").value,notes:document.getElementById("notes-inp").value,kpiAvg:kpiAvg(),compAvg:compAvg(),valsAvg:valsAvg(),composite:c,eqBase:ST.eqBase,griTgt:ST.griTgt};
   buildSC(data,"results-ct");
 }
 
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
 // SAVE & SHARE
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
 function saveShare(){
-  var c=composite();
-  if(!c){alert("Complete at least one section before saving.");return;}
-  var data={sup:ST.sup,period:document.getElementById("inp-per").value,evaluator:document.getElementById("inp-eval").value,date:new Date().toLocaleDateString("el-GR"),kpiV:ST.kpiV,kpiS:ST.kpiS,comps:ST.comps,vals:ST.vals,notes:document.getElementById("notes-inp").value,kpiAvg:kpiAvg(),compAvg:compAvg(),valsAvg:valsAvg(),composite:c,eqBase:ST.eqBase,id:Date.now()};
+  var c=composite();if(!c){alert("Complete at least one section before saving.");return;}
+  var data={sup:ST.sup,period:document.getElementById("inp-per").value,evalDate:document.getElementById("inp-date").value,evaluator:document.getElementById("inp-eval").value,kpiV:ST.kpiV,kpiS:ST.kpiS,comps:ST.comps,vals:ST.vals,dev1:document.getElementById("dev1").value,dev2:document.getElementById("dev2").value,notes:document.getElementById("notes-inp").value,kpiAvg:kpiAvg(),compAvg:compAvg(),valsAvg:valsAvg(),composite:c,eqBase:ST.eqBase,griTgt:ST.griTgt,id:Date.now()};
   try{var saved=JSON.parse(localStorage.getItem("spd_evals")||"[]");var idx=saved.findIndex(function(e){return e.sup&&e.sup.n===data.sup.n&&e.period===data.period;});if(idx>-1)saved[idx]=data;else saved.push(data);localStorage.setItem("spd_evals",JSON.stringify(saved));}catch(e){}
   try{
     var enc=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
     var url=window.location.href.split('#')[0]+'#s='+enc;
     var nm=data.sup?data.sup.n:"the supervisor";
-    document.getElementById("share-ct").innerHTML='<div class="shr-box"><div class="shr-t">✅ Saved — Scorecard link generated for '+nm+'</div><input class="shr-url" id="shr-inp" type="text" value="'+url+'" readonly onclick="this.select()"><div style="font-size:11px;color:#3B6D11;margin-top:6px">Send this link to '+nm+'. They can open it on any device — no login, no PIN required.</div><div style="margin-top:10px;display:flex;gap:8px"><button class="btn btnp" onclick="cpLink()">Copy Link</button><button class="btn btns" onclick="previewSup()">Preview as Supervisor →</button></div></div>';
-  }catch(e){document.getElementById("share-ct").innerHTML='<div style="color:#E24B4A;font-size:13px;margin-top:12px">Could not generate link. Please try again.</div>';}
+    document.getElementById("share-ct").innerHTML='<div class="shr-box"><div class="shr-t">✅ Saved — Scorecard link generated for '+nm+'</div><input class="shr-url" id="shr-inp" type="text" value="'+url+'" readonly onclick="this.select()"><div style="font-size:11px;color:#3B6D11;margin-top:6px">Send this link to '+nm+'. Opens on any device — no login or PIN required.</div><div style="margin-top:10px;display:flex;gap:8px"><button class="btn btnp" onclick="cpLink()">Copy Link</button><button class="btn btns" onclick="previewSup()">Preview as Supervisor →</button></div></div>';
+  }catch(e){document.getElementById("share-ct").innerHTML='<div style="color:#E24B4A;font-size:13px;margin-top:12px">Could not generate link.</div>';}
 }
 
 function cpLink(){var inp=document.getElementById("shr-inp");inp.select();try{document.execCommand("copy");alert("Link copied!");}catch(e){alert("Please manually copy the link above.");}}
 function previewSup(){document.getElementById("paste-link").value=document.getElementById("shr-inp").value;gt("score");loadPaste();}
 
-function checkHash(){
-  var h=window.location.hash;
-  if(h&&h.startsWith("#s=")){try{var d=JSON.parse(decodeURIComponent(escape(atob(h.slice(3)))));gt("score");showSC(d);}catch(e){}}
-}
+function checkHash(){var h=window.location.hash;if(h&&h.startsWith("#s=")){try{var d=JSON.parse(decodeURIComponent(escape(atob(h.slice(3)))));gt("score");showSC(d);}catch(e){}}}
+function loadPaste(){var val=document.getElementById("paste-link").value.trim();var hi=val.indexOf("#s=");if(hi===-1){document.getElementById("paste-err").style.display="block";return;}document.getElementById("paste-err").style.display="none";try{var d=JSON.parse(decodeURIComponent(escape(atob(val.slice(hi+3)))));showSC(d);}catch(e){document.getElementById("paste-err").style.display="block";}}
+function showSC(data){var ct=document.getElementById("score-ct");ct.innerHTML='<div id="sc-inner"></div><div class="brow"><button class="btn btns" onclick="window.print()">🖨 Print / PDF</button><button class="btn btno" onclick="resetScore()">← Back</button></div>';buildSC(data,"sc-inner");}
+function resetScore(){document.getElementById("score-ct").innerHTML='<div class="ms-empty"><div class="ei">📊</div><div class="et">View your personal scorecard</div><div class="ed">Open the link your manager sent, or paste it below.</div><div style="display:flex;gap:10px;align-items:center;max-width:480px;margin:0 auto"><input type="text" class="fis" id="paste-link" placeholder="Paste your scorecard link here..." style="flex:1"><button class="btn btnp" onclick="loadPaste()">Load</button></div><div id="paste-err" style="color:#E24B4A;font-size:12px;margin-top:8px;display:none">Invalid link.</div></div>';history.replaceState(null,null,window.location.pathname);}
 
-function loadPaste(){
-  var val=document.getElementById("paste-link").value.trim();
-  var hi=val.indexOf("#s=");
-  if(hi===-1){document.getElementById("paste-err").style.display="block";return;}
-  document.getElementById("paste-err").style.display="none";
-  try{var d=JSON.parse(decodeURIComponent(escape(atob(val.slice(hi+3)))));showSC(d);}
-  catch(e){document.getElementById("paste-err").style.display="block";}
-}
-
-function showSC(data){
-  var ct=document.getElementById("score-ct");
-  ct.innerHTML='<div id="sc-inner"></div><div class="brow"><button class="btn btns" onclick="window.print()">🖨 Print / PDF</button><button class="btn btno" onclick="resetScore()">← Back</button></div>';
-  buildSC(data,"sc-inner");
-}
-
-function resetScore(){
-  document.getElementById("score-ct").innerHTML='<div class="ms-empty"><div class="ei">📊</div><div class="et">View your personal scorecard</div><div class="ed">Open the link your manager sent, or paste it below.</div><div style="display:flex;gap:10px;align-items:center;max-width:480px;margin:0 auto"><input type="text" class="fis" id="paste-link" placeholder="Paste your scorecard link here..." style="flex:1"><button class="btn btnp" onclick="loadPaste()">Load</button></div><div id="paste-err" style="color:#E24B4A;font-size:12px;margin-top:8px;display:none">Invalid link.</div></div>';
-  history.replaceState(null,null,window.location.pathname);
-}
-
-// ══════════════════════════════════════════════════════
-// TEAM OVERVIEW
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
+// TEAM
+// ══════════════════════════════════════════
 function renderTeam(){
   var ct=document.getElementById("team-ct");
   var saved=[];try{saved=JSON.parse(localStorage.getItem("spd_evals")||"[]");}catch(e){}
-  if(!saved.length){ct.innerHTML='<div style="text-align:center;padding:60px 20px;color:var(--t3)"><div style="font-size:48px;margin-bottom:12px">👥</div><div style="font-size:15px;font-weight:500;color:var(--n);margin-bottom:8px">No evaluations saved yet</div><div style="font-size:13px">Complete and save evaluations — they will appear here.</div></div>';return;}
+  if(!saved.length){ct.innerHTML='<div style="text-align:center;padding:60px 20px;color:var(--t3)"><div style="font-size:48px;margin-bottom:12px">👥</div><div style="font-size:15px;font-weight:500;color:var(--n);margin-bottom:8px">No evaluations saved yet</div><div style="font-size:13px">Complete and save evaluations — they appear here automatically.</div></div>';return;}
   var aC=avg(saved.map(function(e){return e.composite||0;}).filter(Boolean));
   var aK=avg(saved.map(function(e){return e.kpiAvg||0;}).filter(Boolean));
   var aP=avg(saved.map(function(e){return e.compAvg||0;}).filter(Boolean));
   var aV=avg(saved.map(function(e){return e.valsAvg||0;}).filter(Boolean));
   var cp=Math.round(aC*10)/10,kp=Math.round(aK*10)/10,pp=Math.round(aP*10)/10,vp=Math.round(aV*10)/10;
   var h='<div class="g4" style="margin-bottom:20px">';
-  [{l:"Team Overall",p:cp},{l:"KPI Average",p:kp},{l:"Competencies Avg",p:pp},{l:"Values Avg",p:vp}].forEach(function(x){h+='<div class="pcrd"><div class="pc-l">'+x.l+'</div><div class="pc-p" style="color:'+gc(x.p)+'">'+x.p+'%</div><div class="pc-b" style="color:'+gc(x.p)+'">'+gb(x.p).lbl+'</div><div class="pc-bar"><div class="pc-barf" style="width:'+x.p+'%;background:'+gc(x.p)+'"></div></div></div>';});
-  h+='</div><div class="chart-c" style="margin-bottom:16px"><div class="chart-ct">Individual Composite Scores ('+saved.length+' evaluations)</div><canvas id="team-bar" style="max-height:280px"></canvas></div>';
-  h+='<div style="background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:14px"><table class="team-tbl"><thead><tr><th>Supervisor</th><th>Venue / Role</th><th>Period</th><th>KPIs</th><th>Comp.</th><th>Values</th><th>Overall</th></tr></thead><tbody id="team-tbody"></tbody></table></div>';
-  h+='<div style="background:var(--cr);border:1px solid var(--bd);border-radius:10px;padding:12px 15px;font-size:12px;color:var(--t3)"><b style="color:var(--n)">Note:</b> Evaluations are stored on this device/browser. Conduct all evaluations from the same device to see the full team picture here.</div>';
+  [{l:"Team Overall",p:cp},{l:"KPI Average",p:kp},{l:"Competencies",p:pp},{l:"Values",p:vp}].forEach(function(x){h+='<div class="pcrd"><div class="pc-l">'+x.l+'</div><div class="pc-p" style="color:'+gc(x.p)+'">'+x.p+'%</div><div class="pc-b" style="color:'+gc(x.p)+'">'+gb(x.p).lbl+'</div><div class="pc-bar"><div class="pc-barf" style="width:'+x.p+'%;background:'+gc(x.p)+'"></div></div></div>';});
+  h+='</div><div class="chart-c" style="margin-bottom:16px"><div class="chart-ct">Individual Scores ('+saved.length+' evaluations)</div><canvas id="team-bar" style="max-height:280px"></canvas></div>';
+  h+='<div style="background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:14px"><table class="team-tbl"><thead><tr><th>Supervisor</th><th>Venue</th><th>Period</th><th>KPIs</th><th>Comp.</th><th>Values</th><th>Overall</th></tr></thead><tbody id="team-tbody"></tbody></table></div>';
+  h+='<div style="background:var(--cr);border:1px solid var(--bd);border-radius:10px;padding:12px 15px;font-size:12px;color:var(--t3)"><b style="color:var(--n)">Note:</b> All evaluations must be done from this device to appear here. History per supervisor is visible on each individual scorecard.</div>';
   ct.innerHTML=h;
   var tbody=document.getElementById("team-tbody");
   var srt=saved.slice().sort(function(a,b){return(b.composite||0)-(a.composite||0);});
   srt.forEach(function(e){
     var xp=Math.round((e.composite||0)*10)/10,xk=Math.round((e.kpiAvg||0)*10)/10,xc=Math.round((e.compAvg||0)*10)/10,xv=Math.round((e.valsAvg||0)*10)/10;
     var tr=document.createElement("tr");
-    tr.innerHTML='<td class="nm">'+(e.sup?e.sup.n:"—")+'</td><td style="font-size:11px;color:var(--t3)">'+(e.sup?e.sup.v+" · "+e.sup.r:"—")+'</td><td style="font-size:11px;color:var(--t3)">'+(e.period||"—")+'</td><td><span class="ppill" style="background:'+gb(xk).c+'22;color:'+gb(xk).c+'">'+xk+'%</span></td><td><span class="ppill" style="background:'+gb(xc).c+'22;color:'+gb(xc).c+'">'+xc+'%</span></td><td><span class="ppill" style="background:'+gb(xv).c+'22;color:'+gb(xv).c+'">'+xv+'%</span></td><td><span class="ppill" style="background:'+gb(xp).c+';color:#fff;padding:4px 12px;font-size:13px">'+xp+'%</span></td>';
+    tr.innerHTML='<td class="nm">'+(e.sup?e.sup.n:"—")+'</td><td style="font-size:11px;color:var(--t3)">'+(e.sup?e.sup.v:"—")+'</td><td style="font-size:11px;color:var(--t3)">'+(e.period||"—")+'</td><td><span class="ppill" style="background:'+gb(xk).c+'22;color:'+gb(xk).c+'">'+xk+'%</span></td><td><span class="ppill" style="background:'+gb(xc).c+'22;color:'+gb(xc).c+'">'+xc+'%</span></td><td><span class="ppill" style="background:'+gb(xv).c+'22;color:'+gb(xv).c+'">'+xv+'%</span></td><td><span class="ppill" style="background:'+gb(xp).c+';color:#fff;padding:4px 12px;font-size:13px">'+xp+'%</span></td>';
     tbody.appendChild(tr);
   });
   var avgRow=document.createElement("tr");avgRow.className="team-avg-row";
-  avgRow.innerHTML='<td class="nm" colspan="3">Team Average ('+saved.length+' evaluations)</td><td><span class="ppill" style="background:'+gb(kp).c+'22;color:'+gb(kp).c+'">'+kp+'%</span></td><td><span class="ppill" style="background:'+gb(pp).c+'22;color:'+gb(pp).c+'">'+pp+'%</span></td><td><span class="ppill" style="background:'+gb(vp).c+'22;color:'+gb(vp).c+'">'+vp+'%</span></td><td><span class="ppill" style="background:'+gb(cp).c+';color:#fff;padding:4px 12px;font-size:13px">'+cp+'%</span></td>';
+  avgRow.innerHTML='<td class="nm" colspan="3">Team Average ('+saved.length+')</td><td><span class="ppill" style="background:'+gb(kp).c+'22;color:'+gb(kp).c+'">'+kp+'%</span></td><td><span class="ppill" style="background:'+gb(pp).c+'22;color:'+gb(pp).c+'">'+pp+'%</span></td><td><span class="ppill" style="background:'+gb(vp).c+'22;color:'+gb(vp).c+'">'+vp+'%</span></td><td><span class="ppill" style="background:'+gb(cp).c+';color:#fff;padding:4px 12px;font-size:13px">'+cp+'%</span></td>';
   tbody.appendChild(avgRow);
   var labels=srt.map(function(e){return e.sup?e.sup.n.split(' ')[0]:"-";});
   var vals=srt.map(function(e){return Math.round((e.composite||0)*10)/10;});
   if(CH.teamBar)CH.teamBar.destroy();
   CH.teamBar=new Chart(document.getElementById("team-bar").getContext("2d"),{
-    type:"bar",
-    data:{labels:labels,datasets:[{data:vals,backgroundColor:vals.map(function(v){return gb(v).c;}),borderRadius:5,borderSkipped:false}]},
+    type:"bar",data:{labels:labels,datasets:[{data:vals,backgroundColor:vals.map(function(v){return gb(v).c;}),borderRadius:5,borderSkipped:false}]},
     options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.raw+"%";}}}},scales:{y:{min:0,max:100,ticks:{callback:function(v){return v+"%"},font:{size:10}},grid:{color:"rgba(0,0,0,.05)"}},x:{ticks:{font:{size:10}}}}}
   });
 }
 
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
 // RESET
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════
 function resetEval(){
-  ST.sup=null;ST.kpiV={};ST.kpiS={};ST.comps={};ST.vals={};ST.eqBase=0;
+  ST.sup=null;ST.kpiV={};ST.kpiS={};ST.comps={};ST.vals={};ST.eqBase=0;ST.griTgt=0;
   document.getElementById("sup-sel").value="";
   document.getElementById("sup-confirm").style.display="none";
   document.getElementById("inp-per").value="";
-  document.querySelectorAll("#kpi-items input[type=number]").forEach(function(i){i.value="";});
-  KPIS.forEach(function(k){showKpiBadge(k.id,null);});
-  var eqRef=document.getElementById("eq-ref");if(eqRef)eqRef.style.display="none";
+  document.getElementById("inp-date").value="";
+  KPIS.forEach(function(k){var inp=document.getElementById("kpi-inp-"+k.id);if(inp)inp.value="";showKpiBadge(k.id,null);for(var l=1;l<=10;l++){var r=document.getElementById("tier-"+k.id+"-"+l);if(r)r.classList.remove("active");}});
+  var gi=document.getElementById("gri-info"),ei=document.getElementById("eq-info");if(gi)gi.style.display="none";if(ei)ei.style.display="none";
   COMPS.forEach(function(c){document.querySelectorAll("#lc-comp-"+c.id+" .lbtn").forEach(function(b){b.classList.remove("on");});var b=document.getElementById("lb-comp-"+c.id);if(b)b.style.display="none";var a=document.getElementById("an-comp-"+c.id);if(a)a.classList.remove("on");var l=document.getElementById("lc-comp-"+c.id);if(l)l.style.borderColor="";});
   VALS.forEach(function(v){document.querySelectorAll("#lc-val-"+v.id+" .lbtn").forEach(function(b){b.classList.remove("on");});var b=document.getElementById("lb-val-"+v.id);if(b)b.style.display="none";var a=document.getElementById("an-val-"+v.id);if(a)a.classList.remove("on");var l=document.getElementById("lc-val-"+v.id);if(l)l.style.borderColor="";});
   document.querySelectorAll(".pavg").forEach(function(e){e.style.display="none";});
+  document.getElementById("dev1").value="";document.getElementById("dev2").value="";
   document.getElementById("notes-inp").value="";
   document.getElementById("hdr-sc").style.display="none";
-  document.getElementById("results-ct").innerHTML="";
-  document.getElementById("share-ct").innerHTML="";
+  document.getElementById("results-ct").innerHTML="";document.getElementById("share-ct").innerHTML="";
   evGo("info");
 }
 
